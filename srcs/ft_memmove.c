@@ -15,26 +15,29 @@
 void	*ft_memmove(void *dest, const void *src, size_t n)
 {
 	size_t			i;
-	unsigned char	*temp;
 	unsigned char	*src_str;
 	unsigned char	*dest_str;
 
 	src_str = (unsigned char *)src;
 	dest_str = (unsigned char *)dest;
-	temp = malloc(n);
-	i = 0;
-	while (i < n)
+	if (dest_str < src_str)
 	{
-		temp[i] = src_str[i];
-		i++;
+		i = 0;
+		while (i < n)
+		{
+			dest_str[i] = src_str[i];
+			i++;
+		}
 	}
-	i = 0;
-	while (i < n)
+	else if (src_str < dest_str)
 	{
-		dest_str[i] = temp[i];
-		i++;
+		i = n;
+		while (i > 0)
+		{
+			dest_str[i - 1] = src_str[i - 1];
+			i--;
+		}
 	}
-	free(temp);
 	return (dest_str);
 }
 
@@ -42,11 +45,11 @@ void	*ft_memmove(void *dest, const void *src, size_t n)
 //     char data[] = "123456";
 
 //     // Overlapping copy
-//     ft_memmove(data + 2, data, 4);   
+//     ft_memmove(data + 3, data, 4);   
 //     printf("ft_memmove:  %s\n", data);
 
 //     char data2[] = "123456";
-//     memmove(data2 + 2, data2, 4); 
+//     memmove(data2 + 3, data2, 4); 
 //     printf("memmove: %s\n", data2);
 
 //     return 0;
