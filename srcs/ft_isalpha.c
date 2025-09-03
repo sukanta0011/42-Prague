@@ -1,25 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   libft.h                                            :+:      :+:    :+:   */
+/*   ft_isalpha.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sudas <sudas@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/03 17:58:55 by sudas             #+#    #+#             */
-/*   Updated: 2025/09/03 20:13:13 by marvin           ###   ########.fr       */
+/*   Created: 2025/09/03 17:54:41 by sudas             #+#    #+#             */
+/*   Updated: 2025/09/03 18:08:47 by sudas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LIBFT_H
-# define LIBFT_H
+#include "libft.h"
 
-# include <string.h>
-# include <strings.h>
-# include <stdio.h>
-# include <stdlib.h>
-# include <ctype.h>
-# include <stddef.h>
+int	ft_isalpha(int c)
+{
+	if ((c >= 'a' && c <= 'z')
+		|| (c >= 'A' && c <= 'Z'))
+		return (1);
+	return (0);
+}
 
-// typedef long unsigned int	size_t;
-
-#endif
+// int	main(void)
+// {
+// 	printf("%d\n", isalpha(-1));
+// 	printf("%d\n", ft_isalpha(-1));
+// }

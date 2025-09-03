@@ -1,25 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   libft.h                                            :+:      :+:    :+:   */
+/*   ft_isascii.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/03 17:58:55 by sudas             #+#    #+#             */
-/*   Updated: 2025/09/03 20:13:13 by marvin           ###   ########.fr       */
+/*   Created: 2025/09/03 17:54:41 by sudas             #+#    #+#             */
+/*   Updated: 2025/09/03 18:31:04 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LIBFT_H
-# define LIBFT_H
+#include "libft.h"
 
-# include <string.h>
-# include <strings.h>
-# include <stdio.h>
-# include <stdlib.h>
-# include <ctype.h>
-# include <stddef.h>
+int	ft_isascii(int c)
+{
+	if (c >= 0 && c <= 127)
+		return (1);
+	return (0);
+}
 
-// typedef long unsigned int	size_t;
-
-#endif
+// int	main(void)
+// {
+// 	printf("%d\n", isascii(127));
+// 	printf("%d\n", ft_isascii(127));
+// }
