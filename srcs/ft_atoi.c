@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sudas <sudas@student.42prague.com>         +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 10:15:39 by sudas             #+#    #+#             */
-/*   Updated: 2025/08/21 10:30:52 by sudas            ###   ########.fr       */
+/*   Updated: 2025/09/03 13:56:09 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,14 +39,13 @@ int	ft_atoi(char *str)
 	num_int = 0;
 	while (str[i] != '\0' && isspace_char(str[i]))
 		i++;
-	while (str[i] != '\0' && (str[i] == '+' || str[i] == '-'))
-	{
-		if (str[i] == '-')
-			neg_counter = -neg_counter;
+	if (str[i] == '+')
 		i++;
+	else if (str[i] == '-')
+	{
+		neg_counter = -neg_counter;
+		i++
 	}
-	if (!is_number(str[i]))
-		return (0);
 	while (str[i] != '\0' && is_number(str[i]))
 	{
 		num_int = num_int * 10 + (str[i] - '0');
