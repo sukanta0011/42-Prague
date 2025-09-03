@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sudas <sudas@student.42prague.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/03 17:58:55 by sudas             #+#    #+#             */
-/*   Updated: 2025/09/03 20:13:13 by marvin           ###   ########.fr       */
+/*   Updated: 2025/09/03 23:42:13 by sudas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,6 @@
 # include <ctype.h>
 # include <stddef.h>
 
-// typedef long unsigned int	size_t;
+int	ft_strlen(char *str);
 
 #endif
