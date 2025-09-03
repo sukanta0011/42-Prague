@@ -1,17 +1,44 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_memset.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/09/03 08:46:08 by marvin            #+#    #+#             */
+/*   Updated: 2025/09/03 08:46:18 by marvin           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "libft.h"
 #include <string.h>
 #include <stdio.h>
 
-// void *memset(void s, int c, size_t n)
-// {
-
-// }
-
-int	main(void)
+void	*ft_memset(void *s, int c, size_t n)
 {
-	char str[] = "Hello worlds";
+	size_t	i;
+	char	*str;
 
-	printf("%s\n", str);
-	memset(&str[5], 1, 4 * sizeof(int));
-	printf("%s\n", str);
+	i = 0;
+	str = (char *)s;
+	while (i < n)
+	{
+		str[i] = (char)c;
+		i++;
+	}
+	return (s);
 }
+
+// int	main(void)
+// {
+// 	// char str1[] = "Hello worlds";
+// 	char str2[] = "Hello worlds";
+
+// 	// printf("%s\n", str1);
+// 	// memset(&str1[5], 65, 2 * sizeof(char));
+// 	// printf("%s\n", str1);
+
+// 	printf("%s\n", str2);
+// 	ft_memset(&str2[5], 65, 2 * sizeof(char));
+// 	printf("%s\n", str2);
+// }
