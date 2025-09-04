@@ -29,17 +29,17 @@ int	ft_strncmp(char *s1, char *s2, unsigned int n)
 	return (0);
 }
 
-int	main(void)
-{
-	char str1[] = "ABCd";
-	char str2[] = "ABCdds";
-	int real_fun;
-	int custom_fun;
+// int	main(void)
+// {
+// 	char str1[] = "ABCd";
+// 	char str2[] = "ABCdds";
+// 	int real_fun;
+// 	int custom_fun;
 
-	// status = ft_strcmp(str1, str2);
-	// status = claculate_str_ascii_sum(str1);
-	real_fun = strncmp(str1, str2, 5);
-	custom_fun = ft_strncmp(str1, str2, 5);
-	printf("%d, %d\n", real_fun, custom_fun);
-	// printf("%d", (int)str1[0]);
-}
+// 	// status = ft_strcmp(str1, str2);
+// 	// status = claculate_str_ascii_sum(str1);
+// 	real_fun = strncmp(str1, str2, 5);
+// 	custom_fun = ft_strncmp(str1, str2, 5);
+// 	printf("%d, %d\n", real_fun, custom_fun);
+// 	// printf("%d", (int)str1[0]);
+// }

@@ -6,7 +6,7 @@
 /*   By: sudas <sudas@student.42prague.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 16:16:34 by sudas             #+#    #+#             */
-/*   Updated: 2025/08/15 10:15:30 by sudas            ###   ########.fr       */
+/*   Updated: 2025/09/04 16:42:24 by sudas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,14 +39,14 @@ unsigned int	ft_strlcpy(char *dest, char *src, unsigned int size)
 	return (i);
 }
 
-int	main(void)
-{
-	char str[] = "12345697";
-	char copy_str[100] = "kgfkdsagfkasfgafadglaafl";
-	int str_len;
+// int	main(void)
+// {
+// 	char str[] = "12345697";
+// 	char copy_str[100] = "kgfkdsagfkasfgafadglaafl";
+// 	int str_len;
 
-	str_len = ft_strlcpy(copy_str, str, 0);
-	// printf("%s\n", str);
-	printf("%s\n", copy_str);
-	printf("\n%d", str_len);
-}
+// 	str_len = ft_strlcpy(copy_str, str, 0);
+// 	// printf("%s\n", str);
+// 	printf("%s\n", copy_str);
+// 	printf("\n%d", str_len);
+// }

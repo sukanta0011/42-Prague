@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strlcat.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sudas <sudas@student.42prague.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 12:15:49 by sudas             #+#    #+#             */
-/*   Updated: 2025/09/03 14:02:16 by marvin           ###   ########.fr       */
+/*   Updated: 2025/09/04 16:42:09 by sudas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,16 +43,16 @@ unsigned int	ft_strlcat(char *dest, char *src, unsigned int size)
 	return (dest_len + src_len);
 }
 
-int	main(void)
-{
-	// char str1[10] = "ABCA";
-	// char str2[7] = "123456";
-	char dest[10] = "ABCA";
-	char src[7] = "123456";
-	unsigned int a, b;
+// int	main(void)
+// {
+// 	// char str1[10] = "ABCA";
+// 	// char str2[7] = "123456";
+// 	char dest[10] = "ABCA";
+// 	char src[7] = "123456";
+// 	unsigned int a, b;
 
-	// a = strlcat(str1, str2, 7);
-	// printf("%s\t%d\n", str1, a);
-	b = ft_strlcat(dest, src, 10);
-	printf("%s\t%d\n", dest, b);
-}
+// 	// a = strlcat(str1, str2, 7);
+// 	// printf("%s\t%d\n", str1, a);
+// 	b = ft_strlcat(dest, src, 10);
+// 	printf("%s\t%d\n", dest, b);
+// }

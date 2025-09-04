@@ -12,7 +12,6 @@
 
 #include "libft.h"
 
-
 char	*ft_strdup(char *src, int len)
 {
 	int		i;
@@ -88,22 +87,22 @@ char	**ft_split(char const *s, char c)
 	return (str_arr);
 }
 
-int main(void)
-{
-	char str[] = "Hello   World, I am back  to coding; again";
-	// char str[] = "";
-	char charset = ' ';
-	char **word_arr;
-	int i;
+// int main(void)
+// {
+// 	char str[] = "Hello   World, I am back  to coding; again";
+// 	// char str[] = "";
+// 	char charset = ' ';
+// 	char **word_arr;
+// 	int i;
 
-	i = 0;
-	word_arr = ft_split(str, charset);
-	while (word_arr[i] != NULL)
-	{
-		printf("%s\n", word_arr[i]);
-		free(word_arr[i]);
-		i++;
-	}
-	free (word_arr);
-	return 0;
-}
+// 	i = 0;
+// 	word_arr = ft_split(str, charset);
+// 	while (word_arr[i] != NULL)
+// 	{
+// 		printf("%s\n", word_arr[i]);
+// 		free(word_arr[i]);
+// 		i++;
+// 	}
+// 	free (word_arr);
+// 	return 0;
+// }

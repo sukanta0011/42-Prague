@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sudas <sudas@student.42prague.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 10:15:39 by sudas             #+#    #+#             */
-/*   Updated: 2025/09/03 13:56:09 by marvin           ###   ########.fr       */
+/*   Updated: 2025/09/04 16:40:53 by sudas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 // #include <stdio.h>
 // #include <unistd.h>
 // #include <stdlib.h>
+#include "libft.h"
 
 int	is_number(char c)
 {
@@ -44,7 +45,7 @@ int	ft_atoi(char *str)
 	else if (str[i] == '-')
 	{
 		neg_counter = -neg_counter;
-		i++
+		i++;
 	}
 	while (str[i] != '\0' && is_number(str[i]))
 	{
