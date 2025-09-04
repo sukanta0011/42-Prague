@@ -36,40 +36,58 @@ int	ft_strlen(char *str)
 	return (i);
 }
 
+int get_word_strat(char *s, char *set)
+{
+	int	i;
+
+	i = 0;
+	while (s[i] && is_in_char_set(s[i], set))
+		i++;
+	return (i);	
+}
+
+int get_word_end(char *s, char *set)
+{
+	int	i;
+	int	str_len;
+
+	str_len = ft_strlen(s);
+	i = str_len - 1;
+	while (i >= 0 && is_in_char_set(s[i], set))
+		i--;
+	return (i);	
+}
+
 char	*ft_strtrim(char const *s1, char const *set)
 {
 	int		i;
-	int		s1_len;
-	int		counter;
+	int		start;
+	int		end;
 	char	*trimmed_str;
 
-	s1_len = ft_strlen((char *)s1);
-	trimmed_str = malloc(sizeof(char) * (s1_len + 1));
+	start = get_word_strat((char *)s1, (char *)set);
+	end = get_word_end((char *)s1, (char *)set);
+	trimmed_str = malloc(sizeof(char) * (end - start + 1));
 	if (!trimmed_str)
 		return (NULL);
-	i = 0;
-	counter = 0;
-	while (s1[i])
+	i = start;
+	while (i <= end)
 	{
-		if (!is_in_char_set(s1[i], (char *)set))
-		{
-			trimmed_str[counter] = s1[i];
-			counter++;
-		}
+		trimmed_str[i - start] = s1[i];
 		i++;
 	}
-	trimmed_str[counter] = '\0';
+	trimmed_str[i] = '\0';
 	return (trimmed_str);
 }
 
-// int main(void)
-// {
-// 	char s1[] = "   hello";
-// 	char set[] = " o";
-// 	char *trimmed;
+int main(void)
+{
+	char s1[] = "   helo  oolo     ";
+	char set[] = " o";
+	char *trimmed;
 
-// 	trimmed = ft_strtrim(s1, set);
-// 	printf("%s\n", trimmed);
-// 	free(trimmed);
-// 	return (0);
-// }
+	trimmed = ft_strtrim(s1, set);
+	printf("%s\n", trimmed);
+	free(trimmed);
+	return (0);
+}
