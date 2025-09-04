@@ -6,7 +6,7 @@
 /*   By: sudas <sudas@student.42prague.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/03 17:58:55 by sudas             #+#    #+#             */
-/*   Updated: 2025/09/04 16:08:41 by sudas            ###   ########.fr       */
+/*   Updated: 2025/09/04 22:53:51 by sudas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,5 +23,11 @@
 # include <stddef.h>
 
 int	ft_strlen(char *str);
+
+typedef struct	s_list
+{
+	void			*content;
+	struct s_list	*next;	
+}	t_list;
 
 #endif
