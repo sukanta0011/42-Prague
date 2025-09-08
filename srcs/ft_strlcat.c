@@ -6,12 +6,11 @@
 /*   By: sudas <sudas@student.42prague.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 12:15:49 by sudas             #+#    #+#             */
-/*   Updated: 2025/09/04 16:42:09 by sudas            ###   ########.fr       */
+/*   Updated: 2025/09/08 18:46:55 by sudas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <bsd/string.h>
+#include "libft.h"
 
 unsigned int	cal_str_len(char *str)
 {

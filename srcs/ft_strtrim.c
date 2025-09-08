@@ -80,14 +80,14 @@ char	*ft_strtrim(char const *s1, char const *set)
 	return (trimmed_str);
 }
 
-int main(void)
-{
-	char s1[] = "   helo  oolo     ";
-	char set[] = " o";
-	char *trimmed;
+// int main(void)
+// {
+// 	char s1[] = "   helo  oolo     ";
+// 	char set[] = " o";
+// 	char *trimmed;
 
-	trimmed = ft_strtrim(s1, set);
-	printf("%s\n", trimmed);
-	free(trimmed);
-	return (0);
-}
+// 	trimmed = ft_strtrim(s1, set);
+// 	printf("%s\n", trimmed);
+// 	free(trimmed);
+// 	return (0);
+// }

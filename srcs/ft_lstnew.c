@@ -24,16 +24,16 @@ t_list	*ft_lstnew(void *content)
 	return (lst);
 }
 
-int main(void)
-{
-	t_list *start;
-	char c = 'A';
+// int main(void)
+// {
+// 	t_list *start;
+// 	char c = 'A';
 
-	start = ft_lstnew(&c);
-	for (int i = 0; start !=NULL; i++)
-	{
-		printf("%c", *(char *)start->content);
-		start = start->next;
-	}
-	return (0);
-}
+// 	start = ft_lstnew(&c);
+// 	for (int i = 0; start !=NULL; i++)
+// 	{
+// 		printf("%c", *(char *)start->content);
+// 		start = start->next;
+// 	}
+// 	return (0);
+// }

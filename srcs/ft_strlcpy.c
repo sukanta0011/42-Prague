@@ -6,11 +6,11 @@
 /*   By: sudas <sudas@student.42prague.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 16:16:34 by sudas             #+#    #+#             */
-/*   Updated: 2025/09/04 16:42:24 by sudas            ###   ########.fr       */
+/*   Updated: 2025/09/08 18:47:24 by sudas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
+#include "libft.h"
 
 unsigned int	ft_strlcpy(char *dest, char *src, unsigned int size)
 {
