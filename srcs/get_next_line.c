@@ -1,10 +1,26 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sudas <sudas@student.42prague.com>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/09/15 13:56:14 by sudas             #+#    #+#             */
+/*   Updated: 2025/09/15 13:56:14 by sudas            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "get_next_line.h"
 
-void	initialize_mem(t_read *line)
+int	is_char_in_str(char *stach, char c)
 {
-	line->mem_size = 2;
-	line->str = NULL;
-	line->len = 0;
+	while (*stach)
+	{
+		if (*stach == c)
+			return (1);
+		stach++;
+	}
+	return (0);
 }
 
 char	*ft_strcpy(char *src, char *dst)
@@ -21,98 +37,145 @@ char	*ft_strcpy(char *src, char *dst)
 	return (dst);
 }
 
-void	append_char(t_read *line, char c)
+char	*ft_strcat(char *dest, char *src)
+{
+	t_uint	dest_len;
+	t_uint	i;
+
+	i = 0;
+	while (dest[i] != '\0')
+		i++;
+	dest_len = i;
+	i = 0;
+	while (src[i] != '\0')
+	{
+		dest[dest_len + i] = src[i];
+		i++;
+	}
+	dest[dest_len + i] = '\0';
+	return (dest);
+}
+
+char	*ft_strdup_term(char *src, char term_char)
+{
+	t_uint	i;
+	char	*copy;
+
+	i = 0;
+	while (src[i] != term_char && src[i] != '\0')
+		i++;
+	copy = malloc(i + 2);
+	i = 0;
+	while (src[i] != term_char && src[i] != '\0')
+	{
+		copy[i] = src[i];
+		i++;
+	}
+	copy[i] = src[i];
+	copy[i + 1] = '\0';
+	return (copy);
+}
+
+char	*truncate_stach(char *stach)
+{
+	t_uint	i;
+	t_uint	j;
+
+	i = 0;
+	j = 0;
+	while (stach[i] != '\n' && stach[i] != '\0')
+		i++;
+	i++;
+	while (stach[i] != '\0')
+	{
+		stach[j] = stach[i];
+		i++;
+		j++;
+	}
+	stach[j] = '\0';
+	return (stach);
+}
+
+char	*store_in_stach(char *stach, char *str, int size)
 {
 	char	*temp;
+	t_uint	i;
 
-	if (!line->str)
-		line->str = malloc(line->mem_size);
-	else if (line->len + 2 > line->mem_size)
+	i = 0;
+	while (stach[i] != '\0')
+		i++;
+	if (i == 0)
+		stach = ft_strcpy(str, stach);
+	else
 	{
-		temp = malloc(line->mem_size);
-		temp = ft_strcpy(line->str, temp);
-		free(line->str);
-		line->mem_size *= 2;
-		line->str = malloc(line->mem_size);
-		line->str = ft_strcpy(temp, line->str);
+		temp = malloc(i + 1);
+		temp = ft_strcpy(stach, temp);
+		free(stach);
+		stach = malloc(i + size + 1);
+		stach[0] = '\0';
+		stach = ft_strcat(stach, temp);
 		free(temp);
+		stach = ft_strcat(stach, str);
 	}
-	line->str[line->len++] = c;
-	line->str[line->len] = '\0';
+	return (stach);
 }
 
 char	*get_next_line(int fd)
 {
-	t_read	*line;
-	t_uint	bytes;
-	char	*str;
-	char	c;
+	t_uint		bytes;
+	static char	*stach;
+	char		*temp;
+	char		*line;
 
-	bytes = read(fd, &c, 1);
+	temp = malloc(BUFFER_SIZE + 1);
+	bytes = read(fd, temp, BUFFER_SIZE);
 	if (bytes)
 	{
-		line = malloc(sizeof(t_read));
-		initialize_mem(line);
-		append_char(line, c);
+		temp[BUFFER_SIZE] = '\0';
+		if (!stach)
+			stach = malloc(bytes + 1);
+		stach = store_in_stach(stach, temp, bytes);
+		free (temp);
 	}
-	else if (bytes == 0 || fd < 0)
-		return (NULL);
-	while (bytes && c != '\n' && c != '\0' && line->len < BUFFER_SIZE)
+	else
 	{
-		bytes = read(fd, &c, 1);
-		if (bytes)
-			append_char(line, c);
+		free (temp);
+		if (stach[0] == '\0')
+		{
+			free (stach);
+			return (NULL);
+		}
 	}
-	append_char(line, '\0');
-	str = malloc(line->len + 1);
-	str = ft_strcpy(line->str, str);
-	if (line->str)
-		free(line->str);
-	free(line);
-	return (str);
+	if (is_char_in_str(stach, '\n'))
+	{
+		line = ft_strdup_term(stach, '\n');
+		stach = truncate_stach(stach);
+	}
+	else if (!bytes && !is_char_in_str(stach, '\n'))
+	{
+		line = ft_strdup_term(stach, '\0');
+		stach = truncate_stach(stach);
+	}
+	else
+	{
+		line = malloc(1);
+		line[0] = '\0';
+	}
+	return (line);
 }
 
 int	main(void)
 {
 	int		fd1;
-	int		fd2;
 	char	*file_path1;
-	char	*file_path2;
 	char	*line;
 
-	file_path1 = "test/test1.txt";
+	file_path1 = "test/test2.txt";
 	fd1 = open(file_path1, O_RDONLY);
-	// while ((line = get_next_line(fd1)))
-	// {
-	// 	if (!line)
-	// 		break;
-	// 	printf("%s", line);
-	// 	free(line);
-	// }
-	// close(fd1);
-	file_path2 = "test/test2.txt";
-	fd2 = open(file_path2, O_RDONLY);
-	// while ((line = get_next_line(fd2)))
-	// {
-	// 	if (!line)
-	// 		break;
-	// 	printf("%s", line);
-	// 	free(line);
-	// }
-	// close(fd2);
-	line = get_next_line(fd1);
-	printf("%s", line);
-	free(line);
-	line = get_next_line(fd1);
-	printf("%s", line);
-	free(line);
-	line = get_next_line(fd2);
-	printf("%s", line);
-	free(line);
-	line = get_next_line(fd1);
-	printf("%s", line);
-	free(line);
-	line = get_next_line(fd2);
-	printf("%s", line);
-	free(line);
+	while ((line = get_next_line(fd1)))
+	{
+		printf("%s", line);
+		free(line);
+	}
+	close(fd1);
 }

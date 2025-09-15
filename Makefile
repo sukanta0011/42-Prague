@@ -1,14 +1,12 @@
 SRC_DIR = srcs
 HDR_DIR = includes
-# -Wall -Wextra -Werror
-FLAGS = -Wall -Wextra -Werror -D BUFFER_SIZE=42
+FLAGS = -Wall -Wextra -Werror -D BUFFER_SIZE=10
 CC = cc
 
 MY_SRCS = get_next_line.c
 
 SRCS = $(addprefix $(SRC_DIR)/, $(MY_SRCS))
 OBJS = $(SRCS:.c=.o)
-# NAME = libftprintf.a
 NAME = a.out
 
 all: $(NAME)
@@ -32,7 +30,7 @@ output: all
 	$(addprefix ./, $(NAME))
 
 leak: all
-	valgrind --leak-check=full $(addprefix ./, $(NAME))
+	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes $(addprefix ./, $(NAME))
 
 norm:
 	norminette -R CheckDefine

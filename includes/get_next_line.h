@@ -6,7 +6,9 @@
 # include <fcntl.h>
 # include <stdio.h>
 
-# define BUFFER_SIZE 42
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 10
+#endif
 
 typedef unsigned int	t_uint;
 
