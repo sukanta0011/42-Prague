@@ -132,11 +132,10 @@ char	*get_next_line(int fd)
 	bytes = read(fd, temp, BUFFER_SIZE);
 	if (bytes)
 	{
-		printf("%d\n", bytes);
-		temp[BUFFER_SIZE] = '\0';
+		temp[bytes] = '\0';
 		if (!stach)
 			stach = malloc(bytes + 1);
-		stach = store_in_stach(stach, temp, bytes);
+		stach = store_in_stach(stach, temp, (bytes + 1));
 		free (temp);
 	}
 	else
@@ -172,7 +171,7 @@ int	main(void)
 	char	*file_path1;
 	char	*line;
 
-	file_path1 = "test/test2.txt";
+	file_path1 = "test/test3.txt";
 	fd1 = open(file_path1, O_RDONLY);
 	while ((line = get_next_line(fd1)))
 	{
