@@ -1,6 +1,6 @@
 SRC_DIR = srcs
 HDR_DIR = includes
-FLAGS = -Wall -Wextra -Werror -D BUFFER_SIZE=10
+FLAGS = -Wall -Wextra -Werror -D BUFFER_SIZE=8
 CC = cc
 
 MY_SRCS = get_next_line.c

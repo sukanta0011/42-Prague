@@ -85,7 +85,8 @@ char	*truncate_stach(char *stach)
 	j = 0;
 	while (stach[i] != '\n' && stach[i] != '\0')
 		i++;
-	i++;
+	if (stach[i] == '\n')
+		i++;
 	while (stach[i] != '\0')
 	{
 		stach[j] = stach[i];
@@ -131,6 +132,7 @@ char	*get_next_line(int fd)
 	bytes = read(fd, temp, BUFFER_SIZE);
 	if (bytes)
 	{
+		printf("%d\n", bytes);
 		temp[BUFFER_SIZE] = '\0';
 		if (!stach)
 			stach = malloc(bytes + 1);
