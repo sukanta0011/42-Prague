@@ -12,11 +12,14 @@
 
 typedef unsigned int	t_uint;
 
-typedef struct	s_read
-{
-	int		mem_size;
-	char	*str;
-	int		len;
-}				t_read;
+int		ft_strlen(char *str);
+int		is_char_in_str(char *stach, char c);
+char	*ft_strcpy(char *src, char *dst);
+char	*ft_strcat(char *dest, char *src);
+char	*ft_strdup_term(char *src, char term_char);
+
+char	*truncate_stach(char *stach);
+char	*store_in_stach(char *stach, char *str);
+char	*get_next_line(int fd);
 
 #endif

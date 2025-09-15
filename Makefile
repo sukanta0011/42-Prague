@@ -3,7 +3,8 @@ HDR_DIR = includes
 FLAGS = -Wall -Wextra -Werror -g -O0 -D BUFFER_SIZE=1000
 CC = gcc
 
-MY_SRCS = get_next_line.c
+MY_SRCS = get_next_line.c\
+			get_next_line_utils.c
 
 SRCS = $(addprefix $(SRC_DIR)/, $(MY_SRCS))
 OBJS = $(SRCS:.c=.o)
