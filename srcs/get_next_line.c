@@ -15,39 +15,39 @@
 char	*truncate_stash(char *stash)
 {
 	t_uint	i;
-	t_uint	j;
+	t_uint	stash_size;
 
 	i = 0;
-	j = 0;
 	while (stash[i] != '\n' && stash[i] != '\0')
 		i++;
 	if (stash[i] == '\n')
 		i++;
-	while (stash[i] != '\0')
-	{
-		stash[j] = stash[i];
-		i++;
-		j++;
-	}
-	stash[j] = '\0';
+	stash_size = ft_strlen(&stash[i]);
+	stash = realloc_memory(stash, stash_size, i);
 	return (stash);
 }
 
 char	*store_in_stash(char *stash, char *str)
 {
-	char	*temp;
 	t_uint	stash_size;
 
 	stash_size = ft_strlen(stash);
-	temp = malloc(stash_size + 1);
-	temp = ft_strcpy(stash, temp);
-	free(stash);
-	stash = malloc(stash_size + BUFFER_SIZE + 1);
-	stash[0] = '\0';
-	stash = ft_strcat(stash, temp);
-	free(temp);
+	stash = realloc_memory(stash, (stash_size + BUFFER_SIZE), 0);
 	stash = ft_strcat(stash, str);
 	return (stash);
+}
+
+char	*get_line(t_uint bytes, char *stash)
+{
+	char	*line;
+
+	if (!bytes && stash[0] == '\0')
+		return (NULL);
+	else if (is_char_in_str(stash, '\n'))
+		line = ft_strdup_term(stash, '\n');
+	else if (!bytes && !is_char_in_str(stash, '\n'))
+		line = ft_strdup_term(stash, '\0');
+	return (line);
 }
 
 char	*get_next_line(int fd)
@@ -59,32 +59,22 @@ char	*get_next_line(int fd)
 
 	bytes = 1;
 	if (!stash)
-	{
 		stash = malloc(BUFFER_SIZE + 1);
-		stash[0] = '\0';
-	}
 	temp = malloc(BUFFER_SIZE + 1);
 	while (bytes && !is_char_in_str(stash, '\n'))
 	{
 		bytes = read(fd, temp, BUFFER_SIZE);
 		if (bytes)
 		{
-			temp[BUFFER_SIZE] = '\0';
+			temp[bytes] = '\0';
 			stash = store_in_stash(stash, temp);
 		}
 	}
-	if (!bytes && stash[0] == '\0')
-	{
-		free(temp);
-		free(stash);
-		return (NULL);
-	}
-	else if (is_char_in_str(stash, '\n'))
-		line = ft_strdup_term(stash, '\n');
-	else if (!bytes && !is_char_in_str(stash, '\n'))
-		line = ft_strdup_term(stash, '\0');
+	line = get_line(bytes, stash);
 	stash = truncate_stash(stash);
-	free(temp);
+	if (!line)
+		free (stash);
+	free (temp);
 	return (line);
 }
 
