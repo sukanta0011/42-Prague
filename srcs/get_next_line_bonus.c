@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 char	*truncate_stash(char *stash)
 {
@@ -50,7 +50,12 @@ char	*get_line(t_uint bytes, char *stash)
 	return (line);
 }
 
-char	*get_next_line(int fd)
+// char	get_stach_by_fd(int fd)
+// {
+
+// }
+
+char	*get_next_line_bonus(int fd)
 {
 	t_uint		bytes;
 	static char	*stash;
@@ -77,3 +82,4 @@ char	*get_next_line(int fd)
 	free (temp);
 	return (line);
 }
+

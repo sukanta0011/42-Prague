@@ -1,10 +1,11 @@
 SRC_DIR = srcs
 HDR_DIR = includes
-FLAGS = -Wall -Wextra -Werror -g -O0 -D BUFFER_SIZE=999999
+FLAGS = -Wall -Wextra -Werror -g -O0 -D BUFFER_SIZE=10
 CC = gcc
 
-MY_SRCS = get_next_line.c\
-			get_next_line_utils.c
+MY_SRCS = get_next_line_bonus.c\
+			get_next_line_utils_bonus.c\
+			main.c
 
 SRCS = $(addprefix $(SRC_DIR)/, $(MY_SRCS))
 OBJS = $(SRCS:.c=.o)

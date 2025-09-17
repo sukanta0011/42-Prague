@@ -1,6 +1,4 @@
-
-
- Hi
+Hi
 I am
 sukanta
 this is the test of test3 file
