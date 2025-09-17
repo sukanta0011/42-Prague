@@ -72,12 +72,8 @@ char	*ft_strdup_term(char *src, char term_char)
 char	*realloc_memory(char *str, t_uint new_size, t_uint pos)
 {
 	char	*temp;
-	t_uint	str_size;
 
-	str_size = ft_strlen(&str[pos]);
-	temp = malloc(str_size + 1);
-	temp[0] = '\0';
-	temp = ft_strcat(temp, &str[pos]);
+	temp = ft_strdup_term(&str[pos], '\0');
 	free(str);
 	str = malloc(new_size + 1);
 	str[0] = '\0';

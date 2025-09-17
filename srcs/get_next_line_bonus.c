@@ -27,16 +27,6 @@ char	*truncate_stash(char *stash)
 	return (stash);
 }
 
-char	*store_in_stash(char *stash, char *str)
-{
-	t_uint	stash_size;
-
-	stash_size = ft_strlen(stash);
-	stash = realloc_memory(stash, (stash_size + BUFFER_SIZE), 0);
-	stash = ft_strcat(stash, str);
-	return (stash);
-}
-
 char	*get_line(t_uint bytes, char *stash)
 {
 	char	*line;
@@ -50,35 +40,74 @@ char	*get_line(t_uint bytes, char *stash)
 	return (line);
 }
 
-// char	get_stach_by_fd(int fd)
-// {
+char	**realloc_dblptr(char **str, t_uint old_size, t_uint new_size)
+{
+	char	**temp;
+	t_uint	i;
 
-// }
+	temp = malloc(sizeof(char *) * new_size);
+	i = 0;
+	while (i < old_size)
+	{
+		if (str[i] != NULL)
+		{
+			temp[i] = ft_strdup_term(str[i], '\0');
+			free(str[i]);
+		}
+		else
+			temp[i] = NULL;
+		i++;
+	}
+	while (i < new_size)
+	{
+		temp[i] = NULL;
+		i++;
+	}
+	free(str);
+	return (temp);
+}
+
+char	**realloc_ptrs(char **str, int fd)
+{
+	char	**temp;
+
+	if (!str)
+		str = realloc_dblptr(str, 0, 4);
+	else if(!str[fd])
+	{
+		temp = realloc_dblptr(str, (fd + 1), (fd + 1));
+		str = realloc_dblptr(temp, (fd + 1), (fd + 2));
+	}
+	return (str);
+}
 
 char	*get_next_line_bonus(int fd)
 {
 	t_uint		bytes;
-	static char	*stash;
+	static char	**stash;
 	char		*temp;
 	char		*line;
 
 	bytes = 1;
-	if (!stash)
-		stash = malloc(BUFFER_SIZE + 1);
+	stash = NULL;
+	stash = realloc_ptrs(stash, fd);
+	if (!stash[fd])
+		stash[fd] = malloc(BUFFER_SIZE + 1);
 	temp = malloc(BUFFER_SIZE + 1);
-	while (bytes && !is_char_in_str(stash, '\n'))
+	while (bytes && !is_char_in_str(stash[fd], '\n'))
 	{
 		bytes = read(fd, temp, BUFFER_SIZE);
 		if (bytes)
 		{
 			temp[bytes] = '\0';
-			stash = store_in_stash(stash, temp);
+			stash[fd] = realloc_memory(stash[fd], (ft_strlen(stash[fd]) + BUFFER_SIZE), 0);
+			stash[fd] = ft_strcat(stash[fd], temp);
 		}
 	}
-	line = get_line(bytes, stash);
-	stash = truncate_stash(stash);
+	line = get_line(bytes, stash[fd]);
+	stash[fd] = truncate_stash(stash[fd]);
 	if (!line)
-		free (stash);
+		free (stash[fd]);
 	free (temp);
 	return (line);
 }

@@ -29,47 +29,71 @@ char	*ft_strcat(char *dest, char *src)
 	return (dest);
 }
 
-char **realloc_ptrs(char **str, int fd)
+char	*ft_strdup_term(char *src, char term_char)
+{
+	t_uint	i;
+	char	*copy;
+
+	i = 0;
+	while (src[i] != term_char && src[i] != '\0')
+		i++;
+	copy = malloc(i + 2);
+	i = 0;
+	while (src[i] != term_char && src[i] != '\0')
+	{
+		copy[i] = src[i];
+		i++;
+	}
+	copy[i] = src[i];
+	copy[i + 1] = '\0';
+	return (copy);
+}
+
+char	**realloc_dblptr(char **str, t_uint old_size, t_uint new_size)
 {
 	char	**temp;
 	t_uint	i;
 
-	temp = malloc(sizeof(char *) * (fd + 1));
+	temp = malloc(sizeof(char *) * new_size);
 	i = 0;
-	while (i < (fd + 1))
+	while (i < old_size)
 	{
 		if (str[i] != NULL)
 		{
-			temp[i] = malloc(ft_strlen(str[i]) + 1);
-			temp[i][0] = '\0';
-			temp[i] = ft_strcat(temp[i], str[i]);
-			printf("%s\n", str[i]);
+			temp[i] = ft_strdup_term(str[i], '\0');
 			free(str[i]);
-			printf("%s\n", str[i]);
 		}
 		else
 			temp[i] = NULL;
 		i++;
 	}
-	free(str);
-	str = malloc(sizeof(char *) * (fd + 2));
-	str[i] = NULL;
-	while (i > 0)
+	while (i < new_size)
 	{
-		i--;
-		if (temp[i])
-		{
-			str[i] = malloc(ft_strlen(temp[i]) + 1);
-			str[i][0] = '\0';
-			str[i] = ft_strcat(str[i], temp[i]);
-			free(temp[i]);
-		}
-		else
-			str[i] = NULL;
+		temp[i] = NULL;
+		i++;
 	}
-	free(temp);
+	free(str);
+	return (temp);
+}
+
+char	**realloc_ptrs(char **str, int fd)
+{
+	char	**temp;
+	t_uint	i;
+
+	i = 0;
+	if (!str)
+	{
+		str = realloc_dblptr(str, 0, 4);
+	}
+	else if(!str[fd])
+	{
+		temp = realloc_dblptr(str, (fd + 1), (fd + 1));
+		str = realloc_dblptr(temp, (fd + 1), (fd + 2));
+	}
 	return (str);
 }
+
 
 int main(void)
 {
@@ -78,29 +102,21 @@ int main(void)
 	t_uint	i;
 
 	fd = 3;
-	str = malloc(sizeof(char *) * (fd + 1));
-	str[0] = NULL;
-	str[1] = NULL;
-	str[2] = NULL;
-	str[3] = NULL;
-	str[0] = malloc(20);
-	str[0] = "Hi";
-	str[2] = malloc(10);
-	str[2] = "World";
+	str = NULL;
+	str = realloc_ptrs(str, 3);
+	str[0] = ft_strdup_term("Hi", '\0');
+	str[2] = ft_strdup_term("World", '\0');
 	if (!str[3])
-	{
-		str[3] = malloc(10);
-		str[3] = "Sukanta";
-	}
-	str = realloc_ptrs(str, fd);
+		str[3] = ft_strdup_term("Sukanta", '\0');
+	str = realloc_ptrs(str, fd+1);
 	if (!str[4])
-	{
-		str[4] = malloc(10);
-		str[4] = "Das";
-	}
-	printf("%s %s %s\n", str[0], str[3], str[4]);
+		str[4] = ft_strdup_term("Das", '\0');
+	str = realloc_ptrs(str, fd + 2);
+	if (!str[5])
+		str[5] = ft_strdup_term("How", '\0');
+	printf("%s %s %s %s\n", str[0], str[3], str[4], str[5]);
 	i = 0;
-	while(i < (fd + 2))
+	while(i < (fd + 3))
 	{
 		if (str[i])
 			free(str[i]);
