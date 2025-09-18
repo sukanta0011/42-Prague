@@ -72,8 +72,8 @@ char	**realloc_ptrs(char **str, int fd)
 	char	**temp;
 
 	if (!str)
-		str = realloc_dblptr(str, 0, 4);
-	else if(!str[fd])
+		str = realloc_dblptr(str, 0, 5);
+	else if (!str[fd])
 	{
 		temp = realloc_dblptr(str, (fd + 1), (fd + 1));
 		str = realloc_dblptr(temp, (fd + 1), (fd + 2));
@@ -84,15 +84,13 @@ char	**realloc_ptrs(char **str, int fd)
 char	*get_next_line_bonus(int fd)
 {
 	t_uint		bytes;
-	static char	**stash;
+	static char	**stash = NULL;
 	char		*temp;
 	char		*line;
 
 	bytes = 1;
-	stash = NULL;
 	stash = realloc_ptrs(stash, fd);
-	if (!stash[fd])
-		stash[fd] = malloc(BUFFER_SIZE + 1);
+	stash[fd] = realloc_memory(stash[fd], bytes, 0);
 	temp = malloc(BUFFER_SIZE + 1);
 	while (bytes && !is_char_in_str(stash[fd], '\n'))
 	{
@@ -100,7 +98,7 @@ char	*get_next_line_bonus(int fd)
 		if (bytes)
 		{
 			temp[bytes] = '\0';
-			stash[fd] = realloc_memory(stash[fd], (ft_strlen(stash[fd]) + BUFFER_SIZE), 0);
+			stash[fd] = realloc_memory(stash[fd], bytes, 0);
 			stash[fd] = ft_strcat(stash[fd], temp);
 		}
 	}
@@ -111,4 +109,3 @@ char	*get_next_line_bonus(int fd)
 	free (temp);
 	return (line);
 }
-

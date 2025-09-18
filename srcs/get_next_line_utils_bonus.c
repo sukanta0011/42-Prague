@@ -69,15 +69,23 @@ char	*ft_strdup_term(char *src, char term_char)
 	return (copy);
 }
 
-char	*realloc_memory(char *str, t_uint new_size, t_uint pos)
+char	*realloc_memory(char *str, t_uint extra_size, t_uint pos)
 {
 	char	*temp;
 
-	temp = ft_strdup_term(&str[pos], '\0');
-	free(str);
-	str = malloc(new_size + 1);
-	str[0] = '\0';
-	str = ft_strcat(str, temp);
-	free(temp);
+	if (!str)
+	{
+		str = malloc(extra_size);
+		str[0] = '\0';
+	}
+	else
+	{
+		temp = ft_strdup_term(&str[pos], '\0');
+		free(str);
+		str = malloc(ft_strlen(temp) + extra_size + 1);
+		str[0] = '\0';
+		str = ft_strcat(str, temp);
+		free(temp);
+	}
 	return (str);
 }
