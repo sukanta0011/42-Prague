@@ -1,27 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstclear.c                                      :+:      :+:    :+:   */
+/*   ft_striteri.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sudas <sudas@student.42prague.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/07 00:02:30 by sudas             #+#    #+#             */
-/*   Updated: 2025/11/07 00:02:30 by sudas            ###   ########.fr       */
+/*   Created: 2025/11/06 23:37:04 by sudas             #+#    #+#             */
+/*   Updated: 2025/11/06 23:37:04 by sudas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_lstclear(t_list **lst, void (*del)(void*))
+void	ft_striteri(char *s, void (*f)(unsigned int, char*))
 {
-	t_list	*temp;
+	unsigned int	i;
 
-	while (*lst)
+	i = 0;
+	while (s[i])
 	{
-		temp = (*lst)->next;
-		del((*lst)->content);
-		free(*lst);
-		(*lst) = temp;
+		f(i, &s[i]);
+		i++;
 	}
-	(*lst) = NULL;
 }

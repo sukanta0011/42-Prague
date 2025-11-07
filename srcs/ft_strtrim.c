@@ -36,17 +36,17 @@ int	ft_strlen(char *str)
 	return (i);
 }
 
-int get_word_strat(char *s, char *set)
+int	get_word_strat(char *s, char *set)
 {
 	int	i;
 
 	i = 0;
 	while (s[i] && is_in_char_set(s[i], set))
 		i++;
-	return (i);	
+	return (i);
 }
 
-int get_word_end(char *s, char *set)
+int	get_word_end(char *s, char *set)
 {
 	int	i;
 	int	str_len;
@@ -55,7 +55,7 @@ int get_word_end(char *s, char *set)
 	i = str_len - 1;
 	while (i >= 0 && is_in_char_set(s[i], set))
 		i--;
-	return (i);	
+	return (i);
 }
 
 char	*ft_strtrim(char const *s1, char const *set)
