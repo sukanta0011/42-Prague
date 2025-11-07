@@ -2,8 +2,8 @@ FLAGS = -Wall -Wextra -Werror
 
 SRC_DIR = srcs
 HDR_DIR = includes
-SRC_FILES = $(wildcard *.c)
-SRCS = $(addprefix $(SRC_DIR)\, $(SRC_FILES))
+SRC_FILES = ft_isalpha.c
+SRCS = $(addprefix $(SRC_DIR)/, $(SRC_FILES))
 OBJS = $(SRCS:.c = .o)
 
 NAME = libft.a
