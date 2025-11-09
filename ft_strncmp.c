@@ -17,7 +17,7 @@
 * --------------------
 *	Compare the letters between string-1 and string-2 
 *	until their is a mismatch else until n-th byte or
-*	end of string 1 or string 2 is reached and return the
+*	end of string-1 or string-2 is reached and return the
 *	ASCII value difference of the mismatched character
 *	else the n-th character.
 *
@@ -28,14 +28,21 @@
 *	returns: the ASCII value difference of the mismatched
 *	character and if there is no mismatch, then the n-th character.
 */
-int	ft_strncmp(char *s1, char *s2, unsigned int n)
+int	ft_strncmp(char *s1, char *s2, size_t n)
 {
-	unsigned int	i;
+	size_t	i;
 
 	i = 0;
 	if (n == 0)
 		return (0);
 	while ((s1[i] == s2[i]) && (i < n - 1))
 		i++;
-	return (s1[i] - s2[i]);
+	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
 }
+
+// int main(void)
+// {
+// 	printf("%d\n", ft_strncmp("test\200", "test\0", 5));
+// 	printf("%d\n", strncmp("test\200", "test\0", 5));
+// 	printf("%d\n", '\200');
+// }

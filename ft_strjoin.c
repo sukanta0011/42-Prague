@@ -12,8 +12,17 @@
 
 #include "libft.h"
 
-unsigned int	ft_strlen(char *str);
-
+/*
+* Function: ft_strlcat
+* --------------------
+*	Join string-1 and string-2 in a new memory and 
+*	return the memory addrress.
+*
+*	s1 (char const *): memory address of string 1.
+*	s2 (char const *): memory address of string 2.
+*
+*	returns: the memory address of the joined string.
+*/
 char	*ft_strjoin(char const *s1, char const *s2)
 {
 	char	*merged_str;
@@ -41,14 +50,3 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	merged_str[s1_len + i] = '\0';
 	return (merged_str);
 }
-
-// int main(void)
-// {
-// 	char str1[] = "Hello";
-// 	char str2[] = "World";
-// 	char *merged_str;
-
-// 	merged_str = ft_strjoin(str1, str2);
-// 	printf("%s\n", merged_str);
-// 	free(merged_str);
-// }

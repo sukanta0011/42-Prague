@@ -12,7 +12,12 @@
 
 #include "libft.h"
 
-int	is_in_char_set(char c, char *set)
+/*
+* Function: get_word_end
+* --------------------
+*	Verify if the character is in the shared character set
+*/
+int	is_char_in_set(char c, char *set)
 {
 	int	i;
 
@@ -26,16 +31,30 @@ int	is_in_char_set(char c, char *set)
 	return (0);
 }
 
-int	get_word_strat(char *s, char *set)
+/*
+* Function: get_word_end
+* --------------------
+*	Traverse the string skipping the character
+*	with in the set and return the index of the
+*	first encounter of character not in the set.
+*/
+int	get_word_start(char *s, char *set)
 {
 	int	i;
 
 	i = 0;
-	while (s[i] && is_in_char_set(s[i], set))
+	while (s[i] && is_char_in_set(s[i], set))
 		i++;
 	return (i);
 }
 
+/*
+* Function: get_word_end
+* --------------------
+*	Traverse the string from the reverse direction skipping
+*	the character with in the set and return the index of the
+*	first encounter of character not in the set.
+*/
 int	get_word_end(char *s, char *set)
 {
 	int	i;
@@ -43,11 +62,23 @@ int	get_word_end(char *s, char *set)
 
 	str_len = ft_strlen(s);
 	i = str_len - 1;
-	while (i >= 0 && is_in_char_set(s[i], set))
+	while (i >= 0 && is_char_in_set(s[i], set))
 		i--;
 	return (i);
 }
 
+/*
+* Function: ft_strtrim
+* --------------------
+*	Allocates memory (using malloc) and returns a
+*	copy of ’s1’ with characters from ’set’ removed
+*	from the beginning and the end.
+*
+*	s (char const *): the string to be trimmed.
+*	set (char const *): characters need to be trimmed.
+*
+*	returns: trimmed string in a new memory block.
+*/
 char	*ft_strtrim(char const *s1, char const *set)
 {
 	int		i;
@@ -55,8 +86,11 @@ char	*ft_strtrim(char const *s1, char const *set)
 	int		end;
 	char	*trimmed_str;
 
-	start = get_word_strat((char *)s1, (char *)set);
-	end = get_word_end((char *)s1, (char *)set);
+	start = get_word_start((char *)s1, (char *)set);
+	if (start >= (int)ft_strlen((char *)s1))
+		end = start;
+	else
+		end = get_word_end((char *)s1, (char *)set);
 	trimmed_str = malloc(sizeof(char) * (end - start + 1));
 	if (!trimmed_str)
 		return (NULL);
