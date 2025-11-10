@@ -12,18 +12,18 @@
 
 #include "libft.h"
 
+/*
+* Function: ft_split
+* ------------------
+*	Outputs the character ’c’ to the specified file
+*	descriptor.
+
+*	c: The character to output.
+*	fd: The file descriptor on which to write.
+*
+*	return: none
+*/
 void	ft_putchar_fd(char c, int fd)
 {
 	write(fd, &c, 1);
 }
-
-// int main(void)
-// {
-// 	int		fd;
-// 	char	c = 'a';
-
-// 	fd = open("test.txt", O_RDWR);
-// 	ft_putchar_fd(c, fd);
-// 	close(fd);
-// 	return (0);
-// }

@@ -12,6 +12,17 @@
 
 #include "libft.h"
 
+/*
+* Function: ft_split
+* ------------------
+*	Outputs the string ’s’ to the specified file
+*	descriptor followed by a newline
+
+*	s: The string to output.
+*	fd: The file descriptor on which to write.
+*
+*	return: none
+*/
 void	ft_putstr_fd(char *s, int fd)
 {
 	int	str_len;
@@ -19,14 +30,3 @@ void	ft_putstr_fd(char *s, int fd)
 	str_len = ft_strlen(s);
 	write(fd, s, str_len);
 }
-
-// int main(void)
-// {
-// 	int		fd;
-// 	char	c[] = "abcd fgh";
-
-// 	fd = open("test.txt", O_RDWR);
-// 	ft_putstr_fd(c, fd);
-// 	close(fd);
-// 	return (0);
-// }

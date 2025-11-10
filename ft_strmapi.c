@@ -12,6 +12,21 @@
 
 #include "libft.h"
 
+/*
+* Function: ft_strtrim
+* --------------------
+*	Applies the function f to each character of the
+*	string s, passing its index as the first argument
+*	and the character itself as the second. A new
+*	string is created (using malloc(3)) to store the
+*	results from the successive applications of f
+*
+*	s: The string to iterate over.
+*	f: The function to apply to each character.
+*
+*	returns: The string created from the successive applications
+*	of ’f’. Returns NULL if the allocation fails.
+*/
 char	*ft_strmapi(char const *s, char (*f)(unsigned int, char))
 {
 	int				str_len;
@@ -19,7 +34,7 @@ char	*ft_strmapi(char const *s, char (*f)(unsigned int, char))
 	unsigned int	i;
 
 	str_len = ft_strlen((char *)s);
-	new_str = malloc(sizeof(char) * (str_len + 1));
+	new_str = malloc(str_len + 1);
 	i = 0;
 	if (!new_str)
 		return (NULL);

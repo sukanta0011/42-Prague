@@ -6,7 +6,7 @@
 /*   By: sudas <sudas@student.42prague.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/03 17:58:55 by sudas             #+#    #+#             */
-/*   Updated: 2025/11/09 23:34:47 by sudas            ###   ########.fr       */
+/*   Updated: 2025/11/10 10:44:24 by sudas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void			*ft_memchr(const void *s, int c, size_t n);
 int				ft_memcmp(const void *s1, const void *s2, size_t n);
 char			*ft_strnstr(const char *haystack,
 					const char *needle, size_t len);
-int				ft_atoi(char *str);
+int				ft_atoi(const char *str);
 void			*ft_calloc(size_t nmemb, size_t size);
 char			*ft_strdup(char *src);
 char			*ft_substr(char const *s, unsigned int start, size_t len);

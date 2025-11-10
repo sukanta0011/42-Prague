@@ -22,7 +22,7 @@
 *	s (char const *): memory address of main string
 *	start (unsigned int): index of the string position from where
 *						copying should start.
-*	len (size_t): length of the substring starting from the index.
+*	len (size_t): maximum length of the substring starting from the index.
 *
 *	returns: address of the new memory block with copied string.
 */
@@ -32,10 +32,15 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	size_t	i;
 
 	i = 0;
-	sub_str = malloc(sizeof(char) * len);
+	sub_str = malloc(sizeof(char) * (len + 1));
 	if (!sub_str)
 		return (NULL);
-	while (s[start + i] && i < len)
+	if (start >= ft_strlen((char *)s))
+	{
+		sub_str[i] = '\0';
+		return (sub_str);
+	}
+	while (s[start + i] && (i < len))
 	{
 		sub_str[i] = s[start + i];
 		i++;

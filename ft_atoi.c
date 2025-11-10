@@ -6,7 +6,7 @@
 /*   By: sudas <sudas@student.42prague.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 10:15:39 by sudas             #+#    #+#             */
-/*   Updated: 2025/11/09 01:07:45 by sudas            ###   ########.fr       */
+/*   Updated: 2025/11/10 10:44:27 by sudas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int	isspace_char(int c)
 *	ft_atoi(  +a10bf50) -> 0;
 *	ft_atoi(++10bf50) -> 0;
 */
-int	ft_atoi(char *str)
+int	ft_atoi(const char *str)
 {
 	int			neg_counter;
 	int			i;

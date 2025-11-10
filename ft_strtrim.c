@@ -91,7 +91,7 @@ char	*ft_strtrim(char const *s1, char const *set)
 		end = start;
 	else
 		end = get_word_end((char *)s1, (char *)set);
-	trimmed_str = malloc(sizeof(char) * (end - start + 1));
+	trimmed_str = malloc(end - start + 2);
 	if (!trimmed_str)
 		return (NULL);
 	i = start;
@@ -100,18 +100,6 @@ char	*ft_strtrim(char const *s1, char const *set)
 		trimmed_str[i - start] = s1[i];
 		i++;
 	}
-	trimmed_str[i] = '\0';
+	trimmed_str[i - start] = '\0';
 	return (trimmed_str);
 }
-
-// int main(void)
-// {
-// 	char s1[] = "   helo  oolo     ";
-// 	char set[] = " o";
-// 	char *trimmed;
-
-// 	trimmed = ft_strtrim(s1, set);
-// 	printf("%s\n", trimmed);
-// 	free(trimmed);
-// 	return (0);
-// }

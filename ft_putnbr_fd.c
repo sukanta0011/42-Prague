@@ -12,6 +12,17 @@
 
 #include "libft.h"
 
+/*
+* Function: ft_split
+* ------------------
+*	Outputs the integer ’n’ to the specified file
+*	descriptor
+
+*	n: The integer to output.
+*	fd: The file descriptor on which to write.
+*
+*	return: none
+*/
 void	ft_putnbr_fd(int n, int fd)
 {
 	unsigned int	num;
@@ -31,13 +42,3 @@ void	ft_putnbr_fd(int n, int fd)
 	mod = (num % 10) + '0';
 	write(fd, &mod, 1);
 }
-
-// int main(void)
-// {
-// 	int		n = 103456789;
-// 	int		fd;
-
-// 	fd = open("test.txt", O_RDWR);
-// 	ft_putnbr_fd(n, fd);
-// 	close(fd);
-// }

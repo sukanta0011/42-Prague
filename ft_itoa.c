@@ -12,6 +12,13 @@
 
 #include "libft.h"
 
+/*
+* Function: get_num_len
+* --------------------
+*	Return the required size if we want to store each
+*	digit of the integer inside an character array.
+*
+*/
 int	get_num_len(int n)
 {
 	int				num_len;
@@ -31,6 +38,13 @@ int	get_num_len(int n)
 	return (num_len);
 }
 
+/*
+* Function: store_num
+* --------------------
+*	Divide the number by 10 and store the modulo in the array
+*	using recursion.
+*
+*/
 void	store_num(int n, char *arr, int pos)
 {
 	unsigned int	num;
@@ -51,6 +65,18 @@ void	store_num(int n, char *arr, int pos)
 	arr[pos] = mod;
 }
 
+/*
+* Function: ft_itoa
+* --------------------
+*	Allocates memory (using malloc) and returns
+*	a string representing the integer received as an
+*	argument. Negative numbers must be handled.
+*
+*	n (int): The integer to convert.
+*
+*	returns: The string representing the integer.
+*	NULL if the allocation fails.
+*/
 char	*ft_itoa(int n)
 {
 	char	*num_arr;
@@ -70,12 +96,3 @@ char	*ft_itoa(int n)
 	num_arr[++num_len] = '\0';
 	return (num_arr);
 }
-// int main(void)
-// {
-// 	int		n = -8124;
-// 	char	*arr;
-
-// 	arr = ft_itoa(n);
-// 	printf("%s\n", arr);
-// 	free (arr);
-// }

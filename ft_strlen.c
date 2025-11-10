@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-// #include <stdio.h>
+#include "libft.h"
 
 /*
 * Function: ft_strlen
@@ -29,3 +29,4 @@ unsigned int	ft_strlen(char *str)
 		i++;
 	return (i);
 }
+

@@ -33,7 +33,7 @@ void	*ft_calloc(size_t nmemb, size_t size)
 	size_t	required_memory;
 
 	max_size = 4294967295;
-	if (size > max_size / nmemb)
+	if (nmemb != 0 && size > max_size / nmemb)
 		return (NULL);
 	required_memory = nmemb * size;
 	if (nmemb == 0 || size == 0)
