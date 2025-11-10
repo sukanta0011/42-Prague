@@ -6,7 +6,7 @@
 /*   By: sudas <sudas@student.42prague.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/03 17:58:55 by sudas             #+#    #+#             */
-/*   Updated: 2025/11/10 10:44:24 by sudas            ###   ########.fr       */
+/*   Updated: 2025/11/10 20:21:15 by sudas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
 typedef struct s_list
 {
 	void			*content;
-	struct s_list	*next;	
+	struct s_list	*next;
 }				t_list;
 
 int				ft_isalpha(int c);
