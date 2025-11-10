@@ -42,3 +42,12 @@ itoa        ok      ok
 strmapi     ok      ok
 striteri    ok      ok
 putchar_fd  ok      ok
+
+lstnew      ok      ok
+lstadd_front    ok  ok
+lstsize     ok      ok
+lstlast     ok      ok
+lstadd_back ok      ok
+lstdelone
+lstclear    ok      ok
+lstiter     ok      ok

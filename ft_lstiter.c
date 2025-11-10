@@ -12,6 +12,18 @@
 
 #include "libft.h"
 
+/*
+* Function: ft_iter
+* --------------------
+*	Iterates through the list ’lst’ and applies the
+*	function ’f’ to the content of each node.
+*
+*	lst: The address of a pointer to a node.
+*	f: The address of the function to apply to each
+*	node’s content
+*
+*	returns: none.
+*/
 void	ft_lstiter(t_list *lst, void (*f)(void *))
 {
 	t_list	*head;

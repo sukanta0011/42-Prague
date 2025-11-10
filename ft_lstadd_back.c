@@ -12,10 +12,24 @@
 
 #include "libft.h"
 
+/*
+* Function: ft_lstadd_front
+* --------------------
+*	Adds the node ’new’ at the end of the list.
+*
+*	lst: The address of a pointer to the first node of
+*	a list.
+*	new: The address of a pointer to the node to be
+*	added
+*
+*	returns: none.
+*/
 void	ft_lstadd_back(t_list **lst, t_list *new)
 {
 	t_list	*head;
 
+	if (!lst || !new)
+		return ;
 	if (!*lst)
 	{
 		*lst = new;

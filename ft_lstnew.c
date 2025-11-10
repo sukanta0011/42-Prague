@@ -12,6 +12,18 @@
 
 #include "libft.h"
 
+/*
+* Function: ft_lstnew
+* --------------------
+*	Allocates memory (using malloc(3)) and returns
+*	a new node. The ’content’ member variable is
+*	initialized with the given parameter ’content’.
+*	The variable ’next’ is initialized to NULL.
+*
+*	content: The content to store in the new node.
+*
+*	returns: A pointer to the new node
+*/
 t_list	*ft_lstnew(void *content)
 {
 	t_list	*lst;
@@ -23,17 +35,3 @@ t_list	*ft_lstnew(void *content)
 	lst->next = NULL;
 	return (lst);
 }
-
-// int main(void)
-// {
-// 	t_list *start;
-// 	char c = 'A';
-
-// 	start = ft_lstnew(&c);
-// 	for (int i = 0; start !=NULL; i++)
-// 	{
-// 		printf("%c", *(char *)start->content);
-// 		start = start->next;
-// 	}
-// 	return (0);
-// }
