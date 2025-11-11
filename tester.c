@@ -11,15 +11,19 @@
 /* ************************************************************************** */
 
 #include "libft.h"
+#include <string.h>
+#include <stdio.h>
 
 #define RED     "\x1b[31m"
 #define GREEN   "\x1b[32m"
 #define RESET   "\x1b[0m"
+#define BLUE	"\x1b[34m"
+
 
 void    ft_isalpha_test(void)
 {
-    char    inputs[] = {'a', 'z', '~', '1', 'Z'};
-    int    outputs[] = {1, 1, 0, 0, 1};
+    char    inputs[6] = {'a', 'z', '~', '1', 'Z'};
+    int    outputs[6] = {1, 1, 0, 0, 1};
 
     printf("\n------------ft_isalpha--------------\n");
     for (int i = 0; inputs[i]; i++)
@@ -33,8 +37,8 @@ void    ft_isalpha_test(void)
 
 void    ft_isdigit_test(void)
 {
-    char    inputs[] = {'a', 'z', '~', '1', 'Z', ' '};
-    int    outputs[] = {0, 0, 0, 1, 0, 0};
+    char    inputs[7] = {'a', 'z', '~', '1', 'Z', ' '};
+    int    outputs[7] = {0, 0, 0, 1, 0, 0};
 
     printf("\n------------ft_isalpha--------------\n");
     for (int i = 0; inputs[i]; i++)
@@ -48,8 +52,8 @@ void    ft_isdigit_test(void)
 
 void    ft_isalnum_test(void)
 {
-    char    inputs[] = {'a', 'z', '~', '1', 'Z', ' '};
-    int    outputs[] = {1, 1, 0, 1, 1, 0};
+    char    inputs[7] = {'a', 'z', '~', '1', 'Z', ' '};
+    int    outputs[7] = {1, 1, 0, 1, 1, 0};
 
     printf("\n------------ft_isalnum--------------\n");
     for (int i = 0; inputs[i]; i++)
@@ -63,8 +67,8 @@ void    ft_isalnum_test(void)
 
 void    ft_isascii_test(void)
 {
-    char    inputs[] = {'a', 'z', '~', '1', 'Z', ' '};
-    int    outputs[] = {1, 1, 1, 1, 1, 1};
+    char    inputs[7] = {'a', 'z', '~', '1', 'Z', ' '};
+    int    outputs[7] = {1, 1, 1, 1, 1, 1};
 
     printf("\n------------ft_isascii--------------\n");
     for (int i = 0; inputs[i]; i++)
@@ -78,8 +82,8 @@ void    ft_isascii_test(void)
 
 void    ft_isprint_test(void)
 {
-    char    inputs[] = {'a', '\t', '~', '1', 'Z', '\1'};
-    int    outputs[] = {1, 0, 1, 1, 1, 0};
+    char    inputs[7] = {'a', '\t', '~', '1', 'Z', '\1'};
+    int    outputs[7] = {1, 0, 1, 1, 1, 0};
 
     printf("\n------------ft_isprint--------------\n");
     for (int i = 0; inputs[i]; i++)
@@ -93,8 +97,8 @@ void    ft_isprint_test(void)
 
 void    ft_strlen_test(void)
 {
-    char    *inputs[] = {"Hello", "", '\0'};
-    int    outputs[] = {5, 0, '\0'};
+    char    *inputs[3] = {"Hello", ""};
+    int    outputs[3] = {5, 0};
 
     printf("\n------------ft_strlen--------------\n");
     for (int i = 0; inputs[i]; i++)
@@ -108,23 +112,27 @@ void    ft_strlen_test(void)
 
 void    ft_memset_test(void)
 {
-    char    *mem;
+    char    mem[10];
 
-    mem = malloc(10);
     printf("\n------------ft_memset--------------\n");
-    ft_memset(mem, 'a', 5);
-    printf("5 memory block set with char 'c': %s \n", mem);
-    ft_memset(mem, 'b', 1);
-    printf("1 memory block set with char 'b': %s\n", mem);
-    ft_memset(mem, 'c', 8);
-    printf("8 memory block set with char 'c': %s\n", mem);
+    if (!strncmp(ft_memset(mem, 'a', 5), "aaaaa", 5))
+    	printf("5 memory block set with char 'a':%s %s%s. %sOK%s \n", BLUE, mem, RESET, GREEN, RESET);
+	else
+    	printf("5 memory block set with char 'a':%s %s%s. %sKO%s \n", BLUE, mem, RESET, RED, RESET);
+	if (!strncmp(ft_memset(mem, 'b', 1), "baaaa", 5))
+    	printf("1 memory block set with char 'b':%s %s%s. %sOK%s \n", BLUE, mem, RESET, GREEN, RESET);
+	else
+		printf("1 memory block set with char 'b':%s %s%s. %sKO%s \n", BLUE, mem, RESET, RED, RESET);
+	if (!strncmp(ft_memset(mem, 'c', 8), "cccccccc", 8))
+    	printf("8 memory block set with char 'c':%s %s%s. %sOK%s \n", BLUE, mem, RESET, GREEN, RESET);
+	else
+    	printf("8 memory block set with char 'c':%s %s%s. %sKO%s \n", BLUE, mem, RESET, RED, RESET);
 }
 
 void    ft_bzero_test(void)
 {
-    char    *mem;
+    char    mem[10];
 
-    mem = malloc(10);
     printf("\n------------ft_bzero--------------\n");
     ft_bzero(mem, 5);
     printf("5 memory block is set: %s \n", mem);
@@ -134,14 +142,22 @@ void    ft_bzero_test(void)
 
 void    ft_memcpy_test(void)
 {
-    char    src[10] = "Hello";
-    char    dst[10] = "";
+    char    src[6] = "Hello";
+    char    dst[10] = "Something";
 
     printf("\n------------ft_memcpy--------------\n");
-    ft_memcpy(dst, src, 2);
-    printf("Destination: %s, Source: %s. Memory block copied: 2\n", dst, src);
-    ft_memcpy(dst, src, 4);
-    printf("Destination: %s, Source: %s. Memory block copied: 4\n", dst, src);
+    if (!strcmp(ft_memcpy(dst, src, 2), "Hemething"))
+    	printf("Des: %s%s%s, Src: %s. %sOK%s\n", BLUE, dst, RESET, src, GREEN, RESET);
+	else
+		printf("Des: %s%s%s, Src: %s. %sKO%s\n", BLUE, dst, RESET, src, RED, RESET);
+    if (!strcmp(ft_memcpy(dst, src, 4), "Hellthing"))
+    	printf("Des: %s%s%s, Src: %s. %sOK%s\n", BLUE, dst, RESET, src, GREEN, RESET);
+	else
+		printf("Des: %s%s%s, Src: %s. %sKO%s\n", BLUE, dst, RESET, src, RED, RESET);
+	if (!strcmp(ft_memcpy(dst, src, 0), "Hellthing"))
+    	printf("Des: %s%s%s, Src: %s. %sOK%s\n", BLUE, dst, RESET, src, GREEN, RESET);
+	else
+		printf("Des: %s%s%s, Src: %s. %sKO%s\n", BLUE, dst, RESET, src, RED, RESET);
 }
 
 void    ft_memmove_test(void)
