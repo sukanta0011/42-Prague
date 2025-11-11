@@ -98,15 +98,15 @@ void    ft_isprint_test(void)
 void    ft_strlen_test(void)
 {
     char    *inputs[3] = {"Hello", ""};
-    int    outputs[3] = {5, 0};
+    unsigned int    outputs[3] = {5, 0};
 
     printf("\n------------ft_strlen--------------\n");
     for (int i = 0; inputs[i]; i++)
     {
         if (ft_strlen(inputs[i]) == outputs[i])
-            printf("Input: %s, output: %d. %s OK %s\n", inputs[i], ft_strlen(inputs[i]), GREEN, RESET);
+            printf("Input: %s, output: %d. %sOK%s\n", inputs[i], ft_strlen(inputs[i]), GREEN, RESET);
         else
-            printf("Input: %s, output: %d. %s KO %s\n", inputs[i], ft_strlen(inputs[i]), RED, RESET);
+            printf("Input: %s, output: %d. %sKO%s\n", inputs[i], ft_strlen(inputs[i]), RED, RESET);
     }
 }
 
@@ -162,10 +162,10 @@ void    ft_memcpy_test(void)
 
 void    ft_memmove_test(void)
 {
-    char    src[20] = "Hello, simple mover";
-    char    src1[20] = "Hello";
-    char    src2[20] = "It's memmover";
-    char    dst[20];
+    char    src[10] = "Something";
+    char    src1[10] = "Something";
+    char    src2[10] = "Something";
+    char    dst[11] = "HelloWorld";
     char    *r_dst;
     char    *l_dst;
 
@@ -173,14 +173,45 @@ void    ft_memmove_test(void)
     l_dst = src2;
 
     printf("\n------------ft_memmove--------------\n");
-    ft_memmove(dst, src1, 5);
-    printf("Destination: %s, Source: %s. Memory block moved: 5\n", dst, src);
-    printf("Memory Left Overlaps\n");
-    ft_memmove(r_dst, src1, 4);
-    printf("Destination: %s, Source: %s. Memory block moved: 4\n", r_dst, src1);
-    printf("Memory Right Overlaps\n");
-    ft_memmove(l_dst, &src2[5], 4);
-    printf("Destination: %s, Source: %s. Memory block copied: 4\n", l_dst, &src2[5]);
+    if (!strncmp(ft_memmove(dst, src, 5), "SometWorld", 10))
+    	printf("Dest: %s%s%s, Src: %s. %sOK%s\n", BLUE, dst, RESET, src, GREEN, RESET);
+	else
+    	printf("Dest: %s%s%s, Src: %s. %sKO%s\n", BLUE, dst, RESET, src, RED, RESET);
+    if (!strncmp(ft_memmove(r_dst, src1, 4), "Someing", 7))
+    	printf("Dest: %s%s%s, Src: %s. %sOK%s\n", BLUE, r_dst, RESET, src1, GREEN, RESET);
+	else
+    	printf("Dest: %s%s%s, Src: %s. %sKO%s\n", BLUE, r_dst, RESET, src1, RED, RESET);
+	if (!strncmp(ft_memmove(l_dst, &src2[4], 4), "thinthing", 9))
+    	printf("Dest: %s%s%s, Src: %s. %sOK%s\n", BLUE, l_dst, RESET, &src2[4], GREEN, RESET);
+	else
+    	printf("Dest: %s%s%s, Src: %s. %sKO%s\n", BLUE, l_dst, RESET, &src2[4], RED, RESET);
+}
+
+void    ft_strlcpy_test(void)
+{
+    char    src[10] = "Something";
+    char    src1[10] = "Something";
+    char    src2[10] = "Something";
+    char    dst[11] = "HelloWorld";
+    char    dst1[10] = "Hello";
+    char    dst2[5] = "Hello";
+
+    printf("\n------------ft_strlcpy--------------\n");
+	ft_strlcpy(dst, src, 11);
+    if (!strncmp(dst, "SometWorld", 10))
+    	printf("Dest: %s%s%s, Src: %s. %sOK%s\n", BLUE, dst, RESET, src, GREEN, RESET);
+	else
+    	printf("Dest: %s%s%s, Src: %s. %sKO%s\n", BLUE, dst, RESET, src, RED, RESET);
+	ft_strlcpy(dst1, src1, 11);
+    if (!strncmp(dst1, "Someing", 10))
+    	printf("Dest: %s%s%s, Src: %s. %sOK%s\n", BLUE, dst1, RESET, src1, GREEN, RESET);
+	else
+    	printf("Dest: %s%s%s, Src: %s. %sKO%s\n", BLUE, dst1, RESET, src1, RED, RESET);
+	ft_strlcpy(dst2, src2, 0);
+	if (!strncmp(dst2, "thinthing", 0))
+    	printf("Dest: %s%s%s, Src: %s. %sOK%s\n", BLUE, dst2, RESET, src2, GREEN, RESET);
+	else
+    	printf("Dest: %s%s%s, Src: %s. %sKO%s\n", BLUE, dst2, RESET, src2, RED, RESET);
 }
 
 int main(void)
@@ -195,5 +226,6 @@ int main(void)
     ft_bzero_test();
     ft_memcpy_test();
     ft_memmove_test();
+	ft_strlcpy_test();
     return (0);
 }
