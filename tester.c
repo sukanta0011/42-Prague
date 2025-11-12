@@ -20,6 +20,29 @@
 #define BLUE	"\x1b[34m"
 
 
+void    test_ok(const char *test_type, const char *result)
+{
+    printf("%s: %s%s %sOK%s\n",test_type, BLUE, result, GREEN, RESET);
+}
+void    test_ko(const char *test_type, const char *result)
+{
+    printf("%s: %s%s %sKO%s\n",test_type, BLUE, result, RED, RESET);
+}
+
+int mem_alloc_check(const char *mem, const int size)
+{
+    int i;
+
+    i = 0;
+    while (i < size)
+    {
+        if (mem[i] != '\0')
+            return (i);
+        i++;
+    }
+    return (i);
+}
+
 void    ft_isalpha_test(void)
 {
     char    inputs[6] = {'a', 'z', '~', '1', 'Z'};
@@ -134,10 +157,10 @@ void    ft_bzero_test(void)
     char    mem[10];
 
     printf("\n------------ft_bzero--------------\n");
-    ft_bzero(mem, 5);
-    printf("5 memory block is set: %s \n", mem);
-    ft_bzero(mem, 1);
-    printf("1 memory block is set: %s\n", mem);
+    if (mem_alloc_check(ft_bzero(mem, 5), 5) == 5)
+        test_ok("memblock set", "5");
+    else
+        test_ok("memblock set", "5");
 }
 
 void    ft_memcpy_test(void)
@@ -192,26 +215,346 @@ void    ft_strlcpy_test(void)
     char    src[10] = "Something";
     char    src1[10] = "Something";
     char    src2[10] = "Something";
+    char    src3[1] = "";
     char    dst[11] = "HelloWorld";
     char    dst1[10] = "Hello";
-    char    dst2[5] = "Hello";
+    char    dst2[6] = "Hello";
+    char    dst3[10] = "Hello";
 
     printf("\n------------ft_strlcpy--------------\n");
-	ft_strlcpy(dst, src, 11);
-    if (!strncmp(dst, "SometWorld", 10))
+    if (ft_strlcpy(dst, src, 4) == 9 && !strncmp(dst, "Som", 10))
     	printf("Dest: %s%s%s, Src: %s. %sOK%s\n", BLUE, dst, RESET, src, GREEN, RESET);
 	else
     	printf("Dest: %s%s%s, Src: %s. %sKO%s\n", BLUE, dst, RESET, src, RED, RESET);
-	ft_strlcpy(dst1, src1, 11);
-    if (!strncmp(dst1, "Someing", 10))
+    if (ft_strlcpy(dst1, src1, 11) == 9 && !strncmp(dst1, "Something", 10))
     	printf("Dest: %s%s%s, Src: %s. %sOK%s\n", BLUE, dst1, RESET, src1, GREEN, RESET);
 	else
     	printf("Dest: %s%s%s, Src: %s. %sKO%s\n", BLUE, dst1, RESET, src1, RED, RESET);
-	ft_strlcpy(dst2, src2, 0);
-	if (!strncmp(dst2, "thinthing", 0))
+	if (ft_strlcpy(dst2, src2, 0) == 9 && !strncmp(dst2, "Hello", 0))
     	printf("Dest: %s%s%s, Src: %s. %sOK%s\n", BLUE, dst2, RESET, src2, GREEN, RESET);
 	else
     	printf("Dest: %s%s%s, Src: %s. %sKO%s\n", BLUE, dst2, RESET, src2, RED, RESET);
+    if (ft_strlcpy(dst3, src3, 5) == 0 && !strncmp(dst2, "", 0))
+    	printf("Dest: %s%s%s, Src: %s. %sOK%s\n", BLUE, dst3, RESET, src3, GREEN, RESET);
+	else
+    	printf("Dest: %s%s%s, Src: %s. %sKO%s\n", BLUE, dst3, RESET, src3, RED, RESET);
+}
+
+void    ft_strlcat_test(void)
+{
+    char    src[10] = "Something";
+    char    src1[10] = "Something";
+    char    src2[10] = "Something";
+    char    dst[20] = "HelloWorld";
+    char    dst1[20] = "Hello";
+    char    dst2[20] = "Hello";
+
+    printf("\n------------ft_strlcat--------------\n");
+    if (ft_strlcat(dst, src, 20) == 19 && !strncmp(dst, "HelloWorldSomething", 19))
+        test_ok("Full cat", dst);
+	else
+    	test_ko("Full cat", dst);
+    if (ft_strlcat(dst1, src1, 10) == 14 && !strncmp(dst1, "HelloSome", 9))
+    	test_ok("Partial cat", dst1);
+	else
+    	test_ko("Partial cat", dst);
+	if (ft_strlcat(dst2, src2, 0) == 9 && !strncmp(dst2, "Hello", 5))
+    	test_ok("No cat", dst2);
+	else
+    	test_ko("No cat", dst2);
+}
+
+void    ft_toupper_test(void)
+{
+    char    inputs[6] = {'a', 'z', 'B', '1', '~'};
+    char    outputs[6] = {'A', 'Z', 'B', '1', '~'};
+
+    printf("\n------------ft_toupper--------------\n");
+    for (int i = 0; inputs[i]; i++)
+    {
+        if (ft_toupper(inputs[i]) == outputs[i])
+            printf("Input: %c, output: %c. %s OK %s\n", inputs[i], ft_toupper(inputs[i]), GREEN, RESET);
+        else
+            printf("Input: %c, output: %c. %s KO %s\n", inputs[i], ft_toupper(inputs[i]), RED, RESET);
+    }
+}
+
+void    ft_tolower_test(void)
+{
+    char    inputs[6] = {'a', 'z', 'B', '1', '~'};
+    char    outputs[6] = {'a', 'z', 'b', '1', '~'};
+
+    printf("\n------------ft_tolower--------------\n");
+    for (int i = 0; inputs[i]; i++)
+    {
+        if (ft_tolower(inputs[i]) == outputs[i])
+            printf("Input: %c, output: %c. %s OK %s\n", inputs[i], ft_tolower(inputs[i]), GREEN, RESET);
+        else
+            printf("Input: %c, output: %c. %s KO %s\n", inputs[i], ft_tolower(inputs[i]), RED, RESET);
+    }
+}
+
+void    ft_strchr_test(void)
+{
+    char    src[13] = "Hello World\200b";
+
+    printf("\n------------ft_strchr--------------\n");
+    if (!strcmp(ft_strchr(src, 'o'), "o World\200b"))
+        test_ok("Multi occurrence check", ft_strchr(src, 'o'));
+	else
+    	test_ko("Multi occurrence check", ft_strchr(src, 'o'));
+    if (ft_strchr(src, 'a') == NULL)
+    	test_ok("Zero occurrence check", "No char found");
+	else
+    	test_ko("Zero occurrence check", "No char found");
+	if (!strcmp(ft_strchr(src, '\0'), ""))
+    	test_ok("Null occurrence check", ft_strchr(src, '\0'));
+	else
+    	test_ko("Null occurrence check", ft_strchr(src, '\0'));
+    if (ft_strchr("", 'o') == NULL)
+    	test_ok("Empty source check", "No char found");
+	else
+    	test_ko("Empty source check", "No char found");
+}
+
+void    ft_strrchr_test(void)
+{
+    char    src[13] = "Hello World\200b";
+
+    printf("\n------------ft_strrchr--------------\n");
+    if (!strcmp(ft_strrchr(src, 'o'), "orld\200b"))
+        test_ok("Multi occurrence check", ft_strrchr(src, 'o'));
+	else
+    	test_ko("Multi occurrence check", ft_strrchr(src, 'o'));
+    if (ft_strrchr(src, 'a') == NULL)
+    	test_ok("Zero occurrence check", "No char found");
+	else
+    	test_ko("Zero occurrence check", "No char found");
+	if (!strcmp(ft_strrchr(src, '\0'), ""))
+    	test_ok("Null occurrence check", ft_strrchr(src, '\0'));
+	else
+    	test_ko("Null occurrence check", ft_strrchr(src, '\0'));
+    if (ft_strrchr("", 'o') == NULL)
+    	test_ok("Empty source check", "No char found");
+	else
+    	test_ko("Empty source check", "No char found");
+}
+
+void    ft_strncmp_test(void)
+{
+    char    src[13] = "Hello World\200b";
+
+    printf("\n------------ft_strncmp--------------\n");
+    if (!ft_strncmp(src, "He", 2))
+    	test_ok("Partial compare", "0");
+	else
+    	test_ko("Partial compare", "0");
+    if (!ft_strncmp(src, "Hello World\200b", 13))
+    	test_ok("Full compare", "0");
+	else
+    	test_ko("Full compare", "0");
+    if (ft_strncmp(src, "HellO world", 13) == 32)
+    	test_ok("Wrong compare", "diff");
+	else
+    	test_ko("Wrong compare", "diff");
+    if (!ft_strncmp(src, "He", 0))
+    	test_ok("n=0 compare", "0");
+	else
+    	test_ko("n=0 compare", "0");
+    if (ft_strncmp("", "He", 2) == -'H')
+    	test_ok("s1='' compare", "diff");
+	else
+    	test_ko("s1='' compare", "diff");
+}
+
+void    ft_memchr_test(void)
+{
+    char    src[13] = "Hello World\200b";
+
+    printf("\n------------ft_memchr--------------\n");
+    if (!strcmp(ft_memchr(src, 'o', 13), "o World\200b"))
+        test_ok("Multi occurrence check", ft_memchr(src, 'o', 13));
+	else
+    	test_ko("Multi occurrence check", ft_memchr(src, 'o', 13));
+    if (ft_memchr(src, 'a', 13) == NULL)
+    	test_ok("Zero occurrence check", "No char found");
+	else
+    	test_ko("Zero occurrence check", "No char found");
+	if (ft_memchr(src, '\0', 13) == NULL)
+    	test_ok("Null occurrence check", "");
+	else
+    	test_ko("Null occurrence check", "");
+    if (ft_memchr("", 'o', 13) == NULL)
+    	test_ok("Empty source check", "No char found");
+	else
+    	test_ko("Empty source check", "No char found");
+}
+
+void    ft_memcmp_test(void)
+{
+    char    src[13] = "Hello World\200b";
+
+    printf("\n------------ft_memcmp--------------\n");
+    if (!ft_memcmp(src, "He", 2))
+    	test_ok("Partial compare", "0");
+	else
+    	test_ko("Partial compare", "0");
+    if (!ft_memcmp(src, "Hello World\200b", 13))
+    	test_ok("Full compare", "0");
+	else
+    	test_ko("Full compare", "0");
+    if (ft_memcmp(src, "HellO world", 13) == 32)
+    	test_ok("Wrong compare", "diff");
+	else
+    	test_ko("Wrong compare", "diff");
+    if (!ft_memcmp(src, "He", 0))
+    	test_ok("n=0 compare", "0");
+	else
+    	test_ko("n=0 compare", "0");
+    if (ft_memcmp("test\200a", "test\0", 6) == 128)
+    	test_ok("Wrong compare 2", "diff");
+	else
+    	test_ko("Wrong compare 2", "diff");
+}
+
+void    ft_strnstr_test(void)
+{
+    printf("\n------------ft_strnstr--------------\n");
+    if (!strcmp(ft_strnstr("Hello World", "Wor", 11), "World"))
+    	test_ok("Full compare", ft_strnstr("Hello World", "Wor", 11));
+	else
+    	test_ko("Full compare", ft_strnstr("Hello World", "Wor", 11));
+    if (ft_strnstr("Hello World", "Wor", 4) == NULL)
+    	test_ok("Wrong compare 1", "null");
+	else
+    	test_ko("Wrong compare 1", "null");
+    if (!strcmp(ft_strnstr("Hello World", "", 11), "Hello World"))
+    	test_ok("Empty needle", ft_strnstr("Hello World", "", 11));
+	else
+    	test_ko("Empty needle", ft_strnstr("Hello World", "", 11));
+    if (ft_strnstr("Hello", "Hello World", 6) == NULL)
+    	test_ok("Wrong compare 2", "null");
+	else
+    	test_ko("Wrong compare 2", "null");
+}
+
+void    ft_atoi_test(void)
+{
+    printf("\n------------ft_atoi--------------\n");
+    if (ft_atoi("\t\v\f\r\n  +13h45") == 13)
+    	test_ok("Test1", "13");
+	else
+    	test_ko("Test1", "13");
+    if (ft_atoi("\n  -13hgh") == -13)
+    	test_ok("Test2", "-13");
+	else
+    	test_ko("Test2", "-13");
+    if (ft_atoi("\n\t\r  --13hgh") == 0)
+    	test_ok("Test3", "0");
+	else
+    	test_ko("Test3", "0");
+    if (ft_atoi("+2147483647t") == 2147483647)
+    	test_ok("Test4", "int max");
+	else
+    	test_ko("Test4", "int max");
+    if (ft_atoi("-2147483648t") == -2147483648)
+    	test_ok("Test4", "int min");
+	else
+    	test_ko("Test4", "int min");
+    if (ft_atoi("") == 0)
+    	test_ok("Test4", "0");
+	else
+    	test_ko("Test4", "0");
+}
+
+void    ft_calloc_test(void)
+{
+    printf("\n------------ft_calloc--------------\n");
+    if (mem_alloc_check(ft_calloc(0, 0), 1) == 1)
+        test_ok("Zero mem allocation test", "0");
+    else
+        test_ko("Zero mem allocation test", "0");
+    if (mem_alloc_check(ft_calloc(10, 8), 80) == 80)
+        test_ok("80 bytes allocation test", "80");
+    else
+        test_ko("80 bytes allocation test", "80");
+    if (ft_calloc(100000000, 1000000000) == NULL)
+    	test_ok("Large memory", "null");
+	else
+    	test_ko("Large memory", "null");
+}
+
+void    ft_strdup_test(void)
+{
+    printf("\n------------ft_strdup--------------\n");
+    if (!strcmp(ft_strdup("Hello World"), "Hello World"))
+    	test_ok("Test1", ft_strdup("Hello World"));
+	else
+    	test_ko("Test1", ft_strdup("Hello World"));
+    if (!strcmp(ft_strdup(""), ""))
+    	test_ok("Empty str", ft_strdup(""));
+	else
+    	test_ko("Empty str", ft_strdup(""));
+}
+
+
+void    ft_substr_test(void)
+{
+    printf("\n------------ft_substr--------------\n");
+    if (!strcmp(ft_substr("Hello World", 2, 6), "llo Wo"))
+    	test_ok("Test1", ft_substr("Hello World", 2, 6));
+	else
+    	test_ko("Test1", ft_substr("Hello World", 2, 6));
+    if (!strcmp(ft_substr("Hello World", 6, 10), "World"))
+    	test_ok("Test1", ft_substr("Hello World", 6, 10));
+	else
+    	test_ko("Test1", ft_substr("Hello World", 6, 10));
+    if (!strcmp(ft_substr("Hello World", 12, 16), ""))
+    	test_ok("Empty str", ft_substr("Hello World", 12, 16));
+	else
+    	test_ko("Empty str", ft_substr("Hello World", 12, 16));
+}
+
+void    ft_strjoin_test(void)
+{
+    printf("\n------------ft_strjoin--------------\n");
+    if (!strcmp(ft_strjoin("Hello ", "World"), "Hello World"))
+    	test_ok("Test1", ft_strjoin("Hello ", "World"));
+	else
+    	test_ko("Test1", ft_strjoin("Hello ", "World"));
+    if (!strcmp(ft_strjoin("Hello", ""), "Hello"))
+    	test_ok("Test2", ft_strjoin("Hello", ""));
+	else
+    	test_ko("Test2", ft_strjoin("Hello", ""));
+    if (!strcmp(ft_strjoin("", "Hello"), "Hello"))
+    	test_ok("Test3", ft_strjoin("", "Hello"));
+	else
+    	test_ko("Test3", ft_strjoin("", "Hello"));
+    if (!strcmp(ft_strjoin("", ""), ""))
+    	test_ok("Test4", ft_strjoin("", ""));
+	else
+    	test_ko("Test4", ft_strjoin("", ""));
+}
+
+void    ft_strtrim_test(void)
+{
+    printf("\n------------ft_strtrim--------------\n");
+    if (!strcmp(ft_strtrim("\t Hello World  ", " \t"), "Hello World"))
+    	test_ok("Test1", ft_strtrim("\t Hello World  ", " \t"));
+	else
+    	test_ko("Test1", ft_strtrim("\t Hello World  ", " \t"));
+    if (!strcmp(ft_strtrim("\t Hello World", " \t"), "Hello World"))
+    	test_ok("Test2", ft_strtrim("\t Hello World", " \t"));
+	else
+    	test_ko("Test2", ft_strtrim("\t Hello World", " \t"));
+    if (!strcmp(ft_strtrim("Hello World  ", " \t"), "Hello World"))
+    	test_ok("Test3", ft_strtrim("\t Hello World", " \t"));
+	else
+    	test_ko("Test3", ft_strtrim("\t Hello World", " \t"));
+    if (!strcmp(ft_strtrim("          ", " "), ""))
+    	test_ok("Test4", ft_strtrim("          ", " "));
+	else
+    	test_ko("Test4", ft_strtrim("          ", " "));
 }
 
 int main(void)
@@ -227,5 +570,21 @@ int main(void)
     ft_memcpy_test();
     ft_memmove_test();
 	ft_strlcpy_test();
+    ft_strlcat_test();
+    ft_toupper_test();
+    ft_tolower_test();
+    ft_strchr_test();
+    ft_strrchr_test();
+    ft_strncmp_test();
+    ft_memchr_test();
+    ft_memcmp_test();
+    ft_strnstr_test();
+    ft_atoi_test();
+    ft_calloc_test();
+    ft_strdup_test();
+
+    ft_substr_test();
+    ft_strjoin_test();
+    ft_strtrim_test();
     return (0);
 }

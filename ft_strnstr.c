@@ -6,7 +6,7 @@
 /*   By: sudas <sudas@student.42prague.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 12:05:41 by sudas             #+#    #+#             */
-/*   Updated: 2025/11/09 00:49:02 by sudas            ###   ########.fr       */
+/*   Updated: 2025/11/12 12:09:39 by sudas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 *
 *	haystack (const void *): address of main string.
 *	needle (const void *): address of sub string.
-*	len (size_t): length of substring upto which matchin is needed
+*	len (size_t): length of the haystack upto which needle will be looked into
 *
 *	returns: the address of the first occurrence of sub-string
 *	with in main string. If sub-string is empty, it returns the
