@@ -11,14 +11,21 @@
 /* ************************************************************************** */
 
 #include "libft.h"
-#include <string.h>
-#include <stdio.h>
+# include <string.h>
+# include <unistd.h>
+# include <strings.h>
+# include <stdio.h>
+# include <stdlib.h>
+# include <ctype.h>
+# include <fcntl.h>
+# include <stddef.h>
 
 #define RED     "\x1b[31m"
 #define GREEN   "\x1b[32m"
 #define RESET   "\x1b[0m"
 #define BLUE	"\x1b[34m"
 
+//----------------------CUSTOM FUNCTIONS---------------------------//
 
 void    test_ok(const char *test_type, const char *result)
 {
@@ -42,6 +49,34 @@ int mem_alloc_check(const char *mem, const int size)
     }
     return (i);
 }
+
+int arr_of_strcmp(char **arr1, char **arr2)
+{
+    for (int i = 0; arr1[i]; i++)
+    {
+        // printf("%s\n", arr2[i]);
+        if (strcmp(arr1[i], arr2[i]))
+            return (0);
+    }
+    return (1);
+}
+
+char    str_toupper(unsigned int idx, char c)
+{
+    (void)idx;
+    if (c >= 'a' && c <= 'z')
+		return (c - 32);
+	return (c);
+}
+
+void    str_tolower(unsigned int idx, char* c)
+{
+    (void)idx;
+    if (*c >= 'A' && *c <= 'Z')
+		*c = *c + 32;
+}
+
+//----------------------TESTERS---------------------------//
 
 void    ft_isalpha_test(void)
 {
@@ -557,8 +592,166 @@ void    ft_strtrim_test(void)
     	test_ko("Test4", ft_strtrim("          ", " "));
 }
 
+void    ft_split_test(void)
+{
+    char    *verifier1[10] = {"Hello", "World", NULL};
+    char    *verifier2[10] = {"He", "o Wor", "d", NULL};
+    char    *verifier3[10] = {NULL};
+    
+    printf("\n------------ft_split--------------\n");
+    if (arr_of_strcmp(ft_split("Hello World", ' '),  verifier1))
+        test_ok("Test1", "Hello World");
+	else
+    	test_ko("Test1", "Hello World");
+    if (arr_of_strcmp(ft_split("Hello World", 'l'),  verifier2))
+        test_ok("Test2", "Hello World");
+	else
+    	test_ko("Test2", "Hello World");
+    if (arr_of_strcmp(ft_split("      ", ' '),  verifier3))
+        test_ok("Test3", "      ");
+	else
+    	test_ko("Test3", "      ");
+    if (arr_of_strcmp(ft_split("   Hello World   ", ' '),  verifier1))
+        test_ok("Test4", "   Hello World   ");
+	else
+    	test_ko("Test4", "   Hello World   ");
+}
+
+void    ft_itoa_test(void)
+{
+    printf("\n------------ft_itoa--------------\n");
+    if (strcmp(ft_itoa(13), "13") == 0)
+    	test_ok("Test1", "13");
+	else
+    	test_ko("Test1", "13");
+    if (strcmp(ft_itoa(-13), "-13") == 0)
+    	test_ok("Test2", "-13");
+	else
+    	test_ko("Test2", "-13");
+    if (strcmp(ft_itoa(0), "0") == 0)
+    	test_ok("Test3", "0");
+	else
+    	test_ko("Test3", "0");
+    if (strcmp(ft_itoa(-2147483648), "-2147483648") == 0)
+    	test_ok("Test4", "int min");
+	else
+    	test_ko("Test4", "int min");
+}
+
+void    ft_strmapi_test(void)
+{
+    printf("\n------------ft_split--------------\n");
+    if (strcmp(ft_strmapi("Hello World", str_toupper),  "HELLO WORLD") == 0)
+        test_ok("Test1", ft_strmapi("Hello World", str_toupper));
+	else
+    	test_ko("Test1", ft_strmapi("Hello World", str_toupper));
+    if (strcmp(ft_strmapi("   a1   ", str_toupper),  "   A1   ") == 0)
+        test_ok("Test2", ft_strmapi("   a1   ", str_toupper));
+	else
+    	test_ko("Test2", ft_strmapi("   a1   ", str_toupper));
+}
+
+void    ft_striteri_test(void)
+{
+    char    str1[12] = "HEllo WorlD";
+    char    str2[9] = "   B1   ";
+
+    printf("\n------------ft_split--------------\n");
+    ft_striteri(str1, str_tolower);
+    if (strcmp(str1,  "hello world") == 0)
+        test_ok("Test1", str1);
+	else
+    	test_ko("Test1", str1);
+    ft_striteri(str2, str_tolower);
+    if (strcmp(str2, "   b1   ") == 0)
+        test_ok("Test2", str2);
+	else
+    	test_ko("Test2", str2);
+}
+
+void    ft_putchar_fd_test()
+{
+    char    data[2];
+    char    c = 'f';
+    int     fd;
+
+	fd = open("test_fd", O_RDWR);
+	ft_putchar_fd(c, fd);
+    close(fd);
+
+	fd = open("test_fd", O_RDONLY);
+    read(fd, data, 2);
+    close(fd);
+    printf("\n------------ft_putchar_fd--------------\n");
+    if (strncmp(data,  "f", 1) == 0)
+        test_ok("Test1", data);
+	else
+    	test_ko("Test1", data);
+}
+
+void    ft_putstr_fd_test(void)
+{
+    char    data[6];
+    char    *str = "Hello";
+    int     fd;
+
+	fd = open("test_fd", O_RDWR);
+	ft_putstr_fd(str, fd);
+    close(fd);
+	fd = open("test_fd", O_RDONLY);
+    read(fd, data, 6);
+    close(fd);
+    printf("\n------------ft_putstr_fd--------------\n");
+    if (strncmp(data, str, 5) == 0)
+        test_ok("Test1", data);
+	else
+    	test_ko("Test1", data);
+}
+
+void    ft_putendl_fd_test(void)
+{
+    char    data[7];
+    char    *str = "Hello";
+    int     fd;
+
+	fd = open("test_fd", O_RDWR);
+	ft_putendl_fd(str, fd);
+    close(fd);
+	fd = open("test_fd", O_RDWR);
+    read(fd, data, 7);
+    close(fd);
+    printf("\n------------ft_putendl_fd--------------\n");
+    if (strncmp(data, "Hello\n", 6) == 0)
+        test_ok("Test1", data);
+	else
+    	test_ko("Test1", data);
+}
+
+void    ft_putnbr_fd_test(void)
+{
+    char    data[7];
+    int     fd;
+
+	fd = open("test_fd", O_RDWR);
+	ft_putnbr_fd(-12345, fd);
+    close(fd);
+	fd = open("test_fd", O_RDWR);
+    read(fd, data, 7);
+    close(fd);
+    printf("\n------------ft_putnbr_fd--------------\n");
+    if (strncmp(data, "-12345", 6) == 0)
+        test_ok("Test1", data);
+	else
+    	test_ko("Test1", data);
+}
+
 int main(void)
 {
+    int fd;
+
+    fd = open("test_fd", O_CREAT);
+    close(fd);
+
     ft_isalpha_test();
     ft_isdigit_test();
     ft_isalnum_test();
@@ -586,5 +779,15 @@ int main(void)
     ft_substr_test();
     ft_strjoin_test();
     ft_strtrim_test();
+    ft_split_test();
+    ft_itoa_test();
+    ft_strmapi_test();
+    ft_striteri_test();
+    ft_striteri_test();
+    ft_putchar_fd_test();
+    ft_putstr_fd_test();
+    ft_putendl_fd_test();
+    ft_putnbr_fd_test();
+
     return (0);
 }
