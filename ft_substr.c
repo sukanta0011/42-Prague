@@ -30,12 +30,18 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
 	char	*sub_str;
 	size_t	i;
+	size_t	str_len;
 
 	i = 0;
+	str_len = ft_strlen((char *)s);
+	if (start >= str_len)
+		len = 0;
+	else if ((str_len - start) < len)
+		len = (str_len - start);
 	sub_str = malloc(sizeof(char) * (len + 1));
 	if (!sub_str)
 		return (NULL);
-	if (start >= ft_strlen((char *)s))
+	if (start >= str_len)
 	{
 		sub_str[i] = '\0';
 		return (sub_str);

@@ -46,10 +46,6 @@ t_list	*ft_lstlast(t_list *lst)
 // 	d.next = NULL;
 
 // 	last = ft_lstlast(&a);
-// 	for (int i = 0; last !=NULL; i++)
-// 	{
-// 		printf("%d\n", *(int *)last->content);
-// 		last = last->next;
-// 	}
+// 	printf("Last element: %d\n", *(int *)last->content);
 // 	return (0);
 // }

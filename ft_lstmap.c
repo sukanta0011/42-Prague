@@ -33,13 +33,10 @@ t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *))
 {
 	t_list	*new_lst;
 	t_list	*new_node;
-	t_list	*head;
 
 	if (!lst || !f || !del)
 		return (NULL);
 	new_lst = NULL;
-	(void)del;
-	head = lst;
 	while (lst)
 	{
 		new_node = ft_lstnew(f(lst->content));
@@ -51,13 +48,12 @@ t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *))
 		ft_lstadd_back(&new_lst, new_node);
 		lst = lst->next;
 	}
-	lst = head;
 	return (new_lst);
 }
 
 // void	*foo(void *content)
 // {
-// 	*(int *)(content) = 2;
+// 	*(int *)(content) = 8;
 // 	return (content);
 // }
 
@@ -90,10 +86,10 @@ t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *))
 // 	(void)new_lst;
 // 	for (int i = 0; new_lst; i++)
 // 	{
-// 		printf("%d\n", *(int *)new_lst->content);
+// 		printf("new: %d\n", *(int *)new_lst->content);
 // 		new_lst = new_lst->next;
 // 	}
-// 	ft_lstclear(&new_lst, free);
-// 	ft_lstclear(&start, free);
+// 	// ft_lstclear(&new_lst, free);
+// 	// ft_lstclear(&start, free);
 // 	return (0);
 // }

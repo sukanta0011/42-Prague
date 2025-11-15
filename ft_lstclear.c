@@ -32,9 +32,35 @@ void	ft_lstclear(t_list **lst, void (*del)(void*))
 	while (*lst)
 	{
 		temp = (*lst)->next;
-		del((*lst)->content);
-		free(*lst);
+		ft_lstdelone(*lst, del);
 		(*lst) = temp;
 	}
 	(*lst) = NULL;
 }
+
+// int main(void)
+// {
+// 	t_list *start;
+// 	int arr[] = {2, 3, 4, 5, 6};
+// 	t_list a, b, c, d;
+// 	a.content = &arr[0];
+// 	b.content = &arr[1];
+// 	c.content = &arr[2];
+// 	d.content = &arr[3];
+// 	a.next = &b;
+// 	b.next = &c;
+// 	c.next = &d;
+// 	d.next = NULL;
+
+// 	printf("Initial List: ");
+// 	start = &a;
+// 	for (int i = 0; start !=NULL; i++)
+// 	{
+// 		printf("%d, ", *(int *)start->content);
+// 		start = start->next;
+// 	}
+// 	ft_lstclear(&start, free);
+// 	if (start == NULL)
+// 		printf("\nlist is empty\n");
+// 	return (0);
+// }

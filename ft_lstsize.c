@@ -52,11 +52,6 @@ int	ft_lstsize(t_list *lst)
 
 // 	start = &a;
 // 	size = ft_lstsize(start);
-// 	for (int i = 0; start !=NULL; i++)
-// 	{
-// 		printf("%d\n", *(int *)start->content);
-// 		start = start->next;
-// 	}
 // 	printf("%d\n", size);
 // 	return (0);
 // }

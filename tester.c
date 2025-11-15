@@ -26,7 +26,6 @@
 #define BLUE	"\x1b[34m"
 
 //----------------------CUSTOM FUNCTIONS---------------------------//
-
 void    test_ok(const char *test_type, const char *result)
 {
     printf("%s: %s%s %sOK%s\n",test_type, BLUE, result, GREEN, RESET);
@@ -80,8 +79,33 @@ void    str_tolower(unsigned int idx, char* c)
 		*c = *c + 32;
 }
 
-//----------------------TESTERS---------------------------//
+void	my_lstclear(t_list **lst, void (*del)(void*))
+{
+	t_list	*temp;
 
+	while (*lst)
+	{
+		temp = (*lst)->next;
+		del((*lst)->content);
+		free(*lst);
+		(*lst) = temp;
+	}
+	(*lst) = NULL;
+}
+
+t_list	*my_lstnew(void *content)
+{
+	t_list	*lst;
+
+	lst = malloc(sizeof(t_list));
+	if (!lst)
+		return (NULL);
+	lst->content = content;
+	lst->next = NULL;
+	return (lst);
+}
+
+//----------------------TESTERS---------------------------//
 void    ft_isalpha_test(void)
 {
     char    inputs[6] = {'a', 'z', '~', '1', 'Z'};
@@ -174,7 +198,7 @@ void    ft_strlen_test(void)
 
 void    ft_memset_test(void)
 {
-    unsigned char    *mem;
+    char    *mem;
 
     printf("\n------------ft_memset--------------\n");
     mem = malloc(10);
@@ -213,18 +237,18 @@ void    ft_memcpy_test(void)
     char    dst[10] = "Something";
 
     printf("\n------------ft_memcpy--------------\n");
-    if (!strcmp(ft_memcpy(dst, src, 2), "Hemething"))
-    	printf("Des: %s%s%s, Src: %s. %sOK%s\n", BLUE, dst, RESET, src, GREEN, RESET);
+    if (strcmp(ft_memcpy(dst, src, 2), "Hemething") == 0)
+		test_ok("Test1", "Hemething");
 	else
-		printf("Des: %s%s%s, Src: %s. %sKO%s\n", BLUE, dst, RESET, src, RED, RESET);
-    if (!strcmp(ft_memcpy(dst, src, 4), "Hellthing"))
-    	printf("Des: %s%s%s, Src: %s. %sOK%s\n", BLUE, dst, RESET, src, GREEN, RESET);
+		test_ko("Test1", "Hemething");
+    if (strcmp(ft_memcpy(dst, src, 4), "Hellthing") == 0)
+    	test_ok("Test1", "Hellthing");
 	else
-		printf("Des: %s%s%s, Src: %s. %sKO%s\n", BLUE, dst, RESET, src, RED, RESET);
-	if (!strcmp(ft_memcpy(dst, src, 0), "Hellthing"))
-    	printf("Des: %s%s%s, Src: %s. %sOK%s\n", BLUE, dst, RESET, src, GREEN, RESET);
+		test_ko("Test1", "Hellthing");
+	if (strcmp(ft_memcpy(dst, src, 0), "Hellthing") == 0)
+    	test_ok("Test1", "Hellthing");
 	else
-		printf("Des: %s%s%s, Src: %s. %sKO%s\n", BLUE, dst, RESET, src, RED, RESET);
+		test_ko("Test1", "Hellthing");
 }
 
 void    ft_memmove_test(void)
@@ -240,15 +264,15 @@ void    ft_memmove_test(void)
     l_dst = src2;
 
     printf("\n------------ft_memmove--------------\n");
-    if (!strncmp(ft_memmove(dst, src, 5), "SometWorld", 10))
+    if (strncmp(ft_memmove(dst, src, 5), "SometWorld", 10) == 0)
     	printf("Dest: %s%s%s, Src: %s. %sOK%s\n", BLUE, dst, RESET, src, GREEN, RESET);
 	else
     	printf("Dest: %s%s%s, Src: %s. %sKO%s\n", BLUE, dst, RESET, src, RED, RESET);
-    if (!strncmp(ft_memmove(r_dst, src1, 4), "Someing", 7))
+    if (strncmp(ft_memmove(r_dst, src1, 4), "Someing", 7) == 0)
     	printf("Dest: %s%s%s, Src: %s. %sOK%s\n", BLUE, r_dst, RESET, src1, GREEN, RESET);
 	else
     	printf("Dest: %s%s%s, Src: %s. %sKO%s\n", BLUE, r_dst, RESET, src1, RED, RESET);
-	if (!strncmp(ft_memmove(l_dst, &src2[4], 4), "thinthing", 9))
+	if (strncmp(ft_memmove(l_dst, &src2[4], 4), "thinthing", 9) == 0)
     	printf("Dest: %s%s%s, Src: %s. %sOK%s\n", BLUE, l_dst, RESET, &src2[4], GREEN, RESET);
 	else
     	printf("Dest: %s%s%s, Src: %s. %sKO%s\n", BLUE, l_dst, RESET, &src2[4], RED, RESET);
@@ -820,31 +844,6 @@ void    ft_putnbr_fd_test(void)
 	else
     	test_ko("Test1", data);
 }
-
-// t_list *create_linked_list(void)
-// {
-// 	t_list *start;
-// 	int arr[] = {2, 3, 4, 5, 6};
-// 	t_list a, b, c, d;
-
-// 	a.content = &arr[0];
-// 	b.content = &arr[1];
-// 	c.content = &arr[2];
-// 	d.content = &arr[3];
-// 	a.next = &b;
-// 	b.next = &c;
-// 	c.next = &d;
-// 	d.next = NULL;
-
-// 	start = &a;
-// 	return (start);
-// }
-
-// void    ft_lstadd_front_test(t_list *lst)
-// {
-//     printf("\n------------ft_lstadd_front--------------\n");
-//     ft_lstadd_front(&lst, )
-// }
 
 int main(void)
 {

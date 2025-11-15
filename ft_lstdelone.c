@@ -35,7 +35,7 @@ void	ft_lstdelone(t_list *lst, void (*del)(void*))
 
 // int main(void)
 // {
-// 	t_list *last;
+// 	t_list *start;
 // 	int arr[] = {2, 3, 4, 5, 6};
 // 	t_list a, b, c, d;
 
@@ -47,14 +47,12 @@ void	ft_lstdelone(t_list *lst, void (*del)(void*))
 // 	b.next = &c;
 // 	c.next = &d;
 // 	d.next = NULL;
-
-// 	last = &a;
-
-// 	ft_lstdelone(&b);
-// 	for (int i = 0; last !=NULL; i++)
+// 	start = &a;
+// 	ft_lstdelone(&d, free);
+// 	for (int i = 0; start; i++)
 // 	{
-// 		printf("%d\n", *(int *)last->content);
-// 		last = last->next;
+// 		printf("%d\n", *(int *)start->content);
+// 		start = start->next;
 // 	}
 // 	return (0);
 // }

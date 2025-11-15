@@ -59,11 +59,19 @@ void	ft_lstadd_back(t_list **lst, t_list *new)
 // 	new.content = &arr[4];
 // 	new.next = NULL;
 
+// 	printf("Initial List");
 // 	start = &a;
-// 	ft_lstadd_back(&start, &new);
 // 	for (int i = 0; start !=NULL; i++)
 // 	{
-// 		printf("%d\n", *(int *)start->content);
+// 		printf("%d, ", *(int *)start->content);
+// 		start = start->next;
+// 	}
+// 	start = &a;
+// 	ft_lstadd_back(&start, &new);
+// 	printf("\nUpdated List");
+// 	for (int i = 0; start !=NULL; i++)
+// 	{
+// 		printf("%d, ", *(int *)start->content);
 // 		start = start->next;
 // 	}
 // 	return (0);

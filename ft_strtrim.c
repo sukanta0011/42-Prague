@@ -88,7 +88,7 @@ char	*ft_strtrim(char const *s1, char const *set)
 
 	start = get_word_start((char *)s1, (char *)set);
 	if (start >= (int)ft_strlen((char *)s1))
-		end = start;
+		end = start - 1;
 	else
 		end = get_word_end((char *)s1, (char *)set);
 	trimmed_str = malloc(end - start + 2);
