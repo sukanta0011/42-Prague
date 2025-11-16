@@ -1,32 +1,24 @@
-SRC_DIR = srcs
-HDR_DIR = includes
-# -Wall -Wextra -Werror
-FLAGS = 
+FLAGS = -Wall -Wextra -Werror
 CC = cc
 
-MY_SRCS = main.c\
-		write_nbr.c\
-		validator.c\
-		num_paddings.c\
-		write_str.c\
-		write_adds.c\
-		utils1.c\
-		utils2.c\
-		parser.c
+SRCS = main.c write_nbr.c validator.c\
+		num_paddings.c write_str.c write_adds.c\
+		utils1.c utils2.c parser.c
 
-SRCS = $(addprefix $(SRC_DIR)/, $(MY_SRCS))
 OBJS = $(SRCS:.c=.o)
 # NAME = libftprintf.a
 NAME = a.out
 
 all: $(NAME)
 
-$(NAME): $(OBJS)
+# $(NAME): $(OBJS)
 # 	ar rcs $(NAME) $(OBJS)
-	$(CC) $(FLAGS) -I$(HDR_DIR) $(OBJS) -o $(NAME)
+
+$(NAME): $(OBJS)
+	$(CC) $(FLAGS) $(OBJS) -o $(NAME)
 
 %.o: %.c
-	$(CC) $(FLAGS) -I$(HDR_DIR) -c $< -o $@
+	$(CC) $(FLAGS) -c $< -o $@
 
 clean:
 	rm -f $(OBJS)

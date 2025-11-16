@@ -70,8 +70,8 @@ int	main(void)
 
 	a = 1234567;
 	printf("-----------printf--------------\n");
-	printf("%+10%, %-10c, %10.8s, %---+00020.15i, %+.20d, %20p\n", 'c', "World", a, a, &a);
+	printf("%%, %-10c, %10.8s, %-+20.15i, %+.20d, %20p\n", 'c', "World", a, a, &a);
 	printf("----------ft_printf------------\n");
-	ft_printf("%+10%, %-10c, %10.8s, %---+00020.15i, %+.20d, %20p\n", 'c', "World", a, a, &a);
+	ft_printf("%%, %-10c, %10.8s, %-+20.15i, %+.20d, %20p\n", 'c', "World", a, a, &a);
 	return (0);
 }
