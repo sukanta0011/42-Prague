@@ -14,12 +14,18 @@
 
 int	main(void)
 {
-	t_uint	a;
+	// t_uint	a;
+	size_t	len;
 
-	a = 1234567;
-	printf("-----------printf--------------\n");
-	printf("%%, %-10c, %10.8s, %-+20.15i, %+.20d, %20p\n", 'c', "World", a, a, &a);
-	printf("----------ft_printf------------\n");
-	ft_printf("%%, %-10c, %10.8s, %-+20.15i, %+.20d, %20p\n", 'c', "World", a, a, &a);
+	// a = 1234567;
+	// printf("-----------printf--------------\n");
+	// printf("%%, %-10c, %10.8s, %-+20.15i, %+.20d, %20p\n", 'c', "World", a, a, &a);
+	// printf("----------ft_printf------------\n");
+	// ft_printf("%%, %-10c, %10.8s, %-+20.15i, %+.20d, %20p\n", 'c', "World", a, a, &a);
+	len = printf("%c\n", '0');
+	printf("%ld\n", len);
+	len = ft_printf("%c\n", '0');
+	printf("%ld\n", len);
+
 	return (0);
 }

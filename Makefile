@@ -20,6 +20,8 @@ $(NAME): $(OBJS)
 %.o: %.c
 	$(CC) $(FLAGS) -c $< -o $@
 
+bonus: all
+
 clean:
 	rm -f $(OBJS)
 
@@ -37,4 +39,4 @@ leak: all
 norm:
 	norminette -R CheckDefine
 
-.PHONY: all clean fclean out norm leak
+.PHONY: all clean fclean out norm leak bonus

@@ -46,6 +46,7 @@ int	ft_printf(const char *fmt, ...)
 	t_uint			len;
 
 	i = 0;
+	len = 0;
 	va_start(ap, fmt);
 	while (fmt[i])
 	{
@@ -55,12 +56,16 @@ int	ft_printf(const char *fmt, ...)
 			fmt_spcfr = initialize_mem(fmt_spcfr);
 			parse_specifier(fmt_spcfr, (char *)fmt, &i);
 			parse_specifier_value(fmt_spcfr, ap);
+			len += fmt_spcfr->var.len;
 			free_memory(fmt_spcfr);
 		}
 		else
+		{
 			ft_putchar(fmt[i]);
+			len++;
+		}
 		i++;
 	}
 	va_end(ap);
-	return (0);
+	return (len);
 }
