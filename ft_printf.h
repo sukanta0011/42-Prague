@@ -48,15 +48,9 @@ typedef struct s_fmt_specifier
 	t_str	var;
 }				t_fmt_specifier;
 
-void	ft_putstr(char *str);
-void	ft_putchar(char c);
-int		ft_strlen(char *str);
-void	parse_specifier(t_fmt_specifier *fmt_spcfr, char *fmt, t_uint *i);
-void	parse_specifier_value(t_fmt_specifier *fmt_spcfr, va_list ap);
-int		char_in_str(char c, char *str);
-void	ft_putstr_len(char *str, t_uint len);
-int		validate_str_flags(char *flags, char fmt, t_bool dot);
-int 	validate_flags_comb(t_fmt_specifier *fmt_spcfr);
+int	ft_printf(const char *fmt, ...);
+t_fmt_specifier	*initialize_mem(t_fmt_specifier *fmt_spcfr);
+void	free_memory(t_fmt_specifier *fmt_spcfr);
 
 // =========== write_add ================ //
 void	ft_putptr_base(t_fmt_specifier *fmt_spcfr, t_ullint nbr,
@@ -87,6 +81,21 @@ void	use_str_right_padding(t_fmt_specifier *fmt_spcfr, char pad);
 void	print_str(t_fmt_specifier *fmt_spcfr, char *str);
 void	print_char(t_fmt_specifier *fmt_spcfr, int c);
 void	print_str_with_paddings(t_fmt_specifier *fmt_spcfr);
+
+// =========== parser ================ //
+void	parse_specifier(t_fmt_specifier *fmt_spcfr, char *fmt, t_uint *i);
+void	parse_specifier_value(t_fmt_specifier *fmt_spcfr, va_list ap);
+
+// =========== validator ================ //
+int		validate_str_flags(char *flags, char fmt, t_bool dot);
+int 	validate_flags_comb(t_fmt_specifier *fmt_spcfr);
+
+// =========== utils1 ================ //
+void	ft_putstr(char *str);
+void	ft_putchar(char c);
+int		ft_strlen(char *str);
+int		char_in_str(char c, char *str);
+void	ft_putstr_len(char *str, t_uint len);
 
 // =========== utils2 ================ //
 char	*ft_strcpy(char *src, char *dst);

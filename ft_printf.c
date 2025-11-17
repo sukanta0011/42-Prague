@@ -63,15 +63,3 @@ int	ft_printf(const char *fmt, ...)
 	va_end(ap);
 	return (0);
 }
-
-int	main(void)
-{
-	t_uint	a;
-
-	a = 1234567;
-	printf("-----------printf--------------\n");
-	printf("%%, %-10c, %10.8s, %-+20.15i, %+.20d, %20p\n", 'c', "World", a, a, &a);
-	printf("----------ft_printf------------\n");
-	ft_printf("%%, %-10c, %10.8s, %-+20.15i, %+.20d, %20p\n", 'c', "World", a, a, &a);
-	return (0);
-}

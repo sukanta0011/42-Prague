@@ -6,16 +6,16 @@ SRCS = main.c write_nbr.c validator.c\
 		utils1.c utils2.c parser.c
 
 OBJS = $(SRCS:.c=.o)
-# NAME = libftprintf.a
-NAME = a.out
+NAME = libftprintf.a
+# NAME = a.out
 
 all: $(NAME)
 
-# $(NAME): $(OBJS)
-# 	ar rcs $(NAME) $(OBJS)
-
 $(NAME): $(OBJS)
-	$(CC) $(FLAGS) $(OBJS) -o $(NAME)
+	ar rcs $(NAME) $(OBJS)
+
+# $(NAME): $(OBJS)
+# 	$(CC) $(FLAGS) $(OBJS) -o $(NAME)
 
 %.o: %.c
 	$(CC) $(FLAGS) -c $< -o $@
