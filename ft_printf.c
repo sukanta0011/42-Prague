@@ -43,6 +43,7 @@ int	ft_printf(const char *fmt, ...)
 	va_list			ap;
 	t_fmt_specifier	*fmt_spcfr;
 	t_uint			i;
+	t_uint			len;
 
 	i = 0;
 	va_start(ap, fmt);

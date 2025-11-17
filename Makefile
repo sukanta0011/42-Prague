@@ -1,7 +1,7 @@
 FLAGS = -Wall -Wextra -Werror
 CC = cc
 
-SRCS = main.c write_nbr.c validator.c\
+SRCS = ft_printf.c write_nbr.c validator.c\
 		num_paddings.c write_str.c write_adds.c\
 		utils1.c utils2.c parser.c
 
