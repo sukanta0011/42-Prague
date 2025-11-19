@@ -31,7 +31,9 @@ void	use_num_left_padding(t_fmt_specifier *fmt_spcfr, char pad,
 	else if (fmt_spcfr->dot && precision > len && width < precision)
 	{
 		ft_putstr(str);
-		print_padding_char('0', (precision - len));
+		if (ft_strncmp(str, "-", 1) == 0)
+			fmt_spcfr->precision += 1;
+		print_padding_char('0', (fmt_spcfr->precision - len));
 	}
 	else
 		extend_num_left_padding(fmt_spcfr, pad, str_len, str);
@@ -53,7 +55,7 @@ void	extend_num_left_padding(t_fmt_specifier *fmt_spcfr, char pad,
 	}
 	else
 	{
-		print_padding_char(pad, (width - len - str_len));
+		print_padding_char(pad, (width - len));
 		ft_putstr(str);
 	}
 }

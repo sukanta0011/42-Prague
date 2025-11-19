@@ -38,6 +38,25 @@ void	free_memory(t_fmt_specifier *fmt_spcfr)
 	free(fmt_spcfr);
 }
 
+void	modify_len(t_uint *len, t_fmt_specifier *fmt_spcfr)
+{
+	if (fmt_spcfr->dot && !fmt_spcfr->width)
+	{
+		if ((fmt_spcfr->var.len < fmt_spcfr->precision) && fmt_spcfr->specifier == 's')
+			(*len) += fmt_spcfr->var.len;
+		else if ((fmt_spcfr->var.len > fmt_spcfr->precision) && fmt_spcfr->specifier != 's')
+			(*len) += fmt_spcfr->var.len;
+		else
+			(*len) += fmt_spcfr->precision;
+	}
+	else if ((fmt_spcfr->width > fmt_spcfr->var.len))
+		(*len) += fmt_spcfr->width;
+	else if ((fmt_spcfr->width < fmt_spcfr->var.len) && fmt_spcfr->dot)
+		(*len) += fmt_spcfr->width;
+	else
+		(*len) += fmt_spcfr->var.len;
+}
+
 int	ft_printf(const char *fmt, ...)
 {
 	va_list			ap;
@@ -56,7 +75,7 @@ int	ft_printf(const char *fmt, ...)
 			fmt_spcfr = initialize_mem(fmt_spcfr);
 			parse_specifier(fmt_spcfr, (char *)fmt, &i);
 			parse_specifier_value(fmt_spcfr, ap);
-			len += fmt_spcfr->var.len + fmt_spcfr->width;
+			modify_len(&len, fmt_spcfr);
 			free_memory(fmt_spcfr);
 		}
 		else

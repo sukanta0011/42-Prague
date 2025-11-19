@@ -14,3 +14,6 @@ https://github.com/Tripouille/printfTester
 
 Flags = "-0."
 Additional Flags = "# +"
+
+%-10c : value of c is left padded by (10 - len(c)) ' ' character, if len(c) > 10, no padding will be used;
+

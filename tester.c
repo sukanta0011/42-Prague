@@ -225,11 +225,41 @@ void	test_mix(void)
 	printf("len = %d, ft_len = %d\n", len, ft_len);
 }
 
+void	test_c_bonus(void)
+{
+	int	len;
+	int	ft_len;
+
+	printf("\n//============== Testing c Bonus ==============//\n");
+	printf("\n//============== Flag - ==============//\n");
+	printf("------Test1---------\n");
+	len = printf("%-10c\n", 'a');
+	ft_len = ft_printf("%-10c\n", 'a');
+	printf("len = %d, ft_len = %d\n", len, ft_len);
+}
+
+void	test_d_bonus(void)
+{
+	int	len;
+	int	ft_len;
+
+	printf("\n//============== Testing d Bonus ==============//\n");
+	printf("\n//============== Flag num ==============//\n");
+	printf("------Test1---------\n");
+	len = printf("%5d\n", -10);
+	ft_len = ft_printf("%5d\n", -10);
+	printf("len = %d, ft_len = %d\n", len, ft_len);
+	printf("------Test2---------\n");
+	len = printf("%.5d\n", -10);
+	ft_len = ft_printf("%.5d\n", -10);
+	printf("len = %d, ft_len = %d\n", len, ft_len);
+}
+
 int	main(void)
 {
 	// test_c();
 	// test_s();
-	test_p();
+	// test_p();
 	// test_d();
 	// test_i();
 	// test_u();
@@ -237,6 +267,7 @@ int	main(void)
 	// test_X();
 	// test_per();
 	// test_mix();
+	test_d_bonus();
 
 	return (0);
 }

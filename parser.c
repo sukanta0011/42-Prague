@@ -61,7 +61,11 @@ void	parse_str(t_fmt_specifier *fmt_spcfr, t_fmt *var, char fmt, va_list ap)
 	{
 		var->str = va_arg(ap, char *);
 		if (var->str == NULL)
+		{
 			var->str = "(null)";
+			if (fmt_spcfr->precision < 6)
+				fmt_spcfr->precision = 0;
+		}
 		print_str(fmt_spcfr, var->str);
 	}
 	if (fmt == 'c')
@@ -81,8 +85,8 @@ void	parse_ptr(t_fmt_specifier *fmt_spcfr, t_fmt *var, va_list ap)
 	}
 	else
 	{
-		write(1, "(nil)", 5);
-		fmt_spcfr->var.len += 5;
+		var->str = "(nil)";
+		print_str(fmt_spcfr, var->str);
 	}
 }
 
