@@ -39,4 +39,8 @@ leak: all
 norm:
 	norminette -R CheckDefine
 
-.PHONY: all clean fclean out norm leak bonus
+t: all
+	$(CC) -o test tester.c -L. -lftprintf
+	./test
+
+.PHONY: all clean fclean out norm leak bonus t

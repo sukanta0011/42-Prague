@@ -38,7 +38,7 @@ char	*ft_strcpy(char *src, char *dst)
 	return (dst);
 }
 
-void	append_char(t_str *str_dtls, char c)
+void	append_char(t_str *str_dtls, int c)
 {
 	char	*temp;
 

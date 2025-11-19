@@ -43,7 +43,10 @@ void	print_nbr(t_fmt_specifier *fmt_spcfr, int num, char fmt)
 		sign_str = "-";
 	}
 	if (fmt == 'd' || fmt == 'i')
+	{
 		ft_putnbr_base(fmt_spcfr, num, "0123456789", ft_strlen("0123456789"));
+		fmt_spcfr->var.len += sign_len;
+	}
 	if (fmt_spcfr->flags)
 	{
 		if (char_in_str('+', fmt_spcfr->flag_dtls.str))

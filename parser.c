@@ -60,12 +60,29 @@ void	parse_str(t_fmt_specifier *fmt_spcfr, t_fmt *var, char fmt, va_list ap)
 	if (fmt == 's')
 	{
 		var->str = va_arg(ap, char *);
+		if (var->str == NULL)
+			var->str = "(null)";
 		print_str(fmt_spcfr, var->str);
 	}
 	if (fmt == 'c')
 	{
 		var->num = va_arg(ap, int);
 		print_char(fmt_spcfr, var->num);
+	}
+}
+
+void	parse_ptr(t_fmt_specifier *fmt_spcfr, t_fmt *var, va_list ap)
+{
+	var->ptr = va_arg(ap, void *);
+	if(var->ptr != NULL)
+	{
+		print_ptr(fmt_spcfr, var->ptr);
+		fmt_spcfr->var.len += 2;
+	}
+	else
+	{
+		write(1, "(nil)", 5);
+		fmt_spcfr->var.len += 5;
 	}
 }
 
@@ -81,10 +98,10 @@ void	parse_specifier_value(t_fmt_specifier *fmt_spcfr, va_list ap)
 		|| fmt == 'u' || fmt == 'x' || fmt == 'X')
 		parse_num(fmt_spcfr, &var, fmt, ap);
 	if (fmt == 'p')
-	{
-		var.ptr = va_arg(ap, void *);
-		print_ptr(fmt_spcfr, var.ptr);
-	}
+		parse_ptr(fmt_spcfr, &var, ap);
 	if (fmt == '%')
+	{
 		write(1, "%", 1);
+		fmt_spcfr->var.len += 1;
+	}
 }

@@ -1,3 +1,5 @@
 *.out
 *.o
 .vscode/
+p_tester/
+p_tester2/

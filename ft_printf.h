@@ -100,7 +100,7 @@ void			ft_putstr_len(char *str, t_uint len);
 
 // =========== utils2 ================ //
 char			*ft_strcpy(char *src, char *dst);
-void			append_char(t_str *str_dtls, char c);
+void			append_char(t_str *str_dtls, int c);
 void			print_padding_char(char pad, t_uint len);
 
 #endif

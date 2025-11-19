@@ -36,7 +36,7 @@ void	ft_putstr_len(char *str, t_uint len)
 	t_uint	i;
 
 	i = 0;
-	while (str[i] && i < len)
+	while (i < len)
 	{
 		write(1, &str[i], 1);
 		i++;
