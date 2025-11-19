@@ -55,6 +55,12 @@ void	modify_len(t_uint *len, t_fmt_specifier *fmt_spcfr)
 		(*len) += fmt_spcfr->width;
 	else
 		(*len) += fmt_spcfr->var.len;
+	if (fmt_spcfr->flag_dtls.str
+			&& char_in_str(' ', fmt_spcfr->flag_dtls.str))
+		(*len) += 1;
+	if (fmt_spcfr->flag_dtls.str
+			&& char_in_str('#', fmt_spcfr->flag_dtls.str))
+		(*len) += 2;
 }
 
 int	ft_printf(const char *fmt, ...)

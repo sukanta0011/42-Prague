@@ -19,9 +19,7 @@ void	ft_putnbr_base(t_fmt_specifier *fmt_spcfr, int nbr,
 	t_uint	new_nb;
 
 	if (nbr < 0)
-	{
 		new_nb = -nbr;
-	}
 	else
 		new_nb = nbr;
 	if (new_nb > base_len - 1)
@@ -68,7 +66,7 @@ void	print_nbr(t_fmt_specifier *fmt_spcfr, int num, char fmt)
 			use_num_left_padding(fmt_spcfr, ' ', sign_len, sign_str);
 	}
 	else
-		use_num_left_padding(fmt_spcfr, ' ', sign_len, sign_str);
+		use_num_left_padding(fmt_spcfr, ' ', 0, sign_str);
 }
 
 void	ft_putunbr_base(t_fmt_specifier *fmt_spcfr, t_uint nbr,

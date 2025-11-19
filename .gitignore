@@ -3,3 +3,5 @@
 .vscode/
 p_tester/
 p_tester2/
+test
+*.a

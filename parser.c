@@ -46,12 +46,20 @@ void	parse_num(t_fmt_specifier *fmt_spcfr, t_fmt *var, char fmt, va_list ap)
 	if (fmt == 'd' || fmt == 'i')
 	{
 		var->num = va_arg(ap, int);
-		print_nbr(fmt_spcfr, var->num, fmt_spcfr->specifier);
+		if (fmt_spcfr->dot && var->num == 0
+				&& fmt_spcfr->precision == 0)
+			print_str(fmt_spcfr, "");
+		else
+			print_nbr(fmt_spcfr, var->num, fmt_spcfr->specifier);
 	}
 	if (fmt == 'u' || fmt == 'x' || fmt == 'X')
 	{
 		var->unum = va_arg(ap, t_uint);
-		print_unbr(fmt_spcfr, var->unum, fmt_spcfr->specifier);
+		if (fmt_spcfr->dot && var->unum == 0
+				&& fmt_spcfr->precision == 0)
+			print_str(fmt_spcfr, "");
+		else
+			print_unbr(fmt_spcfr, var->unum, fmt_spcfr->specifier);
 	}
 }
 
