@@ -59,11 +59,11 @@ void	append_char(t_str *str_dtls, int c)
 	else if (str_dtls->len + 2 > str_dtls->size)
 	{
 		temp = malloc(str_dtls->size);
-		temp = ft_strcpy(str_dtls->str, temp);
+		ft_strcpy(str_dtls->str, temp);
 		free(str_dtls->str);
 		str_dtls->size *= 2;
 		str_dtls->str = malloc(str_dtls->size);
-		str_dtls->str = ft_strcpy(temp, str_dtls->str);
+		ft_strcpy(temp, str_dtls->str);
 		free(temp);
 	}
 	str_dtls->str[str_dtls->len++] = c;

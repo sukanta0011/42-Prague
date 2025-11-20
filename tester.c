@@ -300,6 +300,18 @@ void	test_d_bonus(void)
 	len = printf(" % d \n", -1);
 	ft_len = ft_printf(" % d \n", -1);
 	printf("len = %d, ft_len = %d\n", len, ft_len);
+	printf("------Test4:  %% 010d , -1---------\n");
+	len = printf(" % 03d \n", -1);
+	ft_len = ft_printf(" % 03d \n", -1);
+	printf("len = %d, ft_len = %d\n", len, ft_len);
+	printf("------Test5:  %% 010d , 1---------\n");
+	len = printf("% 03d\n", 1);
+	ft_len = ft_printf("% 03d\n", 1);
+	printf("len = %d, ft_len = %d\n", len, ft_len);
+	printf("------Test6:  %% 010.5d , -1---------\n");
+	len = printf(" % 10.5d \n", -1);
+	ft_len = ft_printf(" % 10.5d \n", -1);
+	printf("len = %d, ft_len = %d\n", len, ft_len);
 }
 
 void	test_p_bonus(void)
