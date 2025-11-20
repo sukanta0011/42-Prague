@@ -24,7 +24,7 @@ void	use_num_left_padding(t_fmt_specifier *fmt_spcfr, char pad,
 	precision = fmt_spcfr->precision;
 	if (fmt_spcfr->dot && precision > len && width >= precision)
 	{
-		print_padding_char(pad, (width - precision - str_len));
+		print_padding_char(' ', (width - precision - str_len));
 		ft_putstr(str);
 		print_padding_char('0', (precision - len));
 	}
@@ -51,7 +51,10 @@ void	extend_num_left_padding(t_fmt_specifier *fmt_spcfr, char pad,
 	if (pad == '0')
 	{
 		ft_putstr(str);
-		print_padding_char(pad, (width - len - str_len));
+		if (fmt_spcfr->dot)
+			print_padding_char(' ', (width - len - str_len));
+		else
+			print_padding_char(pad, (width - len));
 	}
 	else
 	{
@@ -70,7 +73,7 @@ void	use_num_right_padding(t_fmt_specifier *fmt_spcfr, char pad,
 	len = fmt_spcfr->var.len;
 	width = fmt_spcfr->width;
 	precision = fmt_spcfr->precision;
-	if (fmt_spcfr->dot && precision < len)
+	if (fmt_spcfr->dot && precision < len && fmt_spcfr->specifier == 's')
 		len = precision;
 	if (fmt_spcfr->dot && precision > len && width >= precision)
 	{

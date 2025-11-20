@@ -238,6 +238,49 @@ void	test_c_bonus(void)
 	printf("len = %d, ft_len = %d\n", len, ft_len);
 }
 
+void	test_s_bonus(void)
+{
+	int	len;
+	int	ft_len;
+
+	printf("\n//============== Testing s Bonus ==============//\n");
+	printf("\n//============== Flag - ==============//\n");
+	printf("------Test1---------\n");
+	len = printf("%-.5s\n", "Hello World");
+	ft_len = ft_printf("%-.5s\n", "Hello World");
+	printf("len = %d, ft_len = %d\n", len, ft_len);
+	printf("------Test2---------\n");
+	len = printf(" % 8s\n", "Hello");
+	ft_len = ft_printf(" % 8s\n", "Hello");
+	printf("len = %d, ft_len = %d\n", len, ft_len);
+}
+
+void	test_x_bonus(void)
+{
+	int	len;
+	int	ft_len;
+
+	printf("\n//============== Testing x Bonus ==============//\n");
+	printf("\n//============== Flag - ==============//\n");
+	printf("------Test1---------\n");
+	len = printf("%042.2x\n", 42000);
+	ft_len = ft_printf("%042.2x\n", 42000);
+	printf("len = %d, ft_len = %d\n", len, ft_len);
+}
+
+void	test_u_bonus(void)
+{
+	int	len;
+	int	ft_len;
+
+	printf("\n//============== Testing u Bonus ==============//\n");
+	printf("\n//============== Flag - ==============//\n");
+	printf("------Test1---------\n");
+	len = printf("%1.0u\n", -10);
+	ft_len = ft_printf("%1.0u\n", -10);
+	printf("len = %d, ft_len = %d\n", len, ft_len);
+}
+
 void	test_d_bonus(void)
 {
 	int	len;
@@ -246,16 +289,16 @@ void	test_d_bonus(void)
 	printf("\n//============== Testing d Bonus ==============//\n");
 	printf("\n//============== Flag num ==============//\n");
 	printf("------Test1---------\n");
-	len = printf("%.5d\n", -1234);
-	ft_len = ft_printf("%.5d\n", -1234);
+	len = printf("%012d\n", (int)-2147483648);
+	ft_len = ft_printf("%012d\n", (int)-2147483648);
 	printf("len = %d, ft_len = %d\n", len, ft_len);
 	printf("------Test2---------\n");
-	len = printf("%.1d\n", 0);
-	ft_len = ft_printf("%.1d\n", 0);
+	len = printf(" % d \n", 0);
+	ft_len = ft_printf(" % d \n", 0);
 	printf("len = %d, ft_len = %d\n", len, ft_len);
 	printf("------Test3---------\n");
-	len = printf("%.d\n", 0);
-	ft_len = ft_printf("%.d\n", 0);
+	len = printf(" % d \n", -1);
+	ft_len = ft_printf(" % d \n", -1);
 	printf("len = %d, ft_len = %d\n", len, ft_len);
 }
 
@@ -288,6 +331,8 @@ int	main(void)
 	// test_X();
 	// test_per();
 	// test_mix();
+	// test_s_bonus();
+	// test_x_bonus();
 	test_d_bonus();
 
 	return (0);

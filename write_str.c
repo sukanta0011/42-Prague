@@ -48,6 +48,10 @@ void	print_str_with_paddings(t_fmt_specifier *fmt_spcfr)
 	{
 		if (char_in_str('-', fmt_spcfr->flag_dtls.str))
 			use_str_right_padding(fmt_spcfr, ' ');
+		else if (char_in_str(' ', fmt_spcfr->flag_dtls.str))
+		{
+			use_str_left_padding(fmt_spcfr, ' ');
+		}
 	}
 	else
 		use_str_left_padding(fmt_spcfr, ' ');

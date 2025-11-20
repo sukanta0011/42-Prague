@@ -40,7 +40,7 @@ void	free_memory(t_fmt_specifier *fmt_spcfr)
 
 void	modify_len(t_uint *len, t_fmt_specifier *fmt_spcfr)
 {
-	if (fmt_spcfr->dot && !fmt_spcfr->width)
+	if (fmt_spcfr->dot && fmt_spcfr->width <= fmt_spcfr->precision)
 	{
 		if ((fmt_spcfr->var.len < fmt_spcfr->precision) && fmt_spcfr->specifier == 's')
 			(*len) += fmt_spcfr->var.len;
@@ -51,15 +51,20 @@ void	modify_len(t_uint *len, t_fmt_specifier *fmt_spcfr)
 	}
 	else if ((fmt_spcfr->width > fmt_spcfr->var.len))
 		(*len) += fmt_spcfr->width;
-	else if ((fmt_spcfr->width < fmt_spcfr->var.len) && fmt_spcfr->dot)
-		(*len) += fmt_spcfr->width;
+	else if ((fmt_spcfr->width > fmt_spcfr->precision) && fmt_spcfr->dot)
+	{
+		if ((fmt_spcfr->width > fmt_spcfr->var.len) || fmt_spcfr->specifier == 's')
+			(*len) += fmt_spcfr->width;
+		else
+			(*len) += fmt_spcfr->var.len;
+	}
 	else
 		(*len) += fmt_spcfr->var.len;
-	if (fmt_spcfr->flag_dtls.str
-			&& char_in_str(' ', fmt_spcfr->flag_dtls.str))
+	if (fmt_spcfr->flag_dtls.str && char_in_str(' ', fmt_spcfr->flag_dtls.str)
+			&& fmt_spcfr->specifier != 's')
 		(*len) += 1;
-	if (fmt_spcfr->flag_dtls.str
-			&& char_in_str('#', fmt_spcfr->flag_dtls.str))
+	if (fmt_spcfr->flag_dtls.str && char_in_str('#', fmt_spcfr->flag_dtls.str)
+			&& ft_strncmp(fmt_spcfr->var.str, "0", fmt_spcfr->var.len))
 		(*len) += 2;
 }
 

@@ -48,7 +48,12 @@ void	parse_num(t_fmt_specifier *fmt_spcfr, t_fmt *var, char fmt, va_list ap)
 		var->num = va_arg(ap, int);
 		if (fmt_spcfr->dot && var->num == 0
 				&& fmt_spcfr->precision == 0)
-			print_str(fmt_spcfr, "");
+		{
+			if (fmt_spcfr->flag_dtls.str && char_in_str('0', fmt_spcfr->flag_dtls.str))
+				use_num_right_padding(fmt_spcfr, ' ', 0, "");
+			else
+				print_str(fmt_spcfr, "");
+		}
 		else
 			print_nbr(fmt_spcfr, var->num, fmt_spcfr->specifier);
 	}
@@ -57,9 +62,19 @@ void	parse_num(t_fmt_specifier *fmt_spcfr, t_fmt *var, char fmt, va_list ap)
 		var->unum = va_arg(ap, t_uint);
 		if (fmt_spcfr->dot && var->unum == 0
 				&& fmt_spcfr->precision == 0)
-			print_str(fmt_spcfr, "");
+		{
+			if (fmt_spcfr->flag_dtls.str && char_in_str('0', fmt_spcfr->flag_dtls.str))
+				use_num_right_padding(fmt_spcfr, ' ', 0, "");
+			else
+				print_str(fmt_spcfr, "");
+		}
 		else
+		{
 			print_unbr(fmt_spcfr, var->unum, fmt_spcfr->specifier);
+			if ((fmt_spcfr->specifier == 'x' || fmt_spcfr->specifier == 'X')
+				&& fmt_spcfr->precision == 0)
+				fmt_spcfr->precision += fmt_spcfr->var.len;
+		}
 	}
 }
 
