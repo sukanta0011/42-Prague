@@ -25,7 +25,7 @@
 typedef unsigned int	t_uint;
 
 int		ft_strlen(char *str);
-int		is_char_in_str(char *stach, char c);
+int		is_char_in_str(char *str, char c);
 char	*ft_strcat(char *dest, char *src);
 char	*ft_strdup_term(char *src, char term_char);
 char	*realloc_memory(char *str, t_uint new_size, t_uint pos);
@@ -33,6 +33,7 @@ char	*realloc_memory(char *str, t_uint new_size, t_uint pos);
 char	*truncate_stash(char *stach);
 char	*store_in_stash(char *stach, char *str);
 char	*get_next_line(int fd);
-char	*get_line(t_uint bytes, char *stash);
+// char	*get_line(int bytes, char *stash);
+char	*get_line(int fd, char *stash);
 
 #endif

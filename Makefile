@@ -1,13 +1,15 @@
+<<<<<<< HEAD
 SRC_DIR = srcs
 HDR_DIR = includes
 FLAGS = -Wall -Wextra -Werror -g -O0 -D BUFFER_SIZE=10
 CC = gcc
+=======
+FLAGS = -Wall -Wextra -Werror -D BUFFER_SIZE=1
+CC = cc
+>>>>>>> 0779060 (memory leak need to be solved)
 
-MY_SRCS = get_next_line_bonus.c\
-			get_next_line_utils_bonus.c\
-			main.c
-
-SRCS = $(addprefix $(SRC_DIR)/, $(MY_SRCS))
+SRCS = get_next_line.c get_next_line_utils.c main.c
+# SRCS = get_next_line_bonus.c get_next_line_utils_bonus.c main.c
 OBJS = $(SRCS:.c=.o)
 NAME = a.out
 
@@ -15,10 +17,10 @@ all: $(NAME)
 
 $(NAME): $(OBJS)
 # 	ar rcs $(NAME) $(OBJS)
-	$(CC) $(FLAGS) -I$(HDR_DIR) $(OBJS) -o $(NAME)
+	$(CC) $(FLAGS) $(OBJS) -o $(NAME)
 
 %.o: %.c
-	$(CC) $(FLAGS) -I$(HDR_DIR) -c $< -o $@
+	$(CC) $(FLAGS) -c $< -o $@
 
 clean:
 	rm -f $(OBJS)

@@ -92,9 +92,16 @@ char	*get_next_line_bonus(int fd)
 	stash = realloc_ptrs(stash, fd);
 	stash[fd] = realloc_memory(stash[fd], bytes, 0);
 	temp = malloc(BUFFER_SIZE + 1);
-	while (bytes && !is_char_in_str(stash[fd], '\n'))
+	while (bytes > 0 && !is_char_in_str(stash[fd], '\n'))
 	{
 		bytes = read(fd, temp, BUFFER_SIZE);
+		if (bytes == -1)
+		{
+			free(temp);
+			free(stash);
+			stash = NULL;
+			return (NULL);
+		}
 		if (bytes)
 		{
 			temp[bytes] = '\0';
@@ -105,7 +112,10 @@ char	*get_next_line_bonus(int fd)
 	line = get_line(bytes, stash[fd]);
 	stash[fd] = truncate_stash(stash[fd]);
 	if (!line)
+	{
 		free (stash[fd]);
+		stash = NULL;
+	}
 	free (temp);
 	return (line);
 }

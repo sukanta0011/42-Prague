@@ -6,11 +6,16 @@
 /*   By: sudas <sudas@student.42prague.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/17 14:42:51 by sudas             #+#    #+#             */
+<<<<<<< HEAD:srcs/main.c
 /*   Updated: 2025/09/18 11:08:49 by sudas            ###   ########.fr       */
+=======
+/*   Updated: 2025/11/23 23:40:17 by sudas            ###   ########.fr       */
+>>>>>>> 0779060 (memory leak need to be solved):main.c
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line_bonus.h"
+// #include "get_next_line_bonus.h"
+#include "get_next_line.h"
 
 int	main(void)
 {
@@ -22,8 +27,9 @@ int	main(void)
 	char	*file_path3;
 	char	*line;
 
-	file_path1 = "test/test3.txt";
+	file_path1 = "test/test3";
 	fd1 = open(file_path1, O_RDONLY);
+<<<<<<< HEAD:srcs/main.c
 	file_path2 = "test/test4.txt";
 	fd2 = open(file_path2, O_RDONLY);
 	file_path3 = "test/test1.txt";
@@ -35,6 +41,13 @@ int	main(void)
 	// }
 	printf("fds: %d, %d, %d\n", fd1, fd2, fd3);
 	for (int i = 0; i < 5; i++)
+=======
+	// file_path2 = "test/test4.txt";
+	// fd2 = open(file_path2, O_RDONLY);
+	// file_path3 = "test/test1.txt";
+	// fd3 = open(file_path3, O_RDONLY);
+	while ((line = get_next_line(fd1)))
+>>>>>>> 0779060 (memory leak need to be solved):main.c
 	{
 		line = get_next_line_bonus(fd1);
 		printf("file1: %s", line);
