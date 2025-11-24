@@ -312,6 +312,22 @@ void	test_d_bonus(void)
 	len = printf(" % 10.5d \n", -1);
 	ft_len = ft_printf(" % 10.5d \n", -1);
 	printf("len = %d, ft_len = %d\n", len, ft_len);
+	printf("------Test7:  %%0014.2d , -2147483648---------\n");
+	len = printf("%0014.2d\n", -2147483647);
+	ft_len = ft_printf("%0014.2d\n", -2147483647);
+	printf("len = %d, ft_len = %d\n", len, ft_len);
+	printf("------Test8:  %%-10.15d, (int)-2147483648---------\n");
+	len = printf("%-10.15d\n", (int)-2147483647);
+	ft_len = ft_printf("%-10.15d\n", (int)-2147483647);
+	printf("len = %d, ft_len = %d\n", len, ft_len);
+	printf("------Test9:  %%01.2d, -4---------\n");
+	len = printf("%01.2d\n", -4);
+	ft_len = ft_printf("%01.2d\n", -4);
+	printf("len = %d, ft_len = %d\n", len, ft_len);
+	printf("------Test9:  %%020.20i, -42000---------\n");
+	len = printf("%020.20i\n", -42000);
+	ft_len = ft_printf("%020.20i\n", -42000);
+	printf("len = %d, ft_len = %d\n", len, ft_len);
 }
 
 void	test_p_bonus(void)
@@ -328,6 +344,10 @@ void	test_p_bonus(void)
 	printf("------Test2---------\n");
 	len = printf("%16p\n", -10);
 	ft_len = ft_printf("%16p\n", -10);
+	printf("len = %d, ft_len = %d\n", len, ft_len);
+	printf("------Test3: %%13p is the address, (void *)0x7ffe6b8e60c8---------\n");
+	len = printf("%16p is the address\n", (void *)0x7ffe6b8e60c8);
+	ft_len = ft_printf("%16p is the address\n", (void *)0x7ffe6b8e60c8);
 	printf("len = %d, ft_len = %d\n", len, ft_len);
 }
 
@@ -346,6 +366,7 @@ int	main(void)
 	// test_s_bonus();
 	// test_x_bonus();
 	test_d_bonus();
+	// test_p_bonus();
 
 	return (0);
 }

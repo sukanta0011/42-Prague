@@ -61,8 +61,10 @@ void	print_nbr(t_fmt_specifier *fmt_spcfr, int num, char fmt)
 		}
 		if (char_in_str('-', fmt_spcfr->flag_dtls.str))
 			use_num_right_padding(fmt_spcfr, ' ', sign_len, sign_str);
-		else if (char_in_str('0', fmt_spcfr->flag_dtls.str))
+		else if (char_in_str('0', fmt_spcfr->flag_dtls.str) && !fmt_spcfr->dot)
 			use_num_left_padding(fmt_spcfr, '0', sign_len, sign_str);
+		else if (char_in_str('0', fmt_spcfr->flag_dtls.str) && fmt_spcfr->dot)
+			use_num_left_padding(fmt_spcfr, ' ', sign_len, sign_str);
 		else if (char_in_str('+', fmt_spcfr->flag_dtls.str))
 			use_num_left_padding(fmt_spcfr, ' ', sign_len, sign_str);
 		else if (char_in_str(' ', fmt_spcfr->flag_dtls.str) && num >= 0)
@@ -103,8 +105,12 @@ void	print_unum_with_paddings(t_fmt_specifier *fmt_spcfr,
 		}
 		if (char_in_str('-', fmt_spcfr->flag_dtls.str))
 			use_num_right_padding(fmt_spcfr, ' ', hx_len, hx_str);
-		else if (char_in_str('0', fmt_spcfr->flag_dtls.str))
+		// else if (char_in_str('0', fmt_spcfr->flag_dtls.str))
+		// 	use_num_left_padding(fmt_spcfr, '0', hx_len, hx_str);
+		else if (char_in_str('0', fmt_spcfr->flag_dtls.str) && !fmt_spcfr->dot)
 			use_num_left_padding(fmt_spcfr, '0', hx_len, hx_str);
+		else if (char_in_str('0', fmt_spcfr->flag_dtls.str) && fmt_spcfr->dot)
+			use_num_left_padding(fmt_spcfr, ' ', hx_len, hx_str);
 		else if (char_in_str('#', fmt_spcfr->flag_dtls.str))
 			use_num_left_padding(fmt_spcfr, ' ', hx_len, hx_str);
 	}
