@@ -41,78 +41,6 @@ void	parse_specifier(t_fmt_specifier *fmt_spcfr, char *fmt, t_uint *i)
 	fmt_spcfr->specifier = fmt[*i];
 }
 
-void	parse_num(t_fmt_specifier *fmt_spcfr, t_fmt *var, char fmt, va_list ap)
-{
-	if (fmt == 'd' || fmt == 'i')
-	{
-		var->num = va_arg(ap, int);
-		if (fmt_spcfr->dot && var->num == 0
-				&& fmt_spcfr->precision == 0)
-		{
-			if (fmt_spcfr->flag_dtls.str && char_in_str('0', fmt_spcfr->flag_dtls.str))
-				use_num_right_padding(fmt_spcfr, ' ', 0, "");
-			else
-				print_str(fmt_spcfr, "");
-		}
-		else
-			print_nbr(fmt_spcfr, var->num, fmt_spcfr->specifier);
-	}
-	if (fmt == 'u' || fmt == 'x' || fmt == 'X')
-	{
-		var->unum = va_arg(ap, t_uint);
-		if (fmt_spcfr->dot && var->unum == 0
-				&& fmt_spcfr->precision == 0)
-		{
-			if (fmt_spcfr->flag_dtls.str && char_in_str('0', fmt_spcfr->flag_dtls.str))
-				use_num_right_padding(fmt_spcfr, ' ', 0, "");
-			else
-				print_str(fmt_spcfr, "");
-		}
-		else
-		{
-			print_unbr(fmt_spcfr, var->unum, fmt_spcfr->specifier);
-			if ((fmt_spcfr->specifier == 'x' || fmt_spcfr->specifier == 'X')
-				&& fmt_spcfr->precision == 0)
-				fmt_spcfr->precision += fmt_spcfr->var.len;
-		}
-	}
-}
-
-void	parse_str(t_fmt_specifier *fmt_spcfr, t_fmt *var, char fmt, va_list ap)
-{
-	if (fmt == 's')
-	{
-		var->str = va_arg(ap, char *);
-		if (var->str == NULL)
-		{
-			var->str = "(null)";
-			if (fmt_spcfr->precision < 6)
-				fmt_spcfr->precision = 0;
-		}
-		print_str(fmt_spcfr, var->str);
-	}
-	if (fmt == 'c')
-	{
-		var->num = va_arg(ap, int);
-		print_char(fmt_spcfr, var->num);
-	}
-}
-
-void	parse_ptr(t_fmt_specifier *fmt_spcfr, t_fmt *var, va_list ap)
-{
-	var->ptr = va_arg(ap, void *);
-	if(var->ptr != NULL)
-	{
-		print_ptr(fmt_spcfr, var->ptr);
-		fmt_spcfr->var.len += 2;
-	}
-	else
-	{
-		var->str = "(nil)";
-		print_str(fmt_spcfr, var->str);
-	}
-}
-
 void	parse_specifier_value(t_fmt_specifier *fmt_spcfr, va_list ap)
 {
 	t_fmt	var;
@@ -121,9 +49,10 @@ void	parse_specifier_value(t_fmt_specifier *fmt_spcfr, va_list ap)
 	fmt = fmt_spcfr->specifier;
 	if (fmt == 's' || fmt == 'c')
 		parse_str(fmt_spcfr, &var, fmt, ap);
-	if (fmt == 'd' || fmt == 'i'
-		|| fmt == 'u' || fmt == 'x' || fmt == 'X')
-		parse_num(fmt_spcfr, &var, fmt, ap);
+	if (fmt == 'd' || fmt == 'i')
+		parse_signed_num(fmt_spcfr, &var, ap);
+	if (fmt == 'u' || fmt == 'x' || fmt == 'X')
+		parse_unsigned_num(fmt_spcfr, &var, ap);
 	if (fmt == 'p')
 		parse_ptr(fmt_spcfr, &var, ap);
 	if (fmt == '%')

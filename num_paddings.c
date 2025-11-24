@@ -24,15 +24,15 @@ void	use_num_left_padding(t_fmt_specifier *fmt_spcfr, char pad,
 	precision = fmt_spcfr->precision;
 	if (fmt_spcfr->dot && precision > len && width >= precision)
 	{
-		print_padding_char(' ', (width - precision - str_len));
+		if (ft_strncmp(str, "-", 1) == 0 || ft_strncmp(str, "+", 1) == 0 )
+			fmt_spcfr->width -= 1;
+		print_padding_char(' ', (fmt_spcfr->width - precision - str_len));
 		ft_putstr(str);
 		print_padding_char('0', (precision - len));
 	}
 	else if (fmt_spcfr->dot && precision >= len && width < precision)
 	{
 		ft_putstr(str);
-		// if (fmt_spcfr->flag_dtls.str && !char_in_str('-', fmt_spcfr->flag_dtls.str))
-		// 	fmt_spcfr->precision += 1;
 		if (ft_strncmp(str, "-", 1) == 0)
 			fmt_spcfr->precision += 1;
 		print_padding_char('0', (fmt_spcfr->precision - len));
