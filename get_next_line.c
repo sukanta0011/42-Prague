@@ -25,7 +25,7 @@ char	*truncate_stash(char *stash)
 	stash_size = ft_strlen(&stash[i]);
 	// printf("%s %d, %d\n",stash, stash_size, i);
 	stash = realloc_memory(stash, stash_size, i);
-	printf("Memory reallocated\n");
+	// printf("Memory reallocated\n");
 	return (stash);
 }
 
@@ -39,79 +39,94 @@ char	*store_in_stash(char *stash, char *str)
 	return (stash);
 }
 
-// char	*get_line(int bytes, char *stash)
-// {
-// 	char	*line;
+char	*get_line(int bytes, char *stash)
+{
+	char	*line;
 
-// 	if (!bytes && stash[0] == '\0')
+	if (!bytes && stash[0] == '\0')
+		return (NULL);
+	else if (is_char_in_str(stash, '\n'))
+		line = ft_strdup_term(stash, '\n');
+	else if (!bytes && !is_char_in_str(stash, '\n'))
+		line = ft_strdup_term(stash, '\0');
+	return (line);
+}
+
+// char	*get_line(int fd, char *stash)
+// {
+// 	char	*temp;
+// 	int		bytes;
+
+// 	bytes = 1;
+// 	temp = malloc(BUFFER_SIZE + 1);
+// 	if (!temp)
 // 		return (NULL);
-// 	else if (is_char_in_str(stash, '\n'))
-// 		line = ft_strdup_term(stash, '\n');
-// 	else if (!bytes && !is_char_in_str(stash, '\n'))
-// 		line = ft_strdup_term(stash, '\0');
-// 	return (line);
+// 	while (bytes > 0 && !is_char_in_str(stash, '\n'))
+// 	{
+// 		bytes = read(fd, temp, BUFFER_SIZE);
+// 		if (bytes > 0)
+// 		{
+// 			temp[bytes] = '\0';
+// 			stash = store_in_stash(stash, temp);
+// 		}
+// 	}
+// 	free (temp);
+// 	if (bytes >= 0)
+// 	{
+// 		if (bytes >= 0 && stash[0] == '\0')
+// 			return (NULL);
+// 		else if (is_char_in_str(stash, '\n'))
+// 			return (ft_strdup_term(stash, '\n'));
+// 		else if (!is_char_in_str(stash, '\n'))
+// 			return (ft_strdup_term(stash, '\0'));
+// 	}
+// 	return (NULL);
 // }
 
-char	*get_line(int fd, char *stash)
+char	*get_next_line(int fd)
 {
+	static char	*stash;
+	char		*line;
 	char	*temp;
 	int		bytes;
 
 	bytes = 1;
+	if (fd < 0 || fd > 999)
+		return (NULL);
+	if (!stash)
+	{
+		stash = malloc(1);
+		stash[0] = 0;
+	}
+	line  = NULL;
 	temp = malloc(BUFFER_SIZE + 1);
 	if (!temp)
 		return (NULL);
 	while (bytes > 0 && !is_char_in_str(stash, '\n'))
 	{
 		bytes = read(fd, temp, BUFFER_SIZE);
+		if (bytes < 0)
+		{
+			free (stash);
+			stash = NULL;
+			free(temp);
+			return (NULL);
+		}
 		if (bytes > 0)
 		{
 			temp[bytes] = '\0';
 			stash = store_in_stash(stash, temp);
 		}
 	}
-	free (temp);
-
 	if (bytes >= 0)
-	{
-		// printf("get lines: %s, %d\n", stash, is_char_in_str(stash, '\n'));
-		if (stash[0] == '\0')
-			return (NULL);
-		else if (is_char_in_str(stash, '\n'))
-			return (ft_strdup_term(stash, '\n'));
-		else if (!is_char_in_str(stash, '\n'))
-			return (ft_strdup_term(stash, '\0'));
-	}
-	return (NULL);
-}
-
-char	*get_next_line(int fd)
-{
-	static char	*stash;
-	char		*line;
-
-	if (fd < 0 || fd > 999)
-		return (NULL);
-	line  = NULL;
-	if (!stash)
-	{
-		printf("stash init: ");
-		stash = malloc(1);
-		stash[0] = 0;
-	}
-	// printf("lines: %s\n", stash);
-	line = get_line(fd, stash);
-	// printf("lines: %s\n", line);
+		line = get_line(bytes, stash);
+	free(temp);
 	if (!line)
 	{
 		free (stash);
 		stash = NULL;
-		printf("\nstash freed: ");
 	}
 	else
-	{
 		stash = truncate_stash(stash);
-		printf("\nstash truncated: ");
-	}
 	return (line);
 }

@@ -76,14 +76,12 @@ char	*realloc_memory(char *str, t_uint new_size, t_uint pos)
 	char	*temp;
 	t_uint	str_size;
 
-	printf("string: %s\n", str);
 	str_size = ft_strlen(&str[pos]);
 	temp = malloc(str_size + 1);
 	if (!temp)
 		return (NULL);
 	temp[0] = '\0';
 	temp = ft_strcat(temp, &str[pos]);
-	printf("teming: %s\n", temp);
 	free(str);
 	str = malloc(new_size + 1);
 	if (!str)
@@ -94,6 +92,5 @@ char	*realloc_memory(char *str, t_uint new_size, t_uint pos)
 	str[0] = '\0';
 	str = ft_strcat(str, temp);
 	free(temp);
-	printf("string: %s\n", str);
 	return (str);
 }
