@@ -81,7 +81,7 @@ char	*realloc_memory(char *str, t_uint new_size, t_uint pos)
 	if (!temp)
 		return (NULL);
 	temp[0] = '\0';
-	temp = ft_strcat(temp, &str[pos]);
+	ft_strcat(temp, &str[pos]);
 	free(str);
 	str = malloc(new_size + 1);
 	if (!str)
@@ -90,7 +90,7 @@ char	*realloc_memory(char *str, t_uint new_size, t_uint pos)
 		return (NULL);
 	}
 	str[0] = '\0';
-	str = ft_strcat(str, temp);
+	ft_strcat(str, temp);
 	free(temp);
 	return (str);
 }

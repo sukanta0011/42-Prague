@@ -33,7 +33,8 @@ char	*realloc_memory(char *str, t_uint new_size, t_uint pos);
 char	*truncate_stash(char *stach);
 char	*store_in_stash(char *stach, char *str);
 char	*get_next_line(int fd);
+char	*get_next_line_extended(int fd,
+			char **stash, char **temp);
 char	*get_line(int bytes, char *stash);
-// char	*get_line(int fd, char *stash);
 
 #endif

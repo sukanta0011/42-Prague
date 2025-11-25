@@ -6,7 +6,7 @@
 /*   By: sudas <sudas@student.42prague.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/17 14:42:51 by sudas             #+#    #+#             */
-/*   Updated: 2025/11/24 23:32:28 by sudas            ###   ########.fr       */
+/*   Updated: 2025/11/26 00:29:44 by sudas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,18 +35,27 @@ int	main(void)
 	// 	free(line);
 	// }
 	// printf("fds: %d, %d, %d\n", fd1, fd2, fd3);
-	for (int i = 0; i < 5; i++)
+	line = get_next_line(fd1);
+	printf("%s", line);
+	free(line);
+	while (line)
 	{
 		line = get_next_line(fd1);
 		printf("%s", line);
 		free(line);
-		// line = get_next_line_bonus(fd2);
-		// printf("file2: %s", line);
-		// free(line);
-		// line = get_next_line_bonus(fd3);
-		// printf("file3: %s", line);
-		// free(line);
 	}
+	
+	// {
+	// 	line = get_next_line(fd1);
+	// 	printf("%s", line);
+	// 	free(line);
+	// 	// line = get_next_line_bonus(fd2);
+	// 	// printf("file2: %s", line);
+	// 	// free(line);
+	// 	// line = get_next_line_bonus(fd3);
+	// 	// printf("file3: %s", line);
+	// 	// free(line);
+	// }
 	close(fd1);
 	// close(fd2);
 	// close(fd3);
