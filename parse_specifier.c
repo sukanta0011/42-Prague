@@ -12,6 +12,26 @@
 
 #include "ft_printf.h"
 
+void	append_char(t_str *str_dtls, int c)
+{
+	char	*temp;
+
+	if (!str_dtls->str)
+		str_dtls->str = malloc(str_dtls->size);
+	else if (str_dtls->len + 2 > str_dtls->size)
+	{
+		temp = malloc(str_dtls->size);
+		ft_strcpy(str_dtls->str, temp);
+		free(str_dtls->str);
+		str_dtls->size *= 2;
+		str_dtls->str = malloc(str_dtls->size);
+		ft_strcpy(temp, str_dtls->str);
+		free(temp);
+	}
+	str_dtls->str[str_dtls->len++] = c;
+	str_dtls->str[str_dtls->len] = '\0';
+}
+
 void	parse_specifier(t_fmt_specifier *fmt_spcfr, char *fmt, t_uint *i)
 {
 	char	*flags;

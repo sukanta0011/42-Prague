@@ -16,10 +16,11 @@ void	parse_signed_num(t_fmt_specifier *fmt_spcfr, t_fmt *var, va_list ap)
 {
 	var->num = va_arg(ap, int);
 	if (fmt_spcfr->dot && var->num == 0
-			&& fmt_spcfr->precision == 0)
+		&& fmt_spcfr->precision == 0)
 	{
-		if (fmt_spcfr->flag_dtls.str && char_in_str('0', fmt_spcfr->flag_dtls.str))
-			use_num_right_padding(fmt_spcfr, ' ', 0, "");
+		if (fmt_spcfr->flag_dtls.str
+			&& char_in_str('0', fmt_spcfr->flag_dtls.str))
+			use_num_right_padding(fmt_spcfr, ' ', "");
 		else
 			print_str(fmt_spcfr, "");
 	}
@@ -31,10 +32,11 @@ void	parse_unsigned_num(t_fmt_specifier *fmt_spcfr, t_fmt *var, va_list ap)
 {
 	var->unum = va_arg(ap, t_uint);
 	if (fmt_spcfr->dot && var->unum == 0
-			&& fmt_spcfr->precision == 0)
+		&& fmt_spcfr->precision == 0)
 	{
-		if (fmt_spcfr->flag_dtls.str && char_in_str('0', fmt_spcfr->flag_dtls.str))
-			use_num_right_padding(fmt_spcfr, ' ', 0, "");
+		if (fmt_spcfr->flag_dtls.str
+			&& char_in_str('0', fmt_spcfr->flag_dtls.str))
+			use_num_right_padding(fmt_spcfr, ' ', "");
 		else
 			print_str(fmt_spcfr, "");
 	}
@@ -70,11 +72,8 @@ void	parse_str(t_fmt_specifier *fmt_spcfr, t_fmt *var, char fmt, va_list ap)
 void	parse_ptr(t_fmt_specifier *fmt_spcfr, t_fmt *var, va_list ap)
 {
 	var->ptr = va_arg(ap, void *);
-	if(var->ptr != NULL)
-	{
+	if (var->ptr != NULL)
 		print_ptr(fmt_spcfr, var->ptr);
-		fmt_spcfr->var.len += 2;
-	}
 	else
 	{
 		var->str = "(nil)";

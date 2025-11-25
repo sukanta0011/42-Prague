@@ -50,22 +50,21 @@ int	ft_strncmp(char *s1, char *s2, size_t n)
 	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
 }
 
-void	append_char(t_str *str_dtls, int c)
+t_uint	get_max_len(int a, int b, int c)
 {
-	char	*temp;
+	if (a >= b && a >= c)
+		return (a);
+	else if (b >= a && b >= c)
+		return (b);
+	else if (c >= b && c >= b)
+		return (c);
+	return (0);
+}
 
-	if (!str_dtls->str)
-		str_dtls->str = malloc(str_dtls->size);
-	else if (str_dtls->len + 2 > str_dtls->size)
-	{
-		temp = malloc(str_dtls->size);
-		ft_strcpy(str_dtls->str, temp);
-		free(str_dtls->str);
-		str_dtls->size *= 2;
-		str_dtls->str = malloc(str_dtls->size);
-		ft_strcpy(temp, str_dtls->str);
-		free(temp);
-	}
-	str_dtls->str[str_dtls->len++] = c;
-	str_dtls->str[str_dtls->len] = '\0';
+t_uint	get_min_len(int a, int b)
+{
+	if (a >= b)
+		return (b);
+	else
+		return (a);
 }

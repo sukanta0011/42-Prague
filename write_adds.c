@@ -29,19 +29,23 @@ void	print_ptr(t_fmt_specifier *fmt_spcfr, void *ptr)
 {
 	char		*hex_base;
 	t_ullint	num;
-	t_uint		hx_len;
 	char		*hx_str;
 
 	num = (unsigned long)ptr;
 	hex_base = "0123456789abcdef";
-	hx_len = 2;
 	hx_str = "0x";
 	ft_putptr_base(fmt_spcfr, num, hex_base, ft_strlen(hex_base));
+	fmt_spcfr->width -= 2;
+	fmt_spcfr->flag_len += 2;
 	if (fmt_spcfr->flags)
 	{
 		if (char_in_str('-', fmt_spcfr->flag_dtls.str))
-			use_num_right_padding(fmt_spcfr, ' ', hx_len, hx_str);
+			use_num_right_padding(fmt_spcfr, ' ', hx_str);
+		else if (char_in_str(' ', fmt_spcfr->flag_dtls.str))
+			use_num_left_padding(fmt_spcfr, ' ', hx_str);
+		else if (char_in_str('0', fmt_spcfr->flag_dtls.str))
+			use_num_left_padding(fmt_spcfr, '0', hx_str);
 	}
 	else
-		use_num_left_padding(fmt_spcfr, ' ', hx_len, hx_str);
+		use_num_left_padding(fmt_spcfr, ' ', hx_str);
 }

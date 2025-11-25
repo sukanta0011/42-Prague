@@ -2,7 +2,7 @@ FLAGS = -Wall -Wextra -Werror
 CC = cc
 
 SRCS = ft_printf.c write_nbr.c write_unbr.c validator.c\
-		num_paddings.c write_str.c write_adds.c\
+		num_paddings.c unum_paddings.c write_str.c write_adds.c\
 		utils1.c utils2.c parse_specifier.c parse_values.c
 
 OBJS = $(SRCS:.c=.o)

@@ -31,58 +31,46 @@ void	ft_putnbr_base(t_fmt_specifier *fmt_spcfr, int nbr,
 void	handle_nbr_flags(t_fmt_specifier *fmt_spcfr, int num)
 {
 	char	*sign_str;
-	t_uint	sign_len;
 
-	sign_len = 0;
 	sign_str = "";
+	if (char_in_str(' ', fmt_spcfr->flag_dtls.str))
+		sign_str = " ";
 	if (num < 0)
-	{
 		sign_str = "-";
-		sign_len = 1;
-	}
-	if (char_in_str('-', fmt_spcfr->flag_dtls.str))
-		fmt_spcfr->var.len -= sign_len;
-	if (char_in_str('+', fmt_spcfr->flag_dtls.str))
+	if (char_in_str('+', fmt_spcfr->flag_dtls.str) && num >= 0)
+		sign_str = "+";
+	if (num < 0 || char_in_str('+', fmt_spcfr->flag_dtls.str)
+		|| char_in_str(' ', fmt_spcfr->flag_dtls.str))
 	{
-		sign_len = 1;
-		if (num >= 0)
-		{
-			sign_str = "+";
-			fmt_spcfr->var.len += sign_len;
-		}
+		fmt_spcfr->width -= 1;
+		fmt_spcfr->flag_len += 1;
 	}
 	if (char_in_str('-', fmt_spcfr->flag_dtls.str))
-		use_num_right_padding(fmt_spcfr, ' ', sign_len, sign_str);
+		use_num_right_padding(fmt_spcfr, ' ', sign_str);
 	else if (char_in_str('0', fmt_spcfr->flag_dtls.str) && !fmt_spcfr->dot)
-		use_num_left_padding(fmt_spcfr, '0', sign_len, sign_str);
+		use_num_left_padding(fmt_spcfr, '0', sign_str);
 	else if (char_in_str('0', fmt_spcfr->flag_dtls.str) && fmt_spcfr->dot)
-		use_num_left_padding(fmt_spcfr, ' ', sign_len, sign_str);
-	else if (char_in_str('+', fmt_spcfr->flag_dtls.str))
-		use_num_left_padding(fmt_spcfr, ' ', sign_len, sign_str);
-	else if (char_in_str(' ', fmt_spcfr->flag_dtls.str) && num >= 0)
-		use_num_left_padding(fmt_spcfr, ' ', 1, " ");
-	else if (char_in_str(' ', fmt_spcfr->flag_dtls.str) && num < 0)
-		use_num_left_padding(fmt_spcfr, ' ', sign_len, sign_str);
+		use_num_left_padding(fmt_spcfr, ' ', sign_str);
+	else if (char_in_str('+', fmt_spcfr->flag_dtls.str)
+		|| char_in_str(' ', fmt_spcfr->flag_dtls.str))
+		use_num_left_padding(fmt_spcfr, ' ', sign_str);
 }
 
 void	print_nbr(t_fmt_specifier *fmt_spcfr, int num)
 {
-	t_uint	sign_len;
 	char	*sign_str;
 
-	sign_len = 0;
 	sign_str = "";
 	if (num < 0)
-	{
-		sign_len = 1;
 		sign_str = "-";
-	}
 	ft_putnbr_base(fmt_spcfr, num, "0123456789", DEC_LEN);
-	fmt_spcfr->var.len += sign_len;
+	if (num < 0 && !fmt_spcfr->flags)
+	{
+		fmt_spcfr->width -= 1;
+		fmt_spcfr->flag_len += 1;
+	}
 	if (fmt_spcfr->flags)
 		handle_nbr_flags(fmt_spcfr, num);
 	else
-		use_num_left_padding(fmt_spcfr, ' ', 0, sign_str);
-	if (fmt_spcfr->flag_dtls.str && char_in_str('-', fmt_spcfr->flag_dtls.str))
-		fmt_spcfr->var.len += sign_len;
+		use_num_left_padding(fmt_spcfr, ' ', sign_str);
 }

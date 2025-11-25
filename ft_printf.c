@@ -19,6 +19,7 @@ t_fmt_specifier	*initialize_mem(t_fmt_specifier *fmt_spcfr)
 	fmt_spcfr->flag_dtls.len = 0;
 	fmt_spcfr->flag_dtls.size = 2;
 	fmt_spcfr->flags = 0;
+	fmt_spcfr->flag_len = 0;
 	fmt_spcfr->dot = 0;
 	fmt_spcfr->width = 0;
 	fmt_spcfr->precision = 0;
@@ -40,32 +41,36 @@ void	free_memory(t_fmt_specifier *fmt_spcfr)
 
 void	modify_len(t_uint *len, t_fmt_specifier *fmt_spcfr)
 {
-	if (fmt_spcfr->dot && fmt_spcfr->width <= fmt_spcfr->precision)
+	if (fmt_spcfr->specifier == 's' || fmt_spcfr->specifier == 'c')
 	{
-		if ((fmt_spcfr->var.len < fmt_spcfr->precision) && fmt_spcfr->specifier == 's')
-			(*len) += fmt_spcfr->var.len;
-		else if ((fmt_spcfr->var.len > fmt_spcfr->precision) && fmt_spcfr->specifier != 's')
-			(*len) += fmt_spcfr->var.len;
+		if (fmt_spcfr->dot)
+		{
+			if (fmt_spcfr->width >= get_min_len(fmt_spcfr->precision,
+					fmt_spcfr->var.len))
+				(*len) += fmt_spcfr->width;
+			else if (fmt_spcfr->precision > fmt_spcfr->var.len)
+				(*len) += fmt_spcfr->var.len;
+			else
+				(*len) += fmt_spcfr->precision;
+		}
 		else
-			(*len) += fmt_spcfr->precision;
-	}
-	else if ((fmt_spcfr->width > fmt_spcfr->var.len))
-		(*len) += fmt_spcfr->width;
-	else if ((fmt_spcfr->width > fmt_spcfr->precision) && fmt_spcfr->dot)
-	{
-		if ((fmt_spcfr->width > fmt_spcfr->var.len) || fmt_spcfr->specifier == 's')
-			(*len) += fmt_spcfr->width;
-		else
-			(*len) += fmt_spcfr->var.len;
+			(*len) += get_max_len(fmt_spcfr->width,
+					fmt_spcfr->precision, fmt_spcfr->var.len);
 	}
 	else
-		(*len) += fmt_spcfr->var.len;
-	if (fmt_spcfr->flag_dtls.str && char_in_str(' ', fmt_spcfr->flag_dtls.str)
-			&& fmt_spcfr->specifier != 's')
-		(*len) += 1;
-	if (fmt_spcfr->flag_dtls.str && char_in_str('#', fmt_spcfr->flag_dtls.str)
-			&& ft_strncmp(fmt_spcfr->var.str, "0", fmt_spcfr->var.len))
-		(*len) += 2;
+	{
+		(*len) += fmt_spcfr->flag_len;
+		(*len) += get_max_len(fmt_spcfr->width,
+				fmt_spcfr->precision, fmt_spcfr->var.len);
+	}
+}
+
+void	extract_args(int *i, t_fmt_specifier *fmt_spcfr, char *fmt, va_list ap)
+{
+	*i++;
+	fmt_spcfr = initialize_mem(fmt_spcfr);
+	parse_specifier(fmt_spcfr, (char *)fmt, i);
+	parse_specifier_value(fmt_spcfr, ap);
 }
 
 int	ft_printf(const char *fmt, ...)
@@ -82,10 +87,13 @@ int	ft_printf(const char *fmt, ...)
 	{
 		if (fmt[i] == '%')
 		{
-			i++;
-			fmt_spcfr = initialize_mem(fmt_spcfr);
-			parse_specifier(fmt_spcfr, (char *)fmt, &i);
-			parse_specifier_value(fmt_spcfr, ap);
+			// i++;
+			// fmt_spcfr = initialize_mem(fmt_spcfr);
+			// parse_specifier(fmt_spcfr, (char *)fmt, &i);
+			// parse_specifier_value(fmt_spcfr, ap);
+			// modify_len(&len, fmt_spcfr);
+			// free_memory(fmt_spcfr);
+			extract_args(&i, fmt_spcfr, (char *)fmt, ap);
 			modify_len(&len, fmt_spcfr);
 			free_memory(fmt_spcfr);
 		}
