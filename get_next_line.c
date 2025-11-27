@@ -92,7 +92,7 @@ char	*get_next_line(int fd)
 		stash = malloc(1);
 		stash[0] = 0;
 	}
-	line  = NULL;
+	line = NULL;
 	temp = malloc(BUFFER_SIZE + 1);
 	if (!temp)
 		return (NULL);

@@ -49,7 +49,7 @@ char	**realloc_dblptr(char **str, t_uint old_size, t_uint new_size)
 	i = 0;
 	while (i < old_size)
 	{
-		if (str[i] != NULL)
+		if (str[i])
 		{
 			temp[i] = ft_strdup_term(str[i], '\0');
 			free(str[i]);
@@ -72,7 +72,10 @@ char	**realloc_ptrs(char **str, int fd)
 	char	**temp;
 
 	if (!str)
-		str = realloc_dblptr(str, 0, 5);
+	{
+		printf("stash created %d\n", fd);
+		str = realloc_dblptr(str, 0, 10);
+	}
 	else if (!str[fd])
 	{
 		temp = realloc_dblptr(str, (fd + 1), (fd + 1));
@@ -83,12 +86,14 @@ char	**realloc_ptrs(char **str, int fd)
 
 char	*get_next_line_bonus(int fd)
 {
-	t_uint		bytes;
+	int			bytes;
 	static char	**stash = NULL;
 	char		*temp;
 	char		*line;
 
 	bytes = 1;
+	if (fd < 0 || fd > 999)
+		return (NULL);
 	stash = realloc_ptrs(stash, fd);
 	stash[fd] = realloc_memory(stash[fd], bytes, 0);
 	temp = malloc(BUFFER_SIZE + 1);
@@ -98,11 +103,11 @@ char	*get_next_line_bonus(int fd)
 		if (bytes == -1)
 		{
 			free(temp);
-			free(stash);
-			stash = NULL;
+			free(stash[fd]);
+			stash[fd] = NULL;
 			return (NULL);
 		}
-		if (bytes)
+		if (bytes > 0)
 		{
 			temp[bytes] = '\0';
 			stash[fd] = realloc_memory(stash[fd], bytes, 0);
@@ -110,12 +115,15 @@ char	*get_next_line_bonus(int fd)
 		}
 	}
 	line = get_line(bytes, stash[fd]);
-	stash[fd] = truncate_stash(stash[fd]);
+	free (temp);
 	if (!line)
 	{
+		printf("no line: %d, add %p\n", fd, stash);
 		free (stash[fd]);
+		free (stash);
 		stash = NULL;
 	}
-	free (temp);
+	else
+		stash[fd] = truncate_stash(stash[fd]);
 	return (line);
 }
