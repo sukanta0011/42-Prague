@@ -65,12 +65,18 @@ void	modify_len(t_uint *len, t_fmt_specifier *fmt_spcfr)
 	}
 }
 
-void	extract_args(int *i, t_fmt_specifier *fmt_spcfr, char *fmt, va_list ap)
+t_uint	extract_args(t_uint *i, t_fmt_specifier *fmt_spcfr,
+	char *fmt, va_list ap)
 {
-	*i++;
-	fmt_spcfr = initialize_mem(fmt_spcfr);
+	t_uint	len;
+
+	len = 0;
+	(*i)++;
 	parse_specifier(fmt_spcfr, (char *)fmt, i);
 	parse_specifier_value(fmt_spcfr, ap);
+	modify_len(&len, fmt_spcfr);
+	free_memory(fmt_spcfr);
+	return (len);
 }
 
 int	ft_printf(const char *fmt, ...)
@@ -87,15 +93,8 @@ int	ft_printf(const char *fmt, ...)
 	{
 		if (fmt[i] == '%')
 		{
-			// i++;
-			// fmt_spcfr = initialize_mem(fmt_spcfr);
-			// parse_specifier(fmt_spcfr, (char *)fmt, &i);
-			// parse_specifier_value(fmt_spcfr, ap);
-			// modify_len(&len, fmt_spcfr);
-			// free_memory(fmt_spcfr);
-			extract_args(&i, fmt_spcfr, (char *)fmt, ap);
-			modify_len(&len, fmt_spcfr);
-			free_memory(fmt_spcfr);
+			fmt_spcfr = initialize_mem(fmt_spcfr);
+			len += extract_args(&i, fmt_spcfr, (char *)fmt, ap);
 		}
 		else
 		{

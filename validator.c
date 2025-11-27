@@ -21,7 +21,7 @@ int	validate_str_flags(char *flags, char fmt, t_bool dot)
 			return (0);
 	}
 	if (fmt == 'c' && dot)
-		return (0);	
+		return (0);
 	return (1);
 }
 
@@ -31,8 +31,7 @@ int	validate_num_flags(char *flags, char fmt, t_bool dot)
 	{
 		if (char_in_str('#', flags))
 			return (0);
-		if (char_in_str('0', flags) && (char_in_str('-', flags)
-			|| dot))
+		if (char_in_str('0', flags) && (char_in_str('-', flags) || dot))
 			return (0);
 	}
 	return (1);
