@@ -85,7 +85,7 @@ char	*get_next_line(int fd)
 	char		*line;
 	char		*temp;
 
-	if (fd < 0 || fd > 999)
+	if (fd < 0 || fd > OPEN_MAX)
 		return (NULL);
 	if (!stash)
 	{

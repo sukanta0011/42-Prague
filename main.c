@@ -6,7 +6,7 @@
 /*   By: sudas <sudas@student.42prague.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/17 14:42:51 by sudas             #+#    #+#             */
-/*   Updated: 2025/11/27 01:05:35 by sudas            ###   ########.fr       */
+/*   Updated: 2025/11/27 13:20:32 by sudas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,11 @@ int	main(void)
 	int		fd3;
 	char	*file_path3;
 
-	file_path1 = "test/test3";
+	file_path1 = "test/test2";
 	fd1 = open(file_path1, O_RDONLY);
 	file_path2 = "test/test3";
 	fd2 = open(file_path2, O_RDONLY);
-	file_path3 = "test/test1";
+	file_path3 = "test/test3";
 	fd3 = open(file_path3, O_RDONLY);
 	(void)fd3;
 	// while ((line = get_next_line_bonus(fd1)))
@@ -47,7 +47,7 @@ int	main(void)
 	// 	printf("%s", line);
 	// 	free(line);
 	// }
-	for (int i = 0; i < 8; i++)
+	for (int i = 0; i < 15; i++)
 	{
 		line = get_next_line_bonus(fd1);
 		printf("file1: %s", line);
@@ -55,9 +55,9 @@ int	main(void)
 		line = get_next_line_bonus(fd2);
 		printf("file2: %s", line);
 		free(line);
-		// line = get_next_line_bonus(fd3);
-		// printf("file3: %s", line);
-		// free(line);
+		line = get_next_line_bonus(fd3);
+		printf("file3: %s", line);
+		free(line);
 	}
 	close(fd1);
 	close(fd2);

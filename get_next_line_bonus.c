@@ -27,7 +27,17 @@ char	*truncate_stash(char *stash)
 	return (stash);
 }
 
-char	*get_line(t_uint bytes, char *stash)
+char	*store_in_stash(char *stash, char *str)
+{
+	t_uint	stash_size;
+
+	stash_size = ft_strlen(stash);
+	stash = realloc_memory(stash, (stash_size + BUFFER_SIZE), 0);
+	ft_strcat(stash, str);
+	return (stash);
+}
+
+char	*get_line(int bytes, char *stash)
 {
 	char	*line;
 
@@ -40,88 +50,57 @@ char	*get_line(t_uint bytes, char *stash)
 	return (line);
 }
 
-char	**realloc_dblptr(char **str, t_uint old_size, t_uint new_size)
+char	*get_next_line_extended(int fd, char **stash, char **temp)
 {
-	char	**temp;
-	t_uint	i;
-
-	temp = malloc(sizeof(char *) * new_size);
-	i = 0;
-	while (i < old_size)
-	{
-		if (str[i])
-		{
-			temp[i] = ft_strdup_term(str[i], '\0');
-			free(str[i]);
-		}
-		else
-			temp[i] = NULL;
-		i++;
-	}
-	while (i < new_size)
-	{
-		temp[i] = NULL;
-		i++;
-	}
-	free(str);
-	return (temp);
-}
-
-char	**realloc_ptrs(char **str, int fd)
-{
-	char	**temp;
-
-	if (!str)
-	{
-		printf("stash created %d\n", fd);
-		str = realloc_dblptr(str, 0, 10);
-	}
-	else if (!str[fd])
-	{
-		temp = realloc_dblptr(str, (fd + 1), (fd + 1));
-		str = realloc_dblptr(temp, (fd + 1), (fd + 2));
-	}
-	return (str);
-}
-
-char	*get_next_line_bonus(int fd)
-{
-	int			bytes;
-	static char	**stash = NULL;
-	char		*temp;
-	char		*line;
+	int		bytes;
+	char	*line;
 
 	bytes = 1;
-	if (fd < 0 || fd > 999)
-		return (NULL);
-	stash = realloc_ptrs(stash, fd);
-	stash[fd] = realloc_memory(stash[fd], bytes, 0);
-	temp = malloc(BUFFER_SIZE + 1);
-	while (bytes > 0 && !is_char_in_str(stash[fd], '\n'))
+	line = NULL;
+	while (bytes > 0 && !is_char_in_str(*stash, '\n'))
 	{
-		bytes = read(fd, temp, BUFFER_SIZE);
-		if (bytes == -1)
+		bytes = read(fd, *temp, BUFFER_SIZE);
+		if (bytes < 0)
 		{
-			free(temp);
-			free(stash[fd]);
-			stash[fd] = NULL;
+			free (*stash);
+			*stash = NULL;
+			free(*temp);
 			return (NULL);
 		}
 		if (bytes > 0)
 		{
-			temp[bytes] = '\0';
-			stash[fd] = realloc_memory(stash[fd], bytes, 0);
-			stash[fd] = ft_strcat(stash[fd], temp);
+			(*temp)[bytes] = '\0';
+			*stash = store_in_stash(*stash, *temp);
 		}
 	}
-	line = get_line(bytes, stash[fd]);
-	free (temp);
+	if (bytes >= 0)
+		line = get_line(bytes, *stash);
+	free(*temp);
+	return (line);
+}
+
+char	*get_next_line_bonus(int fd)
+{
+	static char	*stash[OPEN_MAX];
+	char		*line;
+	char		*temp;
+
+	if (fd < 0 || fd > OPEN_MAX || BUFFER_SIZE < 1)
+		return (NULL);
+	if (!stash[fd])
+	{
+		stash[fd] = malloc(1);
+		stash[fd][0] = 0;
+	}
+	line = NULL;
+	temp = malloc(BUFFER_SIZE + 1);
+	if (!temp)
+		return (NULL);
+	line = get_next_line_extended(fd, &stash[fd], &temp);
 	if (!line)
 	{
-		printf("no line: %d, add %p\n", fd, stash);
 		free (stash[fd]);
-		free (stash);
-		stash = NULL;
+		stash[fd] = NULL;
 	}
 	else
 		stash[fd] = truncate_stash(stash[fd]);
