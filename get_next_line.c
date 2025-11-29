@@ -41,6 +41,7 @@ char	*get_line(int bytes, char *stash)
 {
 	char	*line;
 
+	line = NULL;
 	if (!bytes && stash[0] == '\0')
 		return (NULL);
 	else if (is_char_in_str(stash, '\n'))
@@ -85,7 +86,7 @@ char	*get_next_line(int fd)
 	char		*line;
 	char		*temp;
 
-	if (fd < 0 || fd > OPEN_MAX)
+	if (fd < 0 || fd > MAX_FD)
 		return (NULL);
 	if (!stash)
 	{

@@ -41,6 +41,7 @@ char	*get_line(int bytes, char *stash)
 {
 	char	*line;
 
+	line = NULL;
 	if (!bytes && stash[0] == '\0')
 		return (NULL);
 	else if (is_char_in_str(stash, '\n'))
@@ -81,11 +82,11 @@ char	*get_next_line_extended(int fd, char **stash, char **temp)
 
 char	*get_next_line_bonus(int fd)
 {
-	static char	*stash[OPEN_MAX];
+	static char	*stash[MAX_FD];
 	char		*line;
 	char		*temp;
 
-	if (fd < 0 || fd > OPEN_MAX || BUFFER_SIZE < 1)
+	if (fd < 0 || fd > MAX_FD || BUFFER_SIZE < 1)
 		return (NULL);
 	if (!stash[fd])
 	{
