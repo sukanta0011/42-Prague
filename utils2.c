@@ -24,30 +24,30 @@ void	print_padding_char(char pad, t_uint len)
 	}
 }
 
-char	*ft_strcpy(char *src, char *dst)
+void	ft_putstr_len(char *str, t_uint len)
 {
 	t_uint	i;
 
 	i = 0;
-	while (src[i])
+	while (i < len)
 	{
-		dst[i] = src[i];
+		write(1, &str[i], 1);
 		i++;
 	}
-	dst[i] = src[i];
-	return (dst);
 }
 
-int	ft_strncmp(char *s1, char *s2, size_t n)
+int	char_in_str(char c, char *str)
 {
-	size_t	i;
+	t_uint	i;
 
 	i = 0;
-	if (n == 0)
-		return (0);
-	while (s1[i] && (s1[i] == s2[i]) && (i < n - 1))
+	while (str[i])
+	{
+		if (str[i] == c)
+			return (1);
 		i++;
-	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
+	}
+	return (0);
 }
 
 t_uint	get_max_len(int a, int b, int c)
