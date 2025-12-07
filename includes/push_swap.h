@@ -76,6 +76,7 @@ int			ft_strcmp(char *s1, char *s2);
 int			str_to_num(char *str, long int *num);
 void		ft_putstr(char *str);
 void		ft_puterror(char *str);
+int			ft_strlen(char *str);
 
 //======%% lst_utils1 %%=========
 t_dbl_ll	*create_node(int data);

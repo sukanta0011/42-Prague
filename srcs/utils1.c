@@ -48,6 +48,16 @@ void	ft_puterror(char *str)
 	write(2, "\n", 1);
 }
 
+int ft_strlen(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+		i++;
+	return (i);
+}
+
 int	str_to_num(char *str, long int *num)
 {
 	int			sign;

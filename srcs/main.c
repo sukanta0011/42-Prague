@@ -31,13 +31,13 @@ int	main(int argc, char **argv)
 		// sort_small_stack(lst_a_info, lst_b_info);
 		// sort_stack(lst_a_info, lst_b_info);
 		// radix_sort(lst_a_info, lst_b_info);
-		printf("%s\n", "-----------a-----------");
-		print_lst(lst_a_info);
+		// printf("%s\n", "-----------a-----------");
+		// print_lst(lst_a_info);
 
-		if (is_assending(lst_a_info))
-			printf("Sorted\n");
-		else
-			printf("Not-Sorted\n");
+		// if (is_assending(lst_a_info))
+		// 	printf("Sorted\n");
+		// else
+		// 	printf("Not-Sorted\n");
 		free(sorted_arr);
 	}
 	else
