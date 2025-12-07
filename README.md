@@ -385,3 +385,8 @@ sudo fail2ban-client -i
 status sshd -> to check the banned service
 set sshd unbanip ip_address -> remove the ban
 ```
+### Additional Links
+- [Change Password](https://www.cyberciti.biz/faq/linux-set-change-password-how-to/)
+- [Delete User](https://greenwebpage.com/community/how-to-add-and-delete-users-in-debian-12/)
+- [Change username](https://askubuntu.com/questions/34074/how-do-i-change-my-username)
+- [Change Hostname](https://www.cyberciti.biz/faq/debian-change-hostname-permanently/)
