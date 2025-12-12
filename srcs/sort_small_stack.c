@@ -27,13 +27,43 @@ void	sort_three_stack (t_dll_info *lst_a, t_dll_info *lst_b)
 		operation(lst_a, lst_b, "sa");
 }
 
+void	fix_the_stack(t_dll_info *lst_a, t_dll_info *lst_b)
+{
+	if (lst_a->size >= 6)
+	{
+		operation(lst_a, lst_b, "rra");
+		operation(lst_a, lst_b, "rra");
+		operation(lst_a, lst_b, "rra");
+	}
+	if (lst_a->size == 5)
+	{
+		operation(lst_a, lst_b, "ra");
+		operation(lst_a, lst_b, "ra");
+	}
+	if (lst_a->size == 4)
+		operation(lst_a, lst_b, "ra");
+}
+
+void	sort_small_stack(t_dll_info *lst_a, t_dll_info *lst_b)
+{
+	while (lst_a->size > 3)
+	{
+		if (lst_a->head->index >= 3)
+			operation(lst_a, lst_b, "pb");
+		else
+			operation(lst_a, lst_b, "ra");
+	}
+	sort_three_stack(lst_a, lst_b);
+	empty_stack_b(lst_a, lst_b);
+	fix_the_stack(lst_a, lst_b);
+}
+
 void	sort_stack(t_dll_info *lst_a, t_dll_info *lst_b)
 {
-	(void)lst_b;
-	if (lst_a->size <= 3)
-		sort_three_stack(lst_a, lst_b);
-	if (lst_a->size > 3 && lst_a->size <= 150)
+	if (lst_a->size == 1 || is_asending(lst_a))
+		return ;
+	else if (lst_a->size <= 10)
+		sort_small_stack(lst_a, lst_b);
+	else
 		chunk_sort(lst_a, lst_b);
-	if (lst_a->size > 150)
-		radix_sort(lst_a, lst_b);
 }

@@ -61,14 +61,15 @@ void		sort_stack(t_dll_info *lst_a, t_dll_info *lst_b);
 
 //======%% radix_sort %%=========
 void		radix_sort(t_dll_info *lst_a, t_dll_info *lst_b);
+
 //======%% additional_func %%=========
 void		print_lst(t_dll_info *lst_info);
 void		print_lst_reverse(t_dll_info *lst_info);
-int			is_assending(t_dll_info *lst);
+int			is_asending(t_dll_info *lst);
 
 //======%% chunk_sort %%=========
-void		push_single_value(t_dll_info *lst_a, t_dll_info *lst_b,
-				int low, int high);
+int			get_chunk_size (int size);
+void		empty_stack_b(t_dll_info *lst_a, t_dll_info *lst_b);
 void		chunk_sort(t_dll_info *lst_a, t_dll_info *lst_b);
 
 //======%% utils1 %%=========

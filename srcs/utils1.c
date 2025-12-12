@@ -66,14 +66,14 @@ int	str_to_num(char *str, long int *num)
 	i = 0;
 	sign = 1;
 	*num = 0;
-	if (str[i] == '-')
+	if (str[i] == '-' && str[i + 1])
 	{
 		sign *= -1;
 		i++;
 	}
-	else if (str[i] == '+')
+	else if (str[i] == '+' && str[i + 1])
 		i++;
-	while (str[i] != '\0')
+	while (str[i])
 	{
 		if (str[i] >= '0' && str[i] <= '9')
 		{

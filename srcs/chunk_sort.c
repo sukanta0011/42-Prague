@@ -12,7 +12,7 @@
 
 #include "push_swap.h"
 
-int	cal_chunk_size (int size)
+int	get_chunk_size (int size)
 {
 	if (size <= 7)
 		return (2);
@@ -23,33 +23,13 @@ int	cal_chunk_size (int size)
 	if (size > 40 && size <= 100)
 		return (20);
 	if (size > 100)
-		return (40);
+		return (35);
 	return (-1);
-}
-
-void	push_single_value(t_dll_info *lst_a, t_dll_info *lst_b,
-		int low, int high)
-{
-	int	top_dist;
-	int	bottom_dist;
-
-	top_dist = find_from_top(lst_a, low, high);
-	bottom_dist = find_from_bottom(lst_a, low, high);
-	if (top_dist <= bottom_dist)
-		while (top_dist-- > 0)
-			operation(lst_a, lst_b, "ra");
-	else
-		while (bottom_dist-- > 0)
-			operation(lst_a, lst_b, "rra");
-	operation(lst_a, lst_b, "pb");
-	if (lst_b->size > 1 && lst_b->head->index < (low + high) / 2)
-		operation(lst_a, lst_b, "rb");
 }
 
 void	empty_stack_b(t_dll_info *lst_a, t_dll_info *lst_b)
 {
 	int	idx;
-	int	moves;
 
 	while (lst_b->size > 0)
 	{
@@ -59,46 +39,37 @@ void	empty_stack_b(t_dll_info *lst_a, t_dll_info *lst_b)
 				operation(lst_a, lst_b, "rb");
 		else
 		{
-			moves = lst_b->size - idx;
-			while (moves-- > 0)
+			while (idx++ < lst_b->size)
 				operation(lst_a, lst_b, "rrb");
 		}
 		operation(lst_a, lst_b, "pa");
 	}
 }
 
-void	reassign_low_high(int *low, int *high, int *pushed_in_chunk, int *n)
-{
-	(*pushed_in_chunk) = 0;
-	(*low) += cal_chunk_size(*n);
-	(*high) += cal_chunk_size(*n);
-	if ((*high) >= (*n))
-		(*high) = (*n) - (*low);
-}
-
 void	chunk_sort(t_dll_info *lst_a, t_dll_info *lst_b)
 {
 	int	n;
-	int	low;
-	int	high;
-	int	pushed_in_chunk;
-	int	empty_lst_a_till;
+	int	i;
+	int	chunk;
 
-	pushed_in_chunk = 0;
+	i = 0;
 	n = lst_a->size;
-	empty_lst_a_till = 0;
-	low = 0;
-	high = cal_chunk_size(n) - 1;
-	if (n <= 7)
-		empty_lst_a_till = 3;
-	while (lst_a->size > empty_lst_a_till)
+	chunk = get_chunk_size(n);
+	while (lst_a->size > 0)
 	{
-		push_single_value(lst_a, lst_b, low, high);
-		pushed_in_chunk++;
-		if (pushed_in_chunk == cal_chunk_size(n))
-			reassign_low_high(&low, &high, &pushed_in_chunk, &n);
+		if (lst_a->head->index <= i)
+		{
+			operation(lst_a, lst_b, "pb");
+			operation(lst_a, lst_b, "rb");
+			i++;
+		}
+		else if (lst_a->head->index <= i + chunk)
+		{
+			operation(lst_a, lst_b, "pb");
+			i++;
+		}
+		else
+			operation(lst_a, lst_b, "ra");
 	}
-	if (empty_lst_a_till > 0)
-		sort_three_stack(lst_a, lst_b);
 	empty_stack_b(lst_a, lst_b);
 }

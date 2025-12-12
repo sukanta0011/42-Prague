@@ -50,7 +50,7 @@ void	print_lst_reverse(t_dll_info *lst_info)
 	printf("\n");
 }
 
-int	is_assending(t_dll_info *lst)
+int	is_asending(t_dll_info *lst)
 {
 	t_dbl_ll	*current;
 

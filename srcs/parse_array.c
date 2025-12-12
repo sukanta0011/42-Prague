@@ -45,15 +45,11 @@ int	store_in_stack(int argc, char **argv, t_dll_info *lst_info)
 	long int	num;
 
 	i = 1;
-	if (argc < 2)
-		return (0);
-	if (ft_strlen(argv[1]) == 0)
-		return (0);
 	while (i < argc)
 	{
 		if (str_to_num(argv[i], &num) && !is_duplicate(lst_info, &num))
 		{
-			if (num > INT_MAX && num < INT_MIN)
+			if (num > INT_MAX || num < INT_MIN)
 				return (0);
 			add_at_back(lst_info, (int)num);
 			i++;
