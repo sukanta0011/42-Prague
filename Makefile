@@ -3,12 +3,12 @@ HDR_DIR = includes
 FLAGS = -Wall -Wextra -Werror
 CC = cc
 
-# MY_SRCS = execute_cmds.c\
-# 			utils1.c\
-# 			main.c
+MY_SRCS = chunk_sort.c free_memory.c lst_operations.c \
+		main.c operations.c parse_args.c quick_sort.c \
+		radix_sort.c search_idx.c sort_small_stack.c \
+		utils1.c
 
-# SRCS = $(addprefix $(SRC_DIR)/, $(MY_SRCS))
-SRCS = $(wildcard srcs/*.c)
+SRCS = $(addprefix $(SRC_DIR)/, $(MY_SRCS))
 OBJS = $(SRCS:.c=.o)
 NAME = push_swap
 
@@ -29,13 +29,13 @@ fclean: clean
 
 re: fclean all
 
-output: all
-	$(addprefix ./, $(NAME))
+# output: all
+# 	$(addprefix ./, $(NAME))
 
-leak: all
-	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes $(addprefix ./, $(NAME))
+# leak: all
+# 	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes $(addprefix ./, $(NAME))
 
-norm:
-	norminette -R CheckDefine
+# norm:
+# 	norminette -R CheckDefine
 
-.PHONY: all clean fclean out norm leak
+.PHONY: all clean fclean

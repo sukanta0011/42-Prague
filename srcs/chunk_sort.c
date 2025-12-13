@@ -12,7 +12,7 @@
 
 #include "push_swap.h"
 
-int	get_chunk_size (int size)
+int	get_chunk_size(int size)
 {
 	if (size <= 7)
 		return (2);

@@ -48,7 +48,7 @@ void	ft_puterror(char *str)
 	write(2, "\n", 1);
 }
 
-int ft_strlen(char *str)
+int	ft_strlen(char *str)
 {
 	int	i;
 

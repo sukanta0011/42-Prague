@@ -12,7 +12,7 @@
 
 #include "push_swap.h"
 
-void	sort_three_stack (t_dll_info *lst_a, t_dll_info *lst_b)
+void	sort_three_stack(t_dll_info *lst_a, t_dll_info *lst_b)
 {
 	if ((lst_a->head->index > lst_a->head->next->index)
 		&& (lst_a->head->index > lst_a->tail->index))

@@ -27,8 +27,6 @@ void	radix_sort(t_dll_info *lst_a, t_dll_info *lst_b)
 	while (i < max_bits)
 	{
 		counts = 0;
-		if (is_asending(lst_a))
-			break;
 		while (counts < arr_size)
 		{
 			if (((lst_a->head->index >> i) & 1) == 0)
