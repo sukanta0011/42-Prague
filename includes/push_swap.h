@@ -63,8 +63,6 @@ void		sort_stack(t_dll_info *lst_a, t_dll_info *lst_b);
 void		radix_sort(t_dll_info *lst_a, t_dll_info *lst_b);
 
 //======%% additional_func %%=========
-void		print_lst(t_dll_info *lst_info);
-void		print_lst_reverse(t_dll_info *lst_info);
 int			is_asending(t_dll_info *lst);
 
 //======%% chunk_sort %%=========

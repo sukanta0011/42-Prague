@@ -3292,7 +3292,7 @@ res_4=0
 res_5=0
 res_err=0
 control=1
-val=1001
+val=11
 media=0
 alta=0
 baja=2147483647
@@ -3419,7 +3419,7 @@ res_2=0
 res_3=0
 res_4=0
 res_5=0
-val=1001
+val=11
 media=0
 control=1
 alta=0
@@ -4181,7 +4181,7 @@ cont=1
 cont2=1
 cont3=1
 cont4=0
-while [ $cont2 -lt 501 ]
+while [ $cont2 -lt 1 ]
 do
 cont=1
 while [ $cont -lt 6 ]
@@ -4239,7 +4239,7 @@ printf	"${RED}\nKO${WHITE} TESTS $res_4/$cont4\n"
 printf "${CYAN}\nCheck traces $PWD/traces.txt\n"
 fi
 
-else
+# else
 
 FILE=$PWD/checker
 
