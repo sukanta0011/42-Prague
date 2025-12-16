@@ -43,7 +43,7 @@ int	main(int argc, char **argv)
 	if (store_in_stack(argc, argv, lst_a_info) && !error)
 	{
 		sorted_arr = create_temp_array(lst_a_info);
-		quick_sort(sorted_arr, 0, argc - 2);
+		quick_sort(sorted_arr, 0, lst_a_info->size - 1);
 		assign_index(lst_a_info, sorted_arr);
 		sort_stack(lst_a_info, lst_b_info);
 		free(sorted_arr);

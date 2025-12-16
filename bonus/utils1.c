@@ -66,25 +66,43 @@ void	pass_non_numbers(char *str, int *pos, int *sign)
 	*pos = i;
 }
 
-int	str_to_num(char *str, long int *num)
+void	skip_non_numbers(char *str, int *pos, int *sign)
 {
-	int			sign;
-	int			i;
+	int	i;
 
-	i = 0;
-	sign = 1;
-	*num = 0;
-	pass_non_numbers(str, &i, &sign);
-	while (str[i])
+	i = *pos;
+	while (str[i] && ((str[i] >= '\t' && str[i] <= '\r')
+			|| str[i] == ' '))
+		i++;
+	if (str[i] == '-' && str[i + 1])
 	{
-		if (str[i] >= '0' && str[i] <= '9')
-		{
-			(*num) = (*num) * 10 + (str[i] - '0');
-			i++;
-		}
-		else
-			return (0);
+		(*sign) *= -1;
+		i++;
 	}
-	(*num) = (*num) * sign;
-	return (1);
+	else if (str[i] == '+' && str[i + 1])
+		i++;
+	*pos = i;
 }
+
+// int	str_to_num(char *str, long int *num)
+// {
+// 	int			sign;
+// 	int			i;
+
+// 	i = 0;
+// 	sign = 1;
+// 	*num = 0;
+// 	pass_non_numbers(str, &i, &sign);
+// 	while (str[i])
+// 	{
+// 		if (str[i] >= '0' && str[i] <= '9')
+// 		{
+// 			(*num) = (*num) * 10 + (str[i] - '0');
+// 			i++;
+// 		}
+// 		else
+// 			return (0);
+// 	}
+// 	(*num) = (*num) * sign;
+// 	return (1);
+// }

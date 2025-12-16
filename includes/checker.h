@@ -52,10 +52,9 @@ int				is_asending(t_dll_info *lst);
 
 //======%% utils1 %%=========
 int				ft_strcmp(char *s1, char *s2);
-int				str_to_num(char *str, long int *num);
 void			ft_putstr(char *str);
 void			ft_puterror(char *str);
-int				ft_strlen(char *str);
+void			skip_non_numbers(char *str, int *pos, int *sign);
 
 //======%% lst_utils1 %%=========
 t_dbl_ll		*create_node(int data);
@@ -68,11 +67,12 @@ t_dll_info		*init_lst_info(t_dll_info *lst_info);
 void			free_lst(t_dll_info *lst_info);
 
 //======%% parse_array %%=========
-void			assign_index(t_dll_info *lst, int *sorted);
+int				store_int(t_dll_info *lst_a, char *str, int *sign, int *pos);
 int				store_in_stack(int argc, char **argv, t_dll_info *lst_info);
 
 char			*ft_strdup_term(char *src, char term_char);
-char			*get_next_line(int fd);
 unsigned int	ft_strlcpy(char *dest, char *src, unsigned int size);
+char			*get_next_line(int fd);
+int				ft_strlen(char *str);
 
 #endif

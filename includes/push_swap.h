@@ -72,7 +72,8 @@ void		chunk_sort(t_dll_info *lst_a, t_dll_info *lst_b);
 
 //======%% utils1 %%=========
 int			ft_strcmp(char *s1, char *s2);
-int			str_to_num(char *str, long int *num);
+void		skip_non_numbers(char *str, int *pos, int *sign);
+int			str_to_num(char *str, long int *num, int *pos);
 void		ft_putstr(char *str);
 void		ft_puterror(char *str);
 int			ft_strlen(char *str);
@@ -89,6 +90,8 @@ void		free_lst(t_dll_info *lst_info);
 
 //======%% parse_array %%=========
 void		assign_index(t_dll_info *lst, int *sorted);
+int			is_duplicate(t_dll_info *lst_info, long int *new_value);
+int			store_int(t_dll_info *lst_a, char *str, int *sign, int *pos);
 int			store_in_stack(int argc, char **argv, t_dll_info *lst_info);
 
 #endif
