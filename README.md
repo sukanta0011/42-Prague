@@ -24,12 +24,20 @@ Now, with the constraint of following operation, we need to sort stack a with th
 ### Output
 While sorting, we should keep printing the operation name on the terminal with \n character. At the end, a check function will read the operation to check if, with the provided operation, it can sort the same integers received by both our program and the checker function.
 
+### Bonus: Checker
+The main program only print the operation it has performed, the checker function apply the same operations on the same stack and check if the operations are enough to make the stack a sorted. On success it returns "OK" else "KO" and if the provided arguments has some error, it print "Error"
+
 ## Instructions
 Run the make file to generate the push_swap binary.
 
 ```bash
 make or make all
 ./push_swap 1 7 4 2 -11 -> to sort the arguments
+```
+
+```bash
+make bonus -> gebberate checker file
+./push_swap 1 7 4 2 -11 | ./checker 1 7 4 2 -11
 ```
 
 ## Resources
@@ -58,5 +66,6 @@ For sorting 3 numbers, a custom algorithm is used, and the maximum number of ste
 ### Sorting big stack (> 10)
 
 To sort a big stack, the chunk sort is used, where I have used chunk size 20 for 100 numbers and chunk size 35 for 500 numbers. The idea of chunk sort is, in stack a, the program look for the index value which falls between "i" and "i" + chunk, "i" starts from 0 and every time a match is found, program pushs the value to stack b, if the index fall below "i", program pushs it to chunk b and rotate the chunk b such that the smallest number goes at the bottom, and every time match is found, "i" is increased, else rotate the stack a. We do this until stack a is empty. While pushing back from b to a, program looks for the largest number and tries to find an optimal way to bring that number to the top of the stack b and then push it. The initial filtering by chunks helps in minimizing the steps required to make the stack b empty. The number of steps required to sort the array depends on the chunk size. I found that chunk 35 is optimal for 500 numbers and 20 for 100 numbers.
+
 
 
