@@ -1,5 +1,5 @@
 SRC_DIR = srcs
-CHECKER_DIR = checker_srcs
+CHECKER_DIR = bonus
 HDR_DIR = includes
 FLAGS = -Wall -Wextra -Werror
 CC = cc

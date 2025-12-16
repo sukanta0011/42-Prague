@@ -48,15 +48,23 @@ void	ft_puterror(char *str)
 	write(2, "\n", 1);
 }
 
-// int	ft_strlen(char *str)
-// {
-// 	int	i;
+void	pass_non_numbers(char *str, int *pos, int *sign)
+{
+	int	i;
 
-// 	i = 0;
-// 	while (str[i])
-// 		i++;
-// 	return (i);
-// }
+	i = *pos;
+	while (str[i] && ((str[i] >= '\t' && str[i] <= '\r')
+			|| str[i] == ' '))
+		i++;
+	if (str[i] == '-' && str[i + 1])
+	{
+		(*sign) *= -1;
+		i++;
+	}
+	else if (str[i] == '+' && str[i + 1])
+		i++;
+	*pos = i;
+}
 
 int	str_to_num(char *str, long int *num)
 {
@@ -66,13 +74,7 @@ int	str_to_num(char *str, long int *num)
 	i = 0;
 	sign = 1;
 	*num = 0;
-	if (str[i] == '-' && str[i + 1])
-	{
-		sign *= -1;
-		i++;
-	}
-	else if (str[i] == '+' && str[i + 1])
-		i++;
+	pass_non_numbers(str, &i, &sign);
 	while (str[i])
 	{
 		if (str[i] >= '0' && str[i] <= '9')

@@ -3292,7 +3292,7 @@ res_4=0
 res_5=0
 res_err=0
 control=1
-val=11
+val=101
 media=0
 alta=0
 baja=2147483647
@@ -3419,7 +3419,7 @@ res_2=0
 res_3=0
 res_4=0
 res_5=0
-val=11
+val=101
 media=0
 control=1
 alta=0
@@ -4181,7 +4181,7 @@ cont=1
 cont2=1
 cont3=1
 cont4=0
-while [ $cont2 -lt 1 ]
+while [ $cont2 -lt 501 ]
 do
 cont=1
 while [ $cont -lt 6 ]

@@ -66,7 +66,7 @@ void		radix_sort(t_dll_info *lst_a, t_dll_info *lst_b);
 int			is_asending(t_dll_info *lst);
 
 //======%% chunk_sort %%=========
-int			get_chunk_size (int size);
+int			get_chunk_size(int size);
 void		empty_stack_b(t_dll_info *lst_a, t_dll_info *lst_b);
 void		chunk_sort(t_dll_info *lst_a, t_dll_info *lst_b);
 
