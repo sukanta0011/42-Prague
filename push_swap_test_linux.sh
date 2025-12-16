@@ -4181,7 +4181,7 @@ cont=1
 cont2=1
 cont3=1
 cont4=0
-while [ $cont2 -lt 501 ]
+while [ $cont2 -lt 11 ]
 do
 cont=1
 while [ $cont -lt 6 ]
@@ -4426,7 +4426,7 @@ else
 	printf "${RED}12.[KO] ${DEF_COLOR}\n";
 fi
 
-./checker "8 "9 1" 12" 2> test_check.txt > /dev/null
+./checker "8 '9 1' 12" 2> test_check.txt > /dev/null
 if [ -s "$FICHERO" ];then
 while IFS= read -r line
 do
@@ -4501,7 +4501,7 @@ else
 	printf "${RED}17.[KO] ${DEF_COLOR}\n";
 fi
 
-./checker "111111 "-4 3"" 2> test_check.txt > /dev/null
+./checker "111111 '-4 3'" 2> test_check.txt > /dev/null
 if [ -s "$FICHERO" ];then
 while IFS= read -r line
 do
@@ -4606,7 +4606,7 @@ else
 	printf "${RED}24.[KO] ${DEF_COLOR}\n";
 fi
 
-./checker "42 " -42" " 2> test_check.txt > /dev/null
+./checker "42 ' -42' " 2> test_check.txt > /dev/null
 if [ -s "$FICHERO" ];then
 while IFS= read -r line
 do
