@@ -34,6 +34,8 @@ int	main(int argc, char **argv)
 	int			error;
 
 	error = 0;
+	if (argc == 1)
+		return (0);
 	if (argc < 2 || ft_strlen(argv[1]) == 0)
 		error = 1;
 	lst_a_info = NULL;
