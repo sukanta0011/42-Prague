@@ -14,6 +14,7 @@ class Plant:
     def grow(self, growth_rate: int = 1) -> None:
         """Increase the plant height by growth rate."""
         self.height += growth_rate
+        print(f"{self.name} grew {growth_rate}cm")
 
     def age(self) -> None:
         """Increase the plant age by a day."""
@@ -28,8 +29,6 @@ class Flower(Plant):
            and flower colour"""
         super().__init__(name, height, age)
         self.color = color
-        print(f"{self.name} (Flower): {self.height}cm, " +
-              f"{self.plant_age} days, {self.color}")
 
     def bloom(self) -> None:
         """Bloom the flower"""
@@ -45,8 +44,10 @@ class Tree(Plant):
            and trunk diameter(cm)"""
         super().__init__(name, height, age)
         self.trunk_diameter = trunk_diameter
-        print(f"{self.name} (Tree): {self.height}cm, " +
-              f"{self.plant_age} days, {self.trunk_diameter}cm diameter")
+
+    def grow(self, growth_rate: int = 1) -> None:
+        self.height += growth_rate
+        print(f"{self.name} Tree grew {growth_rate}cm")
 
     def produce_shade(self, shade_area: int):
         """Produce shade by provided area in m^2"""
@@ -66,22 +67,68 @@ class Vegetable(Plant):
         super().__init__(name, height, age)
         self.harvest_season = harvest_season
         self.nutritional_value = nutritional_value
-        print(f"{self.name} (Vegetable): {self.height}cm, " +
-              f"{self.plant_age} days, {self.harvest_season} harvest")
-        print(f"{self.name} is rich in {self.nutritional_value}")
+
+
+class PrizeFlower(Flower):
+    def __init__(self, name: str, height: int, age: int, color: str,
+                 prize_points: int) -> None:
+        super().__init__(name, height, age, color)
+        self.prize_points = prize_points
+
+
+class GardenManager:
+    def __init__(self, owner: str) -> None:
+        self.owner = owner
+        self.garden_stats = self.GardenStats()
+        self.plants = {}
+
+    def add_plant(self, plant: object) -> None:
+        self.plants[plant.name] = plant
+        if plant.__class__ == Tree:
+            print(f"Added {plant.name} Tree to {self.owner}'s garden")
+        else:
+            print(f"Added {plant.name} to {self.owner}'s garden")
+
+    def garden_report(self) -> None:
+        print("Plants in garden")
+        for _, plant in self.plants.items():
+            if plant.__class__ == Tree:
+                print(f" - {plant.name} Tree: {plant.height}cm")
+            elif plant.__class__ == Flower:
+                print(f" - {plant.name}: {plant.height}cm," +
+                      f"{plant.color} flowers (blooming)")
+            elif plant.__class__ == PrizeFlower:
+                print(f" - {plant.name}: {plant.height}cm," +
+                      f"{plant.color} flowers (blooming), " +
+                      f"Prize points: {plant.prize_points}")
+            else:
+                print(f" - {plant.name}: {plant.height}cm")
+    
+    @classmethod
+    def create_garden_network(cls):
+        pass
+
+    class GardenStats:
+        pass
 
 
 if __name__ == "__main__":
-    print("=== Plant Factory Output ===\n")
+    print("=== Garden Management System Demo ===")
+    print()
+    alice = GardenManager("Alice")
     rose = Flower("Rose", 25, 30, "red color")
-    rose.bloom()
-    sunflower = Flower("Sunflower", 50, 15, "yellow")
-    sunflower.bloom()
-    print()
+    sunflower = PrizeFlower("Sunflower", 50, 15, "yellow", 10)
     oak = Tree("Oak", 500, 1825, 50)
-    oak.produce_shade(78)
-    pine = Tree("Pine", 300, 1000, 30)
-    pine.produce_shade(45)
+    alice.add_plant(oak)
+    alice.add_plant(rose)
+    alice.add_plant(sunflower)
     print()
-    tomato = Vegetable("Tomato", 80, 90, "summer", "vitamin C")
-    carrot = Vegetable("Carrot", 20, 60, "autumn", "vitamin A")
+    print("Alice is helping all plants grow...")
+    alice.plants["Oak"].grow()
+    alice.plants["Rose"].grow()
+    alice.plants["Sunflower"].grow()
+    print()
+    print("=== Alice's Garden Report ===")
+    alice.garden_report()
+
+

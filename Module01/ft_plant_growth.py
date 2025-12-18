@@ -1,43 +1,43 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    ft_garden_data.py                                  :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: sudas <sudas@student.42prague.com>         +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2025/12/09 15:20:21 by sudas             #+#    #+#              #
-#    Updated: 2025/12/09 15:20:21 by sudas            ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
-
 class Plant:
     def __init__(self, name: str, height: int, age: int) -> None:
-        self._name = name
-        self._height = height
-        self._age = age
+        self.name = name
+        self.height = height
+        self.plant_age = age
 
-    def get_info(self):
-        print(f"{self._name}: {self._height}cm, {self._age} days old")
+    def get_info(self) -> str:
+        return f"{self.name}: {self.height}cm, {self.plant_age} days old"
 
-    def grow(self, new_height: int):
-        self._height = new_height
+    def grow(self, growth_rate: int = 1) -> None:
+        self.height += growth_rate
 
-    def age(self, new_age: int):
-        self._age = new_age
-
-
-def my_plants():
-    print("=== Day 1 ===")
-    initial_height = 25
-    rose = Plant("Rose", initial_height, 30)
-    rose.get_info()
-    print("=== Day 7 ===")
-    final_height = 31
-    rose.age(36)
-    rose.grow(final_height)
-    rose.get_info()
-    print(f"Growth this week: +{final_height - initial_height}cm")
+    def age(self) -> None:
+        self.plant_age += 1
 
 
-if __name__ == "__main__":
-    my_plants()
+rose = Plant("Rose", 25, 30)
+sn_flwr = Plant("Sunflower", 80, 45)
+rose_initial_height = 0
+rose_final_height = 0
+sn_flwr_initial_height = 0
+sn_flwr_final_height = 0
+
+days = 7
+for i in range(1, days + 1):
+    print(f"\n=== Day {i} ===")
+    rose.age()
+    rose.grow()
+    print(rose.get_info())
+    sn_flwr.age()
+    sn_flwr.grow(2)
+    print(sn_flwr.get_info())
+    if (i == 1):
+        rose_initial_height = rose.height
+        sn_flwr_initial_height = sn_flwr.height
+    if (i == days):
+        rose_final_height = rose.height
+        sn_flwr_final_height = sn_flwr.height
+
+print("\n=== Growth Summary ===")
+print(f"Growth this week, Rose: +{rose_final_height - rose_initial_height}cm")
+print("Growth this week, Sunflower: " +
+      f"+{sn_flwr_final_height - sn_flwr_initial_height}cm")

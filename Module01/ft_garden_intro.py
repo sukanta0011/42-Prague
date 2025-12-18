@@ -1,15 +1,3 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    ft_garden_intro.py                                 :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: sudas <sudas@student.42prague.com>         +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2025/12/09 15:08:16 by sudas             #+#    #+#              #
-#    Updated: 2025/12/09 15:08:16 by sudas            ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
-
 def ft_garden_intro(name: str, height: int, age: int) -> None:
     print("=== Welcome to My Garden ===")
     print("Plant:", name)
