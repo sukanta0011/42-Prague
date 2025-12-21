@@ -12,46 +12,56 @@ class WaterError(GardenError):
     """Exception raise for watering related errors"""
     pass
 
+
 def get_plant_condition(plant_name: str):
+    """Get the current condition of the plant"""
     bad_conditions = ["wilting", "dead"]
     condition = "wilting"
     if condition in bad_conditions:
-        raise PlantError
+        raise PlantError(f"{plant_name} is {condition}!")
 
 
-def test_custom():
-    """Testing the error handling of garden operation"""
-    plants_info = {"Rose": 10}
-    fake_path = "missing.txt"
+def get_water_levels():
+    """Get the current water level in the tank"""
+    water_level = 0
+    if water_level <= 2:
+        raise WaterError("Not enough water in the tank!")
+    elif water_level > 10:
+        raise WaterError("Tank is full, stop the pump.")
+    else:
+        return water_level
 
-    print("Testing ValueError...")
-    garden_operations(height="abc")
+
+def test_custom_error():
+    """Testing custom errors related to garden"""
+    plant_name = "Tomato"
     print()
-
-    print("Testing ZeroDivisionError...")
-    garden_operations(height="10", days=0)
-    print()
-
-    print("Testing FileNotFoundError...")
-    garden_operations(log_path=fake_path)
-    print()
-
-    print("Testing KeyError...")
-    garden_operations(plants_info=plants_info)
-    print()
-
-    print("Testing multiple errors together...")
-    val = 0
+    print("Testing PlantError...")
     try:
-        val = int("abc")
-    except (ValueError, FileNotFoundError, ZeroDivisionError, KeyError):
-        pass
-    print("Caught an error, but program continues")
+        get_plant_condition(plant_name)
+    except PlantError as e:
+        print(f"Caught PlantError: {e}")
+
     print()
-    return val
+    print("Testing WaterError...")
+    try:
+        get_water_levels()
+    except WaterError as e:
+        print(f"Caught WaterError: {e}")
+
+    print()
+    print("Testing GardenError...")
+    try:
+        get_plant_condition(plant_name)
+    except GardenError as e:
+        print(f"Caught GardenError: {e}")
+    try:
+        get_water_levels()
+    except GardenError as e:
+        print(f"Caught GardenError: {e}")
 
 
 if __name__ == "__main__":
     print("=== Garden Error Types Demo ===")
-    test_error_types()
+    test_custom_error()
     print("All error types tested successfully!")
