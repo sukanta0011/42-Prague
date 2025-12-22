@@ -45,3 +45,7 @@ We need to use the rise statement to throw errors from our function.
 
 ### Ex05: ft_garden_management.py
 We need to combine all our learning to GardenManager class, such that we handle errors gracefully and our class never stops under bad inputs.
+
+## Module 03: Data Quest
+### Introduction
+This module focuses on data structure mastery. Our programs should demonstrate practical data engineering scenarios while showcasing the unique strengths of each collection type. We're about to build the "PixelMetrics 3000"—the most epic game analytics platform this side of the digital universe.
