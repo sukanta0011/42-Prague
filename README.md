@@ -28,11 +28,20 @@ the critical skills of resilient data pipeline engineering for agricultural syst
 - Essential techniques for data pipeline fault tolerance and recovery
 - How to ensure data integrity in distributed farming systems
 
-### Ex00
+### Ex00: ft_first_exception.py
 We need to create a function check_temperature(temp_str) to prevent corrupt data to get registered into the system.
 
-### Ex01
+### Ex01: ft_different_errors.py
 We need to handle different type of errors separately
 
-### Ex02
+### Ex02: ft_custom_errors.py
 We need to create our own simple custom errors
+
+### Ex03: ft_finally_block.py
+We need to used the finally block with the combination of try/except.
+
+### Ex04: ft_raise_errors.py
+We need to use the rise statement to throw errors from our function.
+
+### Ex05: ft_garden_management.py
+We need to combine all our learning to GardenManager class, such that we handle errors gracefully and our class never stops under bad inputs.

@@ -59,9 +59,9 @@ def test_custom_error():
         get_water_levels()
     except GardenError as e:
         print(f"Caught GardenError: {e}")
+    print("All error types tested successfully!")
 
 
 if __name__ == "__main__":
     print("=== Garden Error Types Demo ===")
     test_custom_error()
-    print("All error types tested successfully!")
