@@ -8,6 +8,7 @@ class DataStream(ABC):
         self.stream_id = stream_id
         self.data_type = type
         self.storage = {}
+        self.counter = {}
 
     @abstractmethod
     def process_batch(self, data_batch: List[Any]) -> str:
@@ -15,27 +16,43 @@ class DataStream(ABC):
 
     def filter_data(self, data_batch: List[Any],
                     criteria: Optional[str] = None) -> List[Any]:
-        pass
+        if not criteria:
+            return data_batch
+        return ([data for data in data_batch if criteria in data])
 
     def get_stats(self) -> Dict[str, Union[str, int, float]]:
         return {"id": self.stream_id, "type": self.data_type}
 
-    def _store_dat_in_dict(self, data_batch: List[Any]):
+    def _store_data_and_counts(self, data_batch: List[Any]):
+        key = ""
         for data in data_batch:
             try:
                 data = data.split(":")
                 key = data[0].strip()
-                if key in self.storage.keys():
+                self._store_in_counts(key)
+                if len(data) > 1:
                     val = float(data[1].strip())
-                    self.storage[key].append(val)
+                    self._store_in_storage(key, val)
             except ValueError:
                 print(f"Error: {data[1]} value for {key}" +
                       " is not number")
 
+    def _store_in_counts(self, type: str):
+        if type in self.counter.keys():
+            self.counter[type] += 1
+        else:
+            self.counter[type] = 1
+
+    def _store_in_storage(self, type: str, val: (int | float)):
+        if type in self.storage.keys():
+            self.storage[type] += val
+        else:
+            self.storage[type] = val
+
     def _get_number_of_data(self) -> int:
         total_data = 0
-        for data in self.storage:
-            total_data += len(self.storage[data])
+        for data in self.counter:
+            total_data += self.counter[data]
         return (total_data)
 
 
@@ -44,9 +61,14 @@ class SensorStream(DataStream):
     def __init__(self, stream_id: str, type: str) -> None:
         super().__init__(stream_id, type)
         self.storage = {
-            "temp": [],
-            "humidity": [],
-            "pressure": [],
+            "temp": 0,
+            "humidity": 0,
+            "pressure": 0,
+        }
+        self.counter = {
+            "temp": 0,
+            "humidity": 0,
+            "pressure": 0,
         }
 
     def process_batch(self, data_batch: List[Any]) -> str:
@@ -57,17 +79,49 @@ class SensorStream(DataStream):
         except TypeError as e:
             print(f"{e}")
 
-        self._store_dat_in_dict(data_batch)
+        self._store_data_and_counts(data_batch)
         total_processes = self._get_number_of_data()
         return f"Sensor analysis: {total_processes} readings processed"
 
     def get_avg_temp(self) -> str:
         """Return the average temperature measured by the sensor"""
-        if len(self.storage["temp"]) > 0:
-            avg_temp = sum(self.storage["temp"]) /\
-                len(self.storage["temp"])
-            return f"avg temp: {avg_temp}°C"
-        return "avg temp: no temperature data received yet"
+        try:
+            if self.storage["temp"] > 0:
+                avg_temp = self.storage["temp"] / self.counter["temp"]
+                return f"avg temp: {avg_temp}°C"
+            return "avg temp: no temperature data received yet"
+        except KeyError:
+            return f"Error: 'temp' is not in {self.storage.keys()}"
+
+    def filter_data(self, data_batch: List[Any],
+                    criteria: Optional[str] = None) -> List[Any]:
+        """Filter high sensors values"""
+        if not criteria:
+            return data_batch
+        new_batch = []
+        try:
+            crite_lst = criteria.split(",")
+            max_temp = float(crite_lst[0].strip())
+            max_humidity = float(crite_lst[1].strip())
+            max_pressure = float(crite_lst[2].strip())
+            key = ""
+            for data in data_batch:
+                try:
+                    key = data.split(":")[0].strip()
+                    val = float(data.split(":")[1].strip())
+                    if "temp" in key and val > max_temp:
+                        new_batch.append(data)
+                    elif "humidity" in key and val > max_humidity:
+                        new_batch.append(data)
+                    elif "pressure" in key and val > max_pressure:
+                        new_batch.append(data)
+                except ValueError:
+                    print(f"Error: {data[1]} value for {key}" +
+                          " is not number")
+            return new_batch
+        except ValueError:
+            print(f"Error: criteria {criteria} are not in correct format")
+        return new_batch
 
 
 class TransactionStream(DataStream):
@@ -75,8 +129,12 @@ class TransactionStream(DataStream):
     def __init__(self, stream_id: str, type: str) -> None:
         super().__init__(stream_id, type)
         self.storage = {
-            "buy": [],
-            "sell": [],
+            "buy": 0,
+            "sell": 0,
+        }
+        self.counter = {
+            "buy": 0,
+            "sell": 0,
         }
 
     def process_batch(self, data_batch: List[Any]) -> str:
@@ -87,24 +145,44 @@ class TransactionStream(DataStream):
         except TypeError as e:
             return (f"{e}")
 
-        self._store_dat_in_dict(data_batch)
+        self._store_data_and_counts(data_batch)
         total_transaction = self._get_number_of_data()
 
         return f"Transaction analysis: {total_transaction} operations"
 
     def get_net_flow(self):
         """Return the net transactions"""
-        buy = 0
-        sell = 0
-        if (len(self.storage["buy"]) > 0):
-            buy = sum(self.storage["buy"])
-        if (len(self.storage["sell"]) > 0):
-            sell = sum(self.storage["sell"])
-        flow = int((buy - sell))
-        sign = "+"
-        if flow < 0:
-            sign = "-"
-        return f"net flow {sign}{flow} units"
+        try:
+            flow = (self.storage["buy"] - self.storage["sell"])
+            sign = "+"
+            if flow < 0:
+                sign = "-"
+            return f"net flow {sign}{flow} units"
+        except KeyError:
+            return f"Error: 'buy/sell' is not in {self.storage.keys()}"
+
+    def filter_data(self, data_batch: List[Any],
+                    criteria: Optional[str] = None) -> List[Any]:
+        """Filter high transaction data only"""
+        if not criteria:
+            return data_batch
+        new_batch = []
+        try:
+            high_trans = float(criteria.strip())
+            key = ""
+            for data in data_batch:
+                try:
+                    key = data.split(":")[0].strip()
+                    val = float(data.split(":")[1].strip())
+                    if val > high_trans:
+                        new_batch.append(data)
+                except ValueError:
+                    print(f"Error: {data[1]} value for {key}" +
+                          " is not number")
+            return new_batch
+        except ValueError:
+            print(f"Error: criteria {criteria} are not in correct format")
+        return new_batch
 
 
 class EventStream(DataStream):
@@ -118,25 +196,35 @@ class EventStream(DataStream):
         except TypeError as e:
             return (f"{e}")
 
-        events = 0
-        for data in data_batch:
-            if data not in self.storage:
-                self.storage[data] = 1
-            else:
-                self.storage[data] += 1
-            events += 1
+        self._store_data_and_counts(data_batch)
+        total_events = self._get_number_of_data()
 
-        return f"Event analysis: {events} events"
+        return f"Event analysis: {total_events} events"
 
     def get_event_counts(self, event: str):
         """Return the number of occurrence of provided event"""
-        if event in self.storage.keys():
-            return f"{self.storage[event]} {event} detected"
+        if event in self.counter.keys():
+            return f"{self.counter[event]} {event} detected"
         return f"0 {event} detected"
 
 
 class StreamProcessor():
-    pass
+    def __init__(self):
+        self.stream_types = {}
+
+    def add_stream_object(self, id: str, stream: DataStream) -> None:
+        if id not in self.stream_types.keys():
+            self.stream_types[id] = stream
+
+    def display_stream_types(self):
+        for key, val in self.stream_types.items():
+            print(f"{key}: {val}")
+
+    def process_all_stream(self, data: Dict[str, List[Any]]) -> None:
+        for key in data:
+            if key in self.stream_types.keys():
+                results = self.stream_types[key].process_batch(data[key])
+                print(f"- {results}")
 
 
 def test_data_stream():
@@ -177,6 +265,33 @@ def test_data_stream():
 
     print("=== Polymorphic Stream Processing ===")
     print("Processing mixed stream types through unified interface...")
+    print()
+    batch_1 = {
+        "SENSOR_001": ["temp:50", "humidity:65"],
+        "TRANS_001": ["buy:500", "sell:150", "buy:75"],
+        "EVENT_001": ["login", "error", "logout"]
+    }
+    all_streams = StreamProcessor()
+    all_streams.add_stream_object("SENSOR_001", sensor)
+    all_streams.add_stream_object("TRANS_001", trans)
+    all_streams.add_stream_object("EVENT_001", event)
+    print("Batch 1 Results:")
+    all_streams.process_all_stream(batch_1)
+
+    print()
+    print("Stream filtering active: High-priority data only")
+    sensor_data = ["temp:22.5", "humidity:135", "pressure:1013", "temp:40",
+                   "humidity:65", "pressure:1013"]
+    sensor_criteria = "30, 120, 1200"
+    filt_sensor = sensor.filter_data(sensor_data, sensor_criteria)
+    trans_data = ["buy:100", "sell:150", "buy:75", "sell: 1100"]
+    trans_cri = "1000"
+    filt_trans = trans.filter_data(trans_data, trans_cri)
+    print(f"Filtered results: {len(filt_sensor)} critical sensor alerts, " +
+          f"{len(filt_trans)} large transaction")
+
+    print()
+    print("All streams processed successfully. Nexus throughput optimal.")
 
 
 if __name__ == "__main__":
