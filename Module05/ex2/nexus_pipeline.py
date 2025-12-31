@@ -27,7 +27,6 @@ class ProcessPipeline(ABC):
 
     def add_stage(self, stage: ProcessingStage):
         self.stages.append(stage)
-    
 
     @abstractmethod
     def process(self, data: Any) -> Any:
@@ -49,6 +48,7 @@ class CSVAdapter(ProcessPipeline):
     def process(self, data):
         pass
 
+
 class StreamAdapter(ProcessPipeline):
     def __init__(self, pipeline_id):
         self.id = pipeline_id
@@ -56,5 +56,25 @@ class StreamAdapter(ProcessPipeline):
     def process(self, data):
         pass
 
+
 class NexusManager():
-    pass
+    def __init__(self):
+        self.pipelines = []
+
+    def add_pipeline(self, pipeline: ProcessPipeline):
+        self.pipelines.append(pipeline)
+
+    def process_data(self):
+        pass
+
+
+def tester():
+    print("=== CODE NEXUS - ENTERPRISE PIPELINE SYSTEM ===")
+    print()
+    print("Initializing Nexus Manager...")
+    nexus = NexusManager()
+    print("Creating Data Processing Pipeline...")
+
+
+if __name__ == "__main__":
+    tester()
