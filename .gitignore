@@ -1,3 +1,6 @@
 __pycache__
 matrix_env
 venv
+poetry.lock
+.env
+poetry.lock

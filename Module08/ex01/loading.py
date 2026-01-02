@@ -1,5 +1,17 @@
 import importlib
-import numpy as np
+import os
+
+
+def display_environment():
+    """Display the current environment details"""
+    env = os.environ.get("VIRTUAL_ENV")
+    if env is not None:
+        if "poetry" in env:
+            print("ENVIRONMENT: Poetry")
+        else:
+            print("ENVIRONMENT: Pip/venv")
+    else:
+        print("ENVIRONMENT: Global")
 
 
 def get_module(name: str):
@@ -27,25 +39,25 @@ def check_dependencies_and_run():
     requests_status = 0
     matplotlib = get_module("matplotlib")
     matplotlib_status = 0
-    if pandas != None:
+    if pandas is not None:
         print(f"[OK] pandas ({pandas.__version__}) - " +
               "Data manipulation ready")
         pandas_status = 1
     else:
         print("Error: pandas module is not found")
-    if requests != None:
+    if requests is not None:
         print(f"[OK] requests ({requests.__version__}) - " +
               "Network access ready")
         requests_status = 1
     else:
         print("Error: requests module is not found")
-    if matplotlib != None:
+    if matplotlib is not None:
         print(f"[OK] matplotlib ({matplotlib.__version__}) - " +
               "Visualization ready")
         matplotlib_status = 1
     else:
         print("Error: matplotlib module is not found")
-    
+
     if (pandas_status and requests_status and matplotlib_status):
         print()
         run_analysis(pandas, requests, matplotlib)
@@ -63,7 +75,7 @@ def run_analysis(pd, requests, plt):
         pd = get_module("pandas")
         pd_data = pd.DataFrame(simulated_data, columns=["value"])
         print("Analyzing Matrix data...")
-        calculated_std = pd_data.std()
+        pd_data.std()
     except Exception as e:
         print(f"Error: {e}")
 
@@ -82,12 +94,13 @@ def run_analysis(pd, requests, plt):
         plt.savefig("matrix_analysis.png")
         print()
         print("Analysis complete!\n"
-            "Results saved to: matrix\_analysis.png")
+              "Results saved to: matrix_analysis.png")
     except Exception as e:
         print(f"Error: {e}")
 
 
 if __name__ == "__main__":
     print("LOADING STATUS: Loading programs...")
+    display_environment()
     print()
     check_dependencies_and_run()

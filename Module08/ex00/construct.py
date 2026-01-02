@@ -17,6 +17,7 @@ Safe to install packages without affecting
 the global system.
 """
 
+
 def is_in_venv() -> bool:
     """Check if we are in virtual environment or not"""
     main_python = sys.base_prefix
