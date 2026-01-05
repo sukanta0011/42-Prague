@@ -19,7 +19,7 @@ class GardenManager:
 
     def __init__(self) -> None:
         self.plants = {}
-        self.water_in_tank = 15
+        self.water_in_tank = 10
 
     def get_water_in_tank(self):
         """Get the current water level in the tank"""
