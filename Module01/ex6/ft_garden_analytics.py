@@ -79,7 +79,7 @@ class GardenManager:
         """Register new plants to the garden manager"""
         self.plants[plant.name] = plant
         self.garden_stats.add(plant)
-        if plant.__class__ == Tree:
+        if isinstance(plant, Tree):
             print(f"Added {plant.name} Tree to {self.owner}'s garden")
         else:
             print(f"Added {plant.name} to {self.owner}'s garden")
@@ -184,3 +184,9 @@ if __name__ == "__main__":
     print(f"Garden score - Alice: {alice.get_score()}, " +
           f"Bob: {bob.get_score()}")
     print(f"Total gardens managed: {GardenManager.total_gardens}")
+    print()
+    print("Garden Network example")
+    print(f"Total gardens: {GardenManager.total_gardens}")
+    all_owners = GardenManager.create_garden_network(['Owner1', 'Owner2'])
+    print(f"New owners: {[owner.owner for owner in all_owners]}")
+    print(f"Total gardens: {GardenManager.total_gardens}")

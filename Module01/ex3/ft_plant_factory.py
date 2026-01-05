@@ -30,11 +30,12 @@ class Plant:
         self.plant_age += 1
 
 
-print("=== Plant Factory Output ===")
-rose = Plant("Rose", 25, 30)
-oak = Plant("Oak", 200, 365)
-cactus = Plant("Cactus", 15, 120)
-sn_flwr = Plant("Sunflower", 80, 45)
-fern = Plant("Fern", 15, 120)
+if __name__ == "__main__":
+    print("=== Plant Factory Output ===")
+    rose = Plant("Rose", 25, 30)
+    oak = Plant("Oak", 200, 365)
+    cactus = Plant("Cactus", 15, 120)
+    sn_flower = Plant("Sunflower", 80, 45)
+    fern = Plant("Fern", 15, 120)
 
-print("\nTotal plants created: 5")
+    print("\nTotal plants created: 5")

@@ -43,12 +43,13 @@ class SecurePlant:
         return (self.__plant_age)
 
 
-print("===  Garden Security System ===")
-rose = SecurePlant("Rose")
-print(f"Current plant: {rose.get_name()}" +
-      f"({rose.get_height()}cm, {rose.get_age()} days)")
-rose.set_age(30)
-rose.set_height(10)
-rose.set_height(-1)
-print(f"Current plant: {rose.get_name()}" +
-      f"({rose.get_height()}cm, {rose.get_age()} days)")
+if __name__ == "__main__":
+    print("===  Garden Security System ===")
+    rose = SecurePlant("Rose")
+    print(f"Current plant: {rose.get_name()}" +
+          f"({rose.get_height()}cm, {rose.get_age()} days)")
+    rose.set_age(30)
+    rose.set_height(10)
+    rose.set_height(-1)
+    print(f"Current plant: {rose.get_name()}" +
+          f"({rose.get_height()}cm, {rose.get_age()} days)")
