@@ -1,4 +1,4 @@
-from Card import Card
+from .Card import Card
 
 
 class CreatureCard(Card):
@@ -11,20 +11,23 @@ class CreatureCard(Card):
         self.health = health
 
     def play(self, game_state: dict) -> dict:
-        game_state['effect'] = 'Creature summoned to battlefield'
-        return game_state
+        return {
+            "card_played": self.name,
+            "mana_used": self.cost,
+            "effect": "Creature summoned to battlefield"
+        }
 
     def attack_target(self, target: dict) -> dict:
         attacker_name = self.name
         target_name = target['name']
-        damage_delt = self.attack
-        if damage_delt > target['health']:
+        damage_dealt = self.attack
+        if damage_dealt > target['health']:
             combat_resolved = True
         else:
             combat_resolved = False
         return {
             'attack': attacker_name,
             'target': target_name,
-            'damage_delt': damage_delt,
+            'damage_dealt': damage_dealt,
             'combat_resolved': combat_resolved
         }
