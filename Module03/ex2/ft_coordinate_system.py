@@ -12,7 +12,7 @@ class CoordinateError(ParsingError):
 
 
 def get_distance(coord1: tuple, coord2: tuple) -> float:
-    """Measure the distance two points in 3D"""
+    """Measure the distance between two points in 3D"""
     x1, y1, z1 = coord1
     x2, y2, z2 = coord2
 
