@@ -1,15 +1,13 @@
-import sys
-sys.path.append("..")
-
 import random
 from ex0.Card import Card
 from ex0.CreatureCard import CreatureCard
-from SpellCard import SpellCard
-from ArtifactCard import ArtifactCard
+from .SpellCard import SpellCard
+from .ArtifactCard import ArtifactCard
 
 
 class Deck:
-    all_cards = []
+    def __init__(self) -> None:
+        self.all_cards = []
 
     def add_card(self, card: Card) -> None:
         """Add new card to the Deck"""

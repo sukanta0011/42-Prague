@@ -1,4 +1,4 @@
-from CreatureCard import CreatureCard
+from .CreatureCard import CreatureCard
 
 print("Testing Abstract Base Class Design:")
 print("CreatureCard Info:")

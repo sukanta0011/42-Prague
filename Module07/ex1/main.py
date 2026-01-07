@@ -1,10 +1,7 @@
-import sys
-sys.path.append("..")
-
 from ex0.CreatureCard import CreatureCard
-from ArtifactCard import ArtifactCard
-from Deck import Deck
-from SpellCard import SpellCard
+from .ArtifactCard import ArtifactCard
+from .Deck import Deck
+from .SpellCard import SpellCard
 
 
 dragon = {'name': 'Fire Dragon',

@@ -1,6 +1,3 @@
-import sys
-sys.path.append("..")
-
 from ex0.Card import Card
 
 

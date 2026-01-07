@@ -10,12 +10,15 @@ class Card(ABC):
         self.rarity = rarity
 
     @abstractmethod
-    def play(self, game_state: dict):
+    def play(self, game_state: dict) -> dict:
         pass
 
-    def get_card_info(self):
-        return f"Name: {self.name}, Cost: {self.cost} "\
-               f"Rarity: {self.rarity}"
+    def get_card_info(self) -> dict:
+        return {
+            "Name": self.name,
+            "Cost": self.cost,
+            "Rarity": self.rarity,
+            }
 
-    def is_playable(self, abailable_mana: int):
-        return abailable_mana >= self.cost
+    def is_playable(self, available_mana: int):
+        return available_mana >= self.cost
