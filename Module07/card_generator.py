@@ -8,7 +8,7 @@ test cards for your abstract classes and interfaces.
 
 Usage:
     from tools.card_generator import CardGenerator
-    
+
     generator = CardGenerator()
     creature = generator.get_creature("Fire Dragon")
     spell = generator.get_spell("Lightning Bolt")

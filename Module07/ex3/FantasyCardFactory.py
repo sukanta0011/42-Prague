@@ -6,38 +6,111 @@ from ex1.SpellCard import SpellCard
 
 
 class FantasyCardFactory(CardFactory):
+    def __init__(self):
+        self._creatures = [
+            {"name": "Fire Dragon", "cost": 5, "rarity": "Legendary",
+             "attack": 7, "health": 5},
+            {"name": "Goblin Warrior", "cost": 2, "rarity": "Common",
+             "attack": 2, "health": 1},
+            {"name": "Ice Wizard", "cost": 4, "rarity": "Rare",
+             "attack": 3, "health": 4},
+            {"name": "Lightning Elemental", "cost": 3, "rarity": "Uncommon",
+             "attack": 4, "health": 2},
+            {"name": "Stone Golem", "cost": 6, "rarity": "Rare",
+             "attack": 5, "health": 8},
+            {"name": "Shadow Assassin", "cost": 3, "rarity": "Uncommon",
+             "attack": 5, "health": 2},
+            {"name": "Healing Angel", "cost": 4, "rarity": "Rare",
+             "attack": 2, "health": 6},
+            {"name": "Forest Sprite", "cost": 1, "rarity": "Common",
+             "attack": 1, "health": 1},
+        ]
+        self._spells = [
+            {"name": "Lightning Bolt", "cost": 3, "rarity": "Common",
+             "effect_type": "damage"},
+            {"name": "Healing Potion", "cost": 2, "rarity": "Common",
+             "effect_type": "heal"},
+            {"name": "Fireball", "cost": 4, "rarity": "Uncommon",
+             "effect_type": "damage"},
+            {"name": "Shield Spell", "cost": 1, "rarity": "Common",
+             "effect_type": "buff"},
+            {"name": "Meteor", "cost": 8, "rarity": "Legendary",
+             "effect_type": "damage"},
+            {"name": "Ice Shard", "cost": 2, "rarity": "Common",
+             "effect_type": "damage"},
+            {"name": "Divine Light", "cost": 5, "rarity": "Rare",
+             "effect_type": "heal"},
+            {"name": "Magic Missile", "cost": 1, "rarity": "Common",
+             "effect_type": "damage"},
+        ]
+        self._artifacts = [
+            {"name": "Mana Crystal", "cost": 2, "rarity": "Common",
+             "durability": 5, "effect": "Permanent: +1 mana per turn"},
+            {"name": "Sword of Power", "cost": 3, "rarity": "Uncommon",
+             "durability": 3, "effect": "Permanent: +2 attack to "
+             "equipped creature"},
+            {"name": "Ring of Wisdom", "cost": 4, "rarity": "Rare",
+             "durability": 4, "effect": "Permanent: Draw an extra "
+             "card each turn"},
+            {"name": "Shield of Defense", "cost": 5, "rarity": "Rare",
+             "durability": 6, "effect": "Permanent: +3 health "
+             "to all friendly creatures"},
+            {"name": "Crown of Kings", "cost": 7, "rarity": "Legendary",
+             "durability": 8, "effect": "Permanent: +1 cost "
+             "reduction to all cards"},
+            {"name": "Boots of Speed", "cost": 2, "rarity": "Uncommon",
+             "durability": 2, "effect": "Permanent: Cards cost 1 less mana"},
+            {"name": "Cloak of Shadows", "cost": 3, "rarity": "Uncommon",
+             "durability": 3, "effect": "Permanent: Creatures have stealth"},
+            {"name": "Staff of Elements", "cost": 6, "rarity": "Legendary",
+             "durability": 7, "effect": "Permanent: +1 spell damage"},
+        ]
+
     def create_creature(self, name_or_power) -> Card:
         if isinstance(name_or_power, str):
-            if "Dragon" in name_or_power:
-                return CreatureCard(name_or_power, 5, "Legendary", 7, 5)
-            else:
-                return CreatureCard(name_or_power, 1, "Common", 1, 1)
+            for creature in self._creatures:
+                if name_or_power in creature['name']:
+                    return CreatureCard(**creature)
+            print(f"Available creatures: {[creature['name']
+                                           for creature in self._creatures]}")
         elif isinstance(name_or_power, int):
-            return CreatureCard("Dragon", 5, "Legendry", name_or_power, 5)
-        else:
-            print("Please add a proper name or power, else get a Goblin")
-            return CreatureCard("Goblin", 1, "Common", 1, 1)
+            for creature in self._creatures:
+                if name_or_power == creature['attack']:
+                    return CreatureCard(**creature)
+            print(f"Available power: {[creature['attack']
+                                      for creature in self._creatures]}")
+        print("Please add a proper name(string) or power(integer),"
+              " else get a Goblin")
+        return CreatureCard(**self._creatures[1])
 
     def create_spell(self, name_or_power) -> Card:
         if isinstance(name_or_power, str):
-            return SpellCard(name_or_power, 4, "Uncommon", "damage")
-        elif isinstance(name_or_power, int):
-            return SpellCard("Fireball", 5, "Legendry", "damage")
-        else:
-            print("Please add a proper name or power, else get a Ice Shard")
-            return SpellCard("Ice Shard", 2, "Common", "damage")
+            for spell in self._spells:
+                if name_or_power in spell['name']:
+                    return SpellCard(**spell)
+            print(f"Available Spells: {[spell['name']
+                                        for spell in self._spells]}")
+        print("Please add a proper name (string), "
+              "else get a Ice Shard")
+        return SpellCard(**self._spells[5])
 
     def create_artifact(self, name_or_power) -> Card:
         if isinstance(name_or_power, str):
-            return ArtifactCard(name_or_power, 2, "Common", 5,
-                                "Permanent: +1 mana per turn")
-        else:
-            print("Please add a proper name, else get a Ice Shard")
-            return ArtifactCard("Mana Crystal", 2, "Common", 5,
-                                "Permanent: +1 mana per turn")
+            for artifact in self._artifacts:
+                if name_or_power in artifact['name']:
+                    return ArtifactCard(**artifact)
+            print(f"Available Artifacts: {[artifact['name']
+                                          for artifact in self._artifacts]}")
+        print("Please add a proper name (string), "
+              "else get a Mana Crystal")
+        return ArtifactCard(**self._artifacts[0])
 
     def create_themed_deck(self, size: int) -> dict:
-        pass
+        return {}
 
     def get_supported_types(self) -> dict:
-        pass
+        return {
+            "creatures": [creature['name'] for creature in self._creatures],
+            "spells": [spell['name'] for spell in self._spells],
+            "artifacts": [artifact['name'] for artifact in self._artifacts],
+        }
