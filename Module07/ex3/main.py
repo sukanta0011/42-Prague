@@ -30,6 +30,8 @@ def main():
 
     game_engine = GameEngine()
     game_engine.configure_engine(factory, strategy)
+    print("\nGame Report:")
+    print(f"{game_engine.simulate_turn()}")
 
 
 if __name__ == "__main__":
