@@ -17,6 +17,12 @@ class TournamentCard(Card, Combatable, Rankable):
     def attack(self, target) -> dict:
         pass
 
+    def defend(self, incoming_damage: int) -> dict:
+        pass
+
+    def get_combat_stats(self) -> dict:
+        pass
+
     def get_tournament_stats(self) -> dict:
         pass
 
@@ -24,10 +30,12 @@ class TournamentCard(Card, Combatable, Rankable):
         pass
 
     def update_wins(self, wins: int) -> None:
-        pass
+        self.wins += wins
+        self.rating += 16
 
     def update_losses(self, losses: int) -> None:
-        pass
+        self.losses += losses
+        self.rating -= 16
 
     def get_rank_info(self) -> dict:
         pass
