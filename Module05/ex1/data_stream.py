@@ -23,7 +23,7 @@ class DataStream(ABC):
     def get_stats(self) -> Dict[str, Union[str, int, float]]:
         return {"id": self.stream_id, "type": self.data_type}
 
-    def _store_data_and_counts(self, data_batch: List[Any]):
+    def _store_data_and_counts(self, data_batch: List[Any]) -> None:
         key = ""
         for data in data_batch:
             try:
@@ -37,13 +37,13 @@ class DataStream(ABC):
                 print(f"Error: {data[1]} value for {key}" +
                       " is not number")
 
-    def _store_in_counts(self, type: str):
+    def _store_in_counts(self, type: str) -> None:
         if type in self.counter.keys():
             self.counter[type] += 1
         else:
             self.counter[type] = 1
 
-    def _store_in_storage(self, type: str, val: (int | float)):
+    def _store_in_storage(self, type: str, val: (int | float)) -> None:
         if type in self.storage.keys():
             self.storage[type] += val
         else:
@@ -53,7 +53,7 @@ class DataStream(ABC):
         total_data = 0
         for data in self.counter:
             total_data += self.counter[data]
-        return (total_data)
+        return total_data
 
 
 class SensorStream(DataStream):
@@ -198,10 +198,9 @@ class EventStream(DataStream):
 
         self._store_data_and_counts(data_batch)
         total_events = self._get_number_of_data()
-
         return f"Event analysis: {total_events} events"
 
-    def get_event_counts(self, event: str):
+    def get_event_counts(self, event: str) -> str:
         """Return the number of occurrence of provided event"""
         if event in self.counter.keys():
             return f"{self.counter[event]} {event} detected"
@@ -216,7 +215,7 @@ class StreamProcessor():
         if id not in self.stream_types.keys():
             self.stream_types[id] = stream
 
-    def display_stream_types(self):
+    def display_stream_types(self) -> None:
         for key, val in self.stream_types.items():
             print(f"{key}: {val}")
 
