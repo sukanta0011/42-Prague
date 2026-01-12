@@ -4,7 +4,7 @@ from typing import Any, List, Optional, Union, Dict
 
 class DataStream(ABC):
     """Abstract class for data streaming"""
-    def __init__(self, stream_id: str, type: str) -> None:
+    def __init__(self, stream_id: str, type: str = "System Events") -> None:
         self.stream_id = stream_id
         self.data_type = type
         self.storage = {}
@@ -58,7 +58,8 @@ class DataStream(ABC):
 
 class SensorStream(DataStream):
     """A class to process Sensor data"""
-    def __init__(self, stream_id: str, type: str) -> None:
+    def __init__(self, stream_id: str,
+                 type: str = "Environmental Data") -> None:
         super().__init__(stream_id, type)
         self.storage = {
             "temp": 0,
@@ -126,7 +127,7 @@ class SensorStream(DataStream):
 
 class TransactionStream(DataStream):
     """A class to process financial records"""
-    def __init__(self, stream_id: str, type: str) -> None:
+    def __init__(self, stream_id: str, type: str = "Financial Data") -> None:
         super().__init__(stream_id, type)
         self.storage = {
             "buy": 0,
