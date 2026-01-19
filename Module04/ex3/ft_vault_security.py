@@ -1,4 +1,5 @@
 def vault_security():
+    """Show the use of 'with' function in file handling"""
     extract_file = "classified_data.txt"
     preserve_file = "security_protocols.txt"
 
@@ -20,6 +21,8 @@ def vault_security():
         print("All vault operations completed with maximum security.")
     except FileNotFoundError:
         print("ERROR: Storage vault not found.")
+    except Exception as e:
+        print(f"Error: {e}")
 
 
 if __name__ == "__main__":

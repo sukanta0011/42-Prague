@@ -6,19 +6,25 @@ class DataProcessor(ABC):
     """Abstract class to validate, process and format the output"""
     @abstractmethod
     def validate(self, data: Any) -> bool:
+        """Validate data type"""
         pass
 
     @abstractmethod
     def process(self, data: Any) -> str:
+        """Process the data to required output"""
         pass
 
     def format_output(self, result: str) -> str:
+        """Format the data"""
         return result
 
 
 class NumericProcessor(DataProcessor):
+    """Handle Numerical files"""
     def validate(self, data: Any) -> bool:
         if not isinstance(data, List):
+            return False
+        if len(data) == 0:
             return False
         for val in data:
             if not isinstance(val, (int, float)):
@@ -36,9 +42,12 @@ class NumericProcessor(DataProcessor):
                    f"sum={total_sum}, avg={avg:0.1f}"
         except TypeError:
             return "Error: Data type is not int/float"
+        except Exception as e:
+            return f"Error: {e}"
 
 
 class TextProcessor(DataProcessor):
+    """Handle text files"""
     def validate(self, data: Any) -> bool:
         if not isinstance(data, str):
             return False
@@ -51,9 +60,12 @@ class TextProcessor(DataProcessor):
                    f"{len(data)} characters, {len(words)} words"
         except TypeError:
             return ("Error: Data type is not string")
+        except Exception as e:
+            return f"Error: {e}"
 
 
 class LogProcessor(DataProcessor):
+    """Handle log files"""
     def validate(self, data: Any) -> bool:
         if not isinstance(data, str):
             return False
@@ -66,6 +78,8 @@ class LogProcessor(DataProcessor):
                    f"detected: {log[1].strip()}"
         except TypeError:
             return ("Error: Data type is not string")
+        except Exception as e:
+            return f"Error: {e}"
 
     def format_output(self, result: str) -> str:
         if "ERROR" in result:
@@ -74,6 +88,7 @@ class LogProcessor(DataProcessor):
 
 
 def test_processor():
+    """Testing different type of streams"""
     data = [1, 2, 3, 4, 5]
     print("Initializing Numeric Processor...")
     numeric = NumericProcessor()
