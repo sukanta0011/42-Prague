@@ -1,9 +1,6 @@
 def get_unique_achievement(achievements: list) -> set:
     """Perform OR operation to get unique values from the list of sets"""
-    if len(achievements) > 0:
-        unique = achievements[0]
-    else:
-        raise ValueError("Error: Empty list")
+    unique = set()
 
     for achievement in achievements:
         try:
@@ -67,4 +64,6 @@ if __name__ == "__main__":
         print(f"Alice unique: {alice - common}")
         print(f"Bob unique: {bob - common}")
     except ValueError as e:
-        print(f"{e}")
+        print(f"Error: {e}")
+    except Exception as e:
+        print(f"Error: {e}")
