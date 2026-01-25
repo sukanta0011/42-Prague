@@ -2,6 +2,7 @@ import sys
 
 
 def crisis_response(file_name):
+    """Demonstrate the use of error handling"""
     print(f"CRISIS ALERT: Attempting access to '{file_name}'...",
           file=sys.stderr)
     try:
@@ -14,12 +15,16 @@ def crisis_response(file_name):
     except PermissionError:
         print("RESPONSE: Security protocols deny access")
         print("STATUS: Crisis handled, security maintained")
+    except Exception as e:
+        print(f"Error: {e}")
 
 
 if __name__ == "__main__":
     print("=== CYBER ARCHIVES - CRISIS RESPONSE SYSTEM ===")
     print()
     crisis_response("lost_archive.txt")
+    print()
+    crisis_response("classified_vault.txt")
     print()
     crisis_response("standard_archive.txt")
     print()

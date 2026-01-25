@@ -1,5 +1,5 @@
 if __name__ == "__main__":
-    print("=== Game Analytics Dashboard ===")
+    print("=== Game Analytics Dashboard ===\n")
     players = ["alice", "bob", "charlie", "diana", "eve"]
     scores = [1000, 4500, 500, 2500, 2000]
     activity = ["online", "offline", "online", "online", "offline"]
@@ -46,9 +46,9 @@ if __name__ == "__main__":
     print(f"Unique achievements: {unique_achievements}")
     print(f"Active regions:: {active_region}")
 
-    print("=== Combined Analysis ===")
+    print("\n=== Combined Analysis ===")
     print(f"Total players: {len(unique_players)}")
-    print(f"Total unique achievements:: {len(unique_achievements)}")
+    print(f"Total unique achievements: {len(unique_achievements)}")
     print(f"Average score: {sum(scores) / len(scores):.1f}")
     top_player = players[scores.index(max(scores))]
     print(f"Top performer: {top_player} " +

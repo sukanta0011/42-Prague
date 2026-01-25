@@ -16,6 +16,8 @@ def main():
         print("ERROR: Storage vault not found. Run data generator first.")
     except PermissionError:
         print("Error: file reading access denied")
+    except Exception as e:
+        print(f"Error: {e}")
 
 
 if __name__ == "__main__":

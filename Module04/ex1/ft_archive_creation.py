@@ -9,14 +9,16 @@ def create_archive(data: list) -> None:
         print("Inscribing preservation data...")
         for i, info in enumerate(data):
             i += 1
-            print(f"{{[}}ENTRY {i:03d}{{]}} {info}")
-            file.write(f"{{[}}ENTRY {i:03d}{{]}} {info}\n")
+            print(f"[ENTRY {i:03d}] {info}")
+            file.write(f"[ENTRY {i:03d}] {info}\n")
         print()
         file.close()
         print("Data inscription complete. Storage unit sealed.")
         print(f"Archive '{file_name}' ready for long-term preservation.")
     except PermissionError:
         print("Error: file writing access denied")
+    except Exception as e:
+        print(f"Error: {e}")
 
 
 if __name__ == "__main__":

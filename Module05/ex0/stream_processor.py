@@ -6,22 +6,31 @@ class DataProcessor(ABC):
     """Abstract class to validate, process and format the output"""
     @abstractmethod
     def validate(self, data: Any) -> bool:
+        """Validate data type"""
         pass
 
     @abstractmethod
     def process(self, data: Any) -> str:
+        """Process the data to required output"""
         pass
 
     def format_output(self, result: str) -> str:
+        """Format the data"""
         return result
 
 
 class NumericProcessor(DataProcessor):
+<<<<<<< HEAD
     """Process Numerical data"""
+=======
+    """Handle Numerical files"""
+>>>>>>> 66c717a3f656609ad8c62d7799aef11e14ff1895
     def validate(self, data: Any) -> bool:
         """Validate if the format of the data is List and data
            inside the list is numerical type or not"""
         if not isinstance(data, List):
+            return False
+        if len(data) == 0:
             return False
         for val in data:
             if not isinstance(val, (int, float)):
@@ -40,13 +49,17 @@ class NumericProcessor(DataProcessor):
                    f"sum={total_sum}, avg={avg:0.1f}"
         except TypeError:
             return "Error: Data type is not int/float"
+<<<<<<< HEAD
         except ZeroDivisionError:
             return "Error: No data received"
+=======
+>>>>>>> 66c717a3f656609ad8c62d7799aef11e14ff1895
         except Exception as e:
             return f"Error: {e}"
 
 
 class TextProcessor(DataProcessor):
+    """Handle text files"""
     def validate(self, data: Any) -> bool:
         """Validate if the format of the data is string or not"""
         if not isinstance(data, str):
@@ -60,12 +73,17 @@ class TextProcessor(DataProcessor):
             return "Processed text: "\
                    f"{len(data)} characters, {len(words)} words"
         except TypeError:
+<<<<<<< HEAD
             return "Error: Data type is not string"
+=======
+            return ("Error: Data type is not string")
+>>>>>>> 66c717a3f656609ad8c62d7799aef11e14ff1895
         except Exception as e:
             return f"Error: {e}"
 
 
 class LogProcessor(DataProcessor):
+    """Handle log files"""
     def validate(self, data: Any) -> bool:
         """Validate if the format of the data is string and
            has formatting TYPE: msg or not"""
@@ -82,9 +100,13 @@ class LogProcessor(DataProcessor):
             return f"{log[0].strip()} level "\
                    f"detected: {log[1].strip()}"
         except TypeError:
+<<<<<<< HEAD
             return "Error: Data type is not string"
         except IndexError:
             return "Error: No log message found"
+=======
+            return ("Error: Data type is not string")
+>>>>>>> 66c717a3f656609ad8c62d7799aef11e14ff1895
         except Exception as e:
             return f"Error: {e}"
 
@@ -96,6 +118,7 @@ class LogProcessor(DataProcessor):
 
 
 def test_processor():
+    """Testing different type of streams"""
     data = [1, 2, 3, 4, 5]
     print("Initializing Numeric Processor...")
     numeric = NumericProcessor()
