@@ -41,6 +41,8 @@ class InputStage():
         except KeyError as e:
             data["error_msg"] = "Input: there is no 'data_format' " +\
                                 f"mentioned in provided data. {e}"
+        except Exception as e:
+            data["error_msg"] = e
         finally:
             return data
 
@@ -61,6 +63,9 @@ class InputStage():
                     data["data"]["value"] = float(value)
                 except ValueError:
                     data["error_msg"] = "Input: sensor value is not a number"
+                    return data
+                except Exception as e:
+                    data["error_msg"] = e
                     return data
             unit = raw_data.get("unit")
             if unit is None or len(unit) == 0:
@@ -100,7 +105,9 @@ class InputStage():
                 valid_data += 1
             except ValueError:
                 pass
-        if valid_data / total_data < 0.6:
+            except Exception:
+                pass
+        if total_data > 0 and valid_data / total_data < 0.6:
             data["error_msg"] = f"Input: {1 - valid_data * 100 / total_data}"
             "% of data has non numeric value"
         data["data"] = converted_data
@@ -108,6 +115,7 @@ class InputStage():
 
 
 class TransformStage():
+    """A class to Transform the after Input stage"""
     def get_info(self) -> str:
         """Return the job of the class"""
         return "Data transformation and enrichment"
@@ -132,6 +140,8 @@ class TransformStage():
         except KeyError:
             data["error_msg"] = "Error: there is not 'data_format' " +\
                                 "mentioned in provided data"
+        except Exception as e:
+            data["error_msg"] = e
         finally:
             return data
 
@@ -148,10 +158,16 @@ class TransformStage():
         """Special function to handle stream data"""
         filtered_data = [val for val in data['data'] if min < val < max]
         data_len = len(filtered_data)
-        data["data"] = filtered_data
-        data["len"] = data_len
-        data["avg"] = round(sum(filtered_data) / data_len, 1)
-        return data
+        try:
+            data["data"] = filtered_data
+            data["len"] = data_len
+            data["avg"] = round(sum(filtered_data) / data_len, 1)
+        except ZeroDivisionError as e:
+            print(f"Error: {e}")
+        except Exception as e:
+            print(f"Error: {e}")
+        finally:
+            return data
 
 
 class OutputStage():
@@ -227,7 +243,7 @@ class ProcessingPipeline(ABC):
                 if self.print_operation:
                     print(data["operation"])
             else:
-                print(f"Error: {data["error_msg"]}")
+                print(f"Error: {data['error_msg']}")
                 print("Recovery initiated: Stopping further processing of"
                       " the data in the next pipeline")
                 self._save_error_data(first_copy)
@@ -311,8 +327,7 @@ class NexusManager():
         self.pipelines = []
 
     def add_pipeline(self, pipeline: ProcessingPipeline):
-        """Add different pipelines
-        """
+        """Add different pipelines"""
         self.pipelines.append(pipeline)
 
     def process_data(self):
