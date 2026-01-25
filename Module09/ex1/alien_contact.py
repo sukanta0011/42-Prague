@@ -1,5 +1,5 @@
 from datetime import datetime
-from typing import Optional, Self, Dict
+from typing import Optional, Dict
 import json
 from enum import Enum
 from pydantic import BaseModel, ValidationError, Field, model_validator
@@ -26,7 +26,7 @@ class AlienContact(BaseModel):
     is_verified: bool = False
 
     @model_validator(mode='after')
-    def validate_observation(self)-> Self:
+    def validate_observation(self):
         """Validate if the observation are valid or not"""
         if not self.contact_id.startswith("AC"):
             raise ValueError("Contact ID must start with 'AC'")
@@ -43,8 +43,8 @@ class AlienContact(BaseModel):
         return self
 
 
-def show_station_details(id:str, com_type:str, location:str,\
-                         signal:float, duration:int,\
+def show_station_details(id: str, com_type: str, location: str,
+                         signal: float, duration: int,
                          witnesses: int, msg: str) -> None:
     """Show alien observation in required formatting"""
     print(f"ID: {id}")
@@ -75,10 +75,10 @@ def main():
                 msg = obs.message_received
             print("\n======================================")
             print("Valid contact report:")
-            show_station_details(obs.contact_id, obs.contact_type.value,\
-                                obs.location, obs.signal_strength,\
-                                obs.duration_minutes, obs.witness_count,\
-                                msg)
+            show_station_details(obs.contact_id, obs.contact_type.value,
+                                 obs.location, obs.signal_strength,
+                                 obs.duration_minutes, obs.witness_count,
+                                 msg)
         except ValidationError as e:
             print("\n======================================")
             print(e.errors()[0].get('msg'))
@@ -86,4 +86,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-    

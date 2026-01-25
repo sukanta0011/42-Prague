@@ -16,11 +16,13 @@ class DataStream(ABC):
 
     def filter_data(self, data_batch: List[Any],
                     criteria: Optional[str] = None) -> List[Any]:
+        """Filter data based on provided criteria"""
         if not criteria:
             return data_batch
-        return ([data for data in data_batch if criteria in data])
+        return [data for data in data_batch if criteria in data]
 
     def get_stats(self) -> Dict[str, Union[str, int, float]]:
+        """Return the id and type as dictionary"""
         return {"id": self.stream_id, "type": self.data_type}
 
     def _store_data_and_counts(self, data_batch: List[Any]) -> None:
@@ -36,6 +38,8 @@ class DataStream(ABC):
             except ValueError:
                 print(f"Error: {data[1]} value for {key}" +
                       " is not number")
+            except Exception as e:
+                print(f"Error: {e}")
 
     def _store_in_counts(self, type: str) -> None:
         if type in self.counter.keys():
@@ -77,8 +81,8 @@ class SensorStream(DataStream):
         try:
             if not isinstance(data_batch, List):
                 raise TypeError("Error: data type is not List")
-        except TypeError as e:
-            print(f"{e}")
+        except Exception as e:
+            print(f"Error: {e}")
 
         self._store_data_and_counts(data_batch)
         total_processes = self._get_number_of_data()
@@ -93,6 +97,8 @@ class SensorStream(DataStream):
             return "avg temp: no temperature data received yet"
         except KeyError:
             return f"Error: 'temp' is not in {self.storage.keys()}"
+        except Exception as e:
+            return f"Error: {e}"
 
     def filter_data(self, data_batch: List[Any],
                     criteria: Optional[str] = None) -> List[Any]:
@@ -101,10 +107,10 @@ class SensorStream(DataStream):
             return data_batch
         new_batch = []
         try:
-            crite_lst = criteria.split(",")
-            max_temp = float(crite_lst[0].strip())
-            max_humidity = float(crite_lst[1].strip())
-            max_pressure = float(crite_lst[2].strip())
+            criteria_lst = criteria.split(",")
+            max_temp = float(criteria_lst[0].strip())
+            max_humidity = float(criteria_lst[1].strip())
+            max_pressure = float(criteria_lst[2].strip())
             key = ""
             for data in data_batch:
                 try:
@@ -122,6 +128,8 @@ class SensorStream(DataStream):
             return new_batch
         except ValueError:
             print(f"Error: criteria {criteria} are not in correct format")
+        except Exception as e:
+            print(f"Error: {e}")
         return new_batch
 
 
@@ -161,6 +169,8 @@ class TransactionStream(DataStream):
             return f"net flow {sign}{flow} units"
         except KeyError:
             return f"Error: 'buy/sell' is not in {self.storage.keys()}"
+        except Exception as e:
+            return f"Error: {e}"
 
     def filter_data(self, data_batch: List[Any],
                     criteria: Optional[str] = None) -> List[Any]:
@@ -180,9 +190,13 @@ class TransactionStream(DataStream):
                 except ValueError:
                     print(f"Error: {data[1]} value for {key}" +
                           " is not number")
+                except Exception as e:
+                    print(f"Error: {e}")
             return new_batch
         except ValueError:
             print(f"Error: criteria {criteria} are not in correct format")
+        except Exception as e:
+            print(f"Error: {e}")
         return new_batch
 
 
@@ -228,6 +242,7 @@ class StreamProcessor():
 
 
 def test_data_stream():
+    """Testing data streaming"""
     print("=== CODE NEXUS - POLYMORPHIC STREAM SYSTEM ===")
     print()
     print("Initializing Sensor Stream...")
@@ -242,7 +257,7 @@ def test_data_stream():
 
     print()
     print("Initializing Transaction Stream...")
-    trans = TransactionStream("TRANS_001", "Environmental Data")
+    trans = TransactionStream("TRANS_001", "Financial Data")
     stream = trans.get_stats()
     print(f"Stream ID: {stream['id']}, Type: {stream['type']}")
     data = ["buy:100", "sell:150", "buy:75"]
@@ -283,12 +298,12 @@ def test_data_stream():
     sensor_data = ["temp:22.5", "humidity:135", "pressure:1013", "temp:40",
                    "humidity:65", "pressure:1013"]
     sensor_criteria = "30, 120, 1200"
-    filt_sensor = sensor.filter_data(sensor_data, sensor_criteria)
+    filter_sensor = sensor.filter_data(sensor_data, sensor_criteria)
     trans_data = ["buy:100", "sell:150", "buy:75", "sell: 1100"]
     trans_cri = "1000"
-    filt_trans = trans.filter_data(trans_data, trans_cri)
-    print(f"Filtered results: {len(filt_sensor)} critical sensor alerts, " +
-          f"{len(filt_trans)} large transaction")
+    filter_trans = trans.filter_data(trans_data, trans_cri)
+    print(f"Filtered results: {len(filter_sensor)} critical sensor alerts, " +
+          f"{len(filter_trans)} large transaction")
 
     print()
     print("All streams processed successfully. Nexus throughput optimal.")

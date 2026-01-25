@@ -1,9 +1,9 @@
-from typing import List, Self, Dict
+from typing import List, Dict
 import json
 from datetime import datetime
 from enum import Enum
-from pydantic import BaseModel, Field,\
-    ValidationError, model_validator
+from pydantic import BaseModel, Field, ValidationError, model_validator
+
 
 class Rank(Enum):
     """Enum class for crew rank"""
@@ -12,6 +12,7 @@ class Rank(Enum):
     lieutenant = "lieutenant"
     captain = "captain"
     commander = "commander"
+
 
 class CrewMember(BaseModel):
     """Class to initialize crew members"""
@@ -36,21 +37,20 @@ class SpaceMission(BaseModel):
     budget_millions: float = Field(ge=1.0, le=10000.0)
 
     @model_validator(mode='after')
-    def validate_mission(self) -> Self:
+    def validate_mission(self):
         """Validate the mission details"""
         if not self.mission_id.startswith("M"):
             raise ValueError("Mission ID must start with 'M'")
         if not self.is_captain_in_crew():
             raise ValueError("Must have at least one" +
-                              "Commander or Captain")
+                             "Commander or Captain")
         if self.duration_days > 365 and\
            self.experienced_crew_percent(5) < 50:
             raise ValueError("Long missions (> 365 days) need" +
-                              " 50% experienced crew (5+ years)")
+                             " 50% experienced crew (5+ years)")
         if not self.is_all_crew_active():
             raise ValueError("All crew members must be active")
         return self
-
 
     def is_captain_in_crew(self) -> bool:
         """Return if caption/ commander is there in the selected crew"""
@@ -59,15 +59,15 @@ class SpaceMission(BaseModel):
                crew.rank.value == "commander":
                 return True
         return False
-    
+
     def is_all_crew_active(self) -> bool:
         """Check if all crew member is active or not"""
         for crew in self.crew:
             if not crew.is_active:
                 return False
         return True
-    
-    def experienced_crew_percent(self, years:int) -> float:
+
+    def experienced_crew_percent(self, years: int) -> float:
         """Calculate the percentage of crew members has more than
            required years of experience"""
         num_experience_crew = 0
@@ -75,10 +75,10 @@ class SpaceMission(BaseModel):
             if crew.years_experience >= years:
                 num_experience_crew += 1
         return (num_experience_crew * 100 / len(self.crew))
-    
 
-def show_mission_details(id:str, mission:str, destination:str,\
-                         duration:int, budget: int,\
+
+def show_mission_details(id: str, mission: str, destination: str,
+                         duration: int, budget: int | float,
                          crews: List[CrewMember]) -> None:
     """Show mission details in required formatting"""
     print(f"Mission: {mission}")
@@ -108,9 +108,9 @@ def main():
             obs = SpaceMission(**data)
             print("\n======================================")
             print("Valid mission created:")
-            show_mission_details(obs.mission_id, obs.mission_name,\
-                                obs.destination, obs.duration_days,\
-                                obs.budget_millions, obs.crew)
+            show_mission_details(obs.mission_id, obs.mission_name,
+                                 obs.destination, obs.duration_days,
+                                 obs.budget_millions, obs.crew)
         except ValidationError as e:
             print("\n======================================")
             print("Expected validation error:")
