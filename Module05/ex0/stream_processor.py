@@ -20,11 +20,7 @@ class DataProcessor(ABC):
 
 
 class NumericProcessor(DataProcessor):
-<<<<<<< HEAD
     """Process Numerical data"""
-=======
-    """Handle Numerical files"""
->>>>>>> 66c717a3f656609ad8c62d7799aef11e14ff1895
     def validate(self, data: Any) -> bool:
         """Validate if the format of the data is List and data
            inside the list is numerical type or not"""
@@ -49,11 +45,8 @@ class NumericProcessor(DataProcessor):
                    f"sum={total_sum}, avg={avg:0.1f}"
         except TypeError:
             return "Error: Data type is not int/float"
-<<<<<<< HEAD
         except ZeroDivisionError:
             return "Error: No data received"
-=======
->>>>>>> 66c717a3f656609ad8c62d7799aef11e14ff1895
         except Exception as e:
             return f"Error: {e}"
 
@@ -73,11 +66,7 @@ class TextProcessor(DataProcessor):
             return "Processed text: "\
                    f"{len(data)} characters, {len(words)} words"
         except TypeError:
-<<<<<<< HEAD
             return "Error: Data type is not string"
-=======
-            return ("Error: Data type is not string")
->>>>>>> 66c717a3f656609ad8c62d7799aef11e14ff1895
         except Exception as e:
             return f"Error: {e}"
 
@@ -100,13 +89,9 @@ class LogProcessor(DataProcessor):
             return f"{log[0].strip()} level "\
                    f"detected: {log[1].strip()}"
         except TypeError:
-<<<<<<< HEAD
             return "Error: Data type is not string"
         except IndexError:
             return "Error: No log message found"
-=======
-            return ("Error: Data type is not string")
->>>>>>> 66c717a3f656609ad8c62d7799aef11e14ff1895
         except Exception as e:
             return f"Error: {e}"
 
