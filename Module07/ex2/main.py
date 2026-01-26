@@ -17,7 +17,7 @@ arcane_wizard = {'name': 'Arcane Warrior',
 print("=== DataDeck Ability System ===\n")
 print("EliteCard capabilities:")
 print(f"- Card: {[method for method in vars(Card)
-                 if not method.startswith("_")]}")
+                 if not method.startswith('_')]}")
 print(f"- Combatable: {[method for method in vars(Combatable)
                        if not method.startswith("_")]}")
 print(f"- Magical: {[method for method in vars(Magical)

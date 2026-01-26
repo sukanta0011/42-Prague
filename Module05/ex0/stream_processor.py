@@ -143,10 +143,8 @@ def test_processor():
     print("=== Polymorphic Processing Demo ===")
     print("Processing multiple data types through same interface...")
     print(f"Result 1: {numeric.format_output(numeric.process([1, 2, 3]))}")
-    print(f"Result 2: {text.format_output
-                       (text.process('Hello World!'))}")
-    print(f"Result 3: {log.format_output
-                       (log.process('INFO: System ready'))}")
+    print(f"Result 2: {text.format_output(text.process('Hello World!'))}")
+    print(f"Result 3: {log.format_output(log.process('INFO: System ready'))}")
     print()
     print("Foundation systems online. Nexus ready for advanced streams.")
 
