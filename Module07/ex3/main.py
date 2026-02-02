@@ -1,11 +1,6 @@
-from .CardFactory import CardFactory
 from .FantasyCardFactory import FantasyCardFactory
 from .AggressiveStrategy import AggressiveStrategy
 from .GameEngine import GameEngine
-from ex0.Card import Card
-from ex0.CreatureCard import CreatureCard
-from ex1.ArtifactCard import ArtifactCard
-from ex1.SpellCard import SpellCard
 
 
 def main():
@@ -19,9 +14,10 @@ def main():
     goblin = factory.create_creature("Goblin")
     lightning = factory.create_spell("Lightning")
     hand = [dragon, goblin, lightning]
-    print("Simulating aggressive turn...")
-    print(f"Hand: {", ".join([f"{card.name} ({(card.cost)})"
-                             for card in hand])}")
+
+    print("\nSimulating aggressive turn...")
+    print(f"Hand: [{", ".join([f"{card.name} ({(card.cost)})"
+                               for card in hand])}]")
 
     print("\nTurn execution:")
     print(f"Strategy: {strategy.get_strategy_name()}")

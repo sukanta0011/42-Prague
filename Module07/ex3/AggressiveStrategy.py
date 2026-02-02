@@ -56,7 +56,8 @@ class AggressiveStrategy(GameStrategy):
             "artifacts": artifact_cards
         }
 
-    def get_low_cast_creature(self, creatures: list[CreatureCard]) -> CreatureCard:
+    def get_low_cast_creature(self, creatures:
+                              list[CreatureCard]) -> CreatureCard:
         min_mana = 100
         name = creatures[0]
         for creature in creatures:
