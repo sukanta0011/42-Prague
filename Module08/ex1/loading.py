@@ -1,8 +1,9 @@
 import importlib
 import os
+import types
 
 
-def display_environment():
+def display_environment() -> None:
     """Display the current environment details"""
     env = os.environ.get("VIRTUAL_ENV")
     if env is not None:
@@ -14,7 +15,7 @@ def display_environment():
         print("ENVIRONMENT: Global")
 
 
-def get_module(name: str):
+def get_module(name: str) -> None:
     """Import and return the module"""
     try:
         module = importlib.import_module(name)
@@ -29,7 +30,7 @@ def get_module(name: str):
         print(f"Error: {e}")
 
 
-def check_dependencies_and_run():
+def check_dependencies_and_run() -> None:
     """Check pandas, request and matplotlib lib module is
        installed in the python environment or not"""
     print("Checking dependencies:")
@@ -65,7 +66,9 @@ def check_dependencies_and_run():
         print("run: pip install -r requirements.txt or poetry install")
 
 
-def run_analysis(pd, requests, plt):
+def run_analysis(pd: types.ModuleType,
+                 requests: types.ModuleType,
+                 plt: types.ModuleType) -> None:
     """Run the analysis using the pandas, requests and matplotlib
        modules"""
     try:
