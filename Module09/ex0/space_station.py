@@ -62,7 +62,7 @@ def main():
                              station1.oxygen_level, station1.is_operational)
     except ValidationError as e:
         print(e.errors()[0].get('msg'))
-    
+
     print("\n========================================")
     print("Expected validation error:")
     try:

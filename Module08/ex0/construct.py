@@ -11,7 +11,7 @@ matrix_env
 Scripts
 activate # On Windows\n
 Then run this program again."""
-    
+
 venv_str = """SUCCESS: You're in an isolated environment!
 Safe to install packages without affecting
 the global system.
