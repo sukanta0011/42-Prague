@@ -20,7 +20,7 @@ def spell_accumulator(initial_power: int) -> callable:
 
 def enchantment_factory(enchantment_type: str) -> callable:
     def add_enhancement(item: str):
-        nonlocal enchantment_type
+        # nonlocal enchantment_type
         return f"{enchantment_type} {item}"
     return add_enhancement
 
@@ -29,11 +29,11 @@ def memory_vault() -> dict[str, callable]:
     storage = {}
 
     def store(key: str, val: str):
-        nonlocal storage
+        # nonlocal storage
         storage[key] = val
 
     def recall(key: str):
-        nonlocal storage
+        # nonlocal storage
         if key in storage.keys():
             return storage[key]
         else:
@@ -51,7 +51,7 @@ if __name__ == "__main__":
     print("Testing mage counter...")
     caller = mage_counter()
     for i in range(5):
-        print(f"Call {i +1}: {caller()}")
+        print(f"Call {i + 1}: {caller()}")
     print()
     print("Testing power addition...")
     final_power = spell_accumulator(0)

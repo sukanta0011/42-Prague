@@ -33,8 +33,15 @@ def mage_stats(mages: list[dict]) -> dict:
 
 
 if __name__ == "__main__":
-    artifacts = [{'name': 'Fire Staff', 'power': 107, 'type': 'armor'}, {'name': 'Crystal Orb', 'power': 84, 'type': 'relic'}, {'name': 'Wind Cloak', 'power': 75, 'type': 'relic'}, {'name': 'Shadow Blade', 'power': 116, 'type': 'focus'}]
-    mages = [{'name': 'Riley', 'power': 65, 'element': 'water'}, {'name': 'Jordan', 'power': 57, 'element': 'light'}, {'name': 'Casey', 'power': 66, 'element': 'ice'}, {'name': 'Zara', 'power': 99, 'element': 'shadow'}, {'name': 'Sage', 'power': 95, 'element': 'light'}]
+    artifacts = [{'name': 'Fire Staff', 'power': 107, 'type': 'armor'},
+                 {'name': 'Crystal Orb', 'power': 84, 'type': 'relic'},
+                 {'name': 'Wind Cloak', 'power': 75, 'type': 'relic'},
+                 {'name': 'Shadow Blade', 'power': 116, 'type': 'focus'}]
+    mages = [{'name': 'Riley', 'power': 65, 'element': 'water'},
+             {'name': 'Jordan', 'power': 57, 'element': 'light'},
+             {'name': 'Casey', 'power': 66, 'element': 'ice'},
+             {'name': 'Zara', 'power': 99, 'element': 'shadow'},
+             {'name': 'Sage', 'power': 95, 'element': 'light'}]
     spells = ['fireball', 'freeze', 'earthquake', 'lightning']
     print(artifact_sorter(artifacts))
     print(power_filter(mages, 70))

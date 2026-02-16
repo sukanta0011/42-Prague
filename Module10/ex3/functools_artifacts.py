@@ -24,7 +24,8 @@ def spell_reducer(spells: list[int], operation: str) -> int:
 def partial_enchanter(base_enchantment: callable) -> dict[str, callable]:
     fire_enchant = partial(base_enchantment, power=50, element="Fire")
     ice_enchant = partial(base_enchantment, power=50, element="Ice")
-    lightning_enchant = partial(base_enchantment, power=50, element="Lightning")
+    lightning_enchant = partial(base_enchantment, power=50,
+                                element="Lightning")
     return {"fire_enchant": fire_enchant,
             "ice_enchant": ice_enchant,
             "lightning_enchant": lightning_enchant}
@@ -70,9 +71,9 @@ if __name__ == "__main__":
     print()
     print("Testing partial enchanter...")
     attack = partial_enchanter(base_enhancer)
-    print(f"{attack['fire_enchant'](target = 'Dragon')}")
-    print(f"{attack['ice_enchant'](target = 'Dragon')}")
-    print(f"{attack['lightning_enchant'](target = 'Dragon')}")
+    print(f"{attack['fire_enchant'](target='Dragon')}")
+    print(f"{attack['ice_enchant'](target='Dragon')}")
+    print(f"{attack['lightning_enchant'](target='Dragon')}")
     print()
     print("Testing memoized fibonacci...")
     print(f"Fib(10): {memoized_fibonacci(10)}")
