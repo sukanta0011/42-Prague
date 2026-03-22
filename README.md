@@ -12,7 +12,10 @@ This project focuses on the algorithmic generation and resolution of mazes. To p
 
 The core logic is decoupled into a reusable Python package (`mazegen`), allowing the generation engine to be integrated into other projects independently. This package can be installed using `pip`.
 
-![](https://github.com/sukanta0011/AMazeIng/blob/main/screenshots/maze.gif) ![](https://github.com/sukanta0011/AMazeIng/blob/main/screenshots/maze_perfect.gif)
+<p float="left">
+  <img src="https://github.com/sukanta0011/AMazeIng/blob/main/screenshots/maze.gif" width="400" />
+  <img src="https://github.com/sukanta0011/AMazeIng/blob/main/screenshots/maze_perfect.gif" width="400" /> 
+</p>
 
 ## Instructions
 ### Building the Reusable part
