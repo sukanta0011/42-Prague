@@ -1,32 +1,57 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sudas <sudas@student.42prague.com>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/05/11 19:02:16 by sudas             #+#    #+#             */
+/*   Updated: 2026/05/11 19:02:16 by sudas            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <pthread.h>
 #include <stdio.h>
 #include <unistd.h>
 #include "codexion.h"
 
-int counter = 0;
-t_mutex lock;
+
+t_config* extract_config()
+{
+    t_config *config;
+
+    config = malloc(sizeof(t_config));
+
+    config->number_of_coders = 3;
+    config->time_to_burnout = 700;
+    config->time_to_compile = 200;
+    config->time_to_debug = 200;
+    config->time_to_refactor = 200;
+    config->number_of_compiles_required = 3;
+    config->dongle_cooldown = 50;
+    config->scheduler_type = "FIFO";
+
+    return &config;
+}
 
 
 int main()
 {
-	int number_of_coders = 10000;
-	int time_to_burnout = 50;
-	// int time_to_compile = 50;
-	// int time_to_debug = 50;
-	// int time_to_refactor = 50;
-	// int number_of_compiles_required = 50;
-	// int dongle_cooldown = 50;
-	// char *scheduler;
-	t_coder coders[number_of_coders];
-	t_mutex dongles[number_of_coders];
-	int i;
+	t_config *config;
+    t_dongle *dongles;
+    t_coder *coders;
+    int i;
+
+    config = extract_config();
+    dongles = malloc(sizeof(t_dongle) * config->number_of_coders);
+    coders = malloc(sizeof(t_coder) * config->number_of_coders);
 
 	i = 0;
-	while (i < number_of_coders)
+	while (i < config->number_of_coders)
 	{
-		coders[i].coder_no = i;
+		coders[i]->id = i;
 		coders[i].deadline = time_to_burnout;
-		pthread_create(&coders[i].thread, NULL, thread_runner, &coders[i].coder_no);
+		pthread_create(&coders[i].thread, NULL, thread_runner, &coders[i].id);
 		i++;
 	}
 	sleep(1.2);

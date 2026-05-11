@@ -1,13 +1,16 @@
 #ifndef CODEXION_H
 # define CODEXION_H
 
+
 # include <stdio.h>
 # include <pthread.h>
 # include <stdlib.h>
 # include <unistd.h>
 # include <sys/time.h>
 
+
 typedef pthread_mutex_t t_mutex;
+
 
 typedef struct s_config
 {
@@ -18,8 +21,21 @@ typedef struct s_config
 	int		time_to_refactor;
 	int		number_of_compiles_required;
 	int		dongle_cooldown;
-	char	*scheduler;
+	char	*scheduler_type;
 }			t_config;
+
+
+typedef struct s_request {
+    int     coder_id;
+    long    priority_key; // Either timestamp (FIFO) or deadline (EDF)
+} t_request;
+
+
+typedef struct s_heap {
+    t_request   *requests;
+    int         size;
+    int         capacity;
+} t_heap;
 
 
 typedef struct s_dongle
@@ -27,7 +43,8 @@ typedef struct s_dongle
 	pthread_mutex_t mutex;
 	pthread_cond_t	cond;
 	long int		available_at;
-	int				in_use;
+	int				holder_id;
+    t_heap          *scheduler;
 }				t_dongle;
 
 
