@@ -9,7 +9,9 @@
 # include <sys/time.h>
 
 
-typedef pthread_mutex_t t_mutex;
+typedef	pthread_mutex_t		t_mutex;
+typedef	struct	timeval		t_val;
+typedef	struct	timezone	t_zone;
 
 
 typedef struct s_config
@@ -22,20 +24,20 @@ typedef struct s_config
 	int		number_of_compiles_required;
 	int		dongle_cooldown;
 	char	*scheduler_type;
-}			t_config;
+}				t_config;
 
 
 typedef struct s_request {
-    int     coder_id;
-    long    priority_key; // Either timestamp (FIFO) or deadline (EDF)
-} t_request;
+	int		coder_id;
+	long	priority_key; // Either timestamp (FIFO) or deadline (EDF)
+}				t_request;
 
 
 typedef struct s_heap {
-    t_request   *requests;
-    int         size;
-    int         capacity;
-} t_heap;
+    t_request	*requests;
+    int			size;
+    int			capacity;
+}				t_heap;
 
 
 typedef struct s_dongle
@@ -44,7 +46,7 @@ typedef struct s_dongle
 	pthread_cond_t	cond;
 	long int		available_at;
 	int				holder_id;
-    t_heap          *scheduler;
+    t_heap			*scheduler;
 }				t_dongle;
 
 
@@ -60,6 +62,6 @@ typedef struct s_coder
 	t_dongle	*left_dongle;
 	t_dongle	*right_dongle;
 	t_config	*config;
-}			t_coder;
+}				t_coder;
 
 #endif
