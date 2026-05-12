@@ -105,16 +105,6 @@ void free_memory(t_config *config, t_dongle *dongles, t_coder *coders)
     free(config);
 }
 
-void	set_dongle_heap_by_fifo(t_coder *coder)
-{
-	if(coder->left_dongle->scheduler->size==0)
-	{
-		coder->left_dongle->scheduler->requests[0].coder_id = coder->id;
-		coder->left_dongle->scheduler->requests[0].priority_key = coder->id;
-
-	}
-}
-
 
 long	get_time_ms(void)
 {
@@ -124,6 +114,30 @@ long	get_time_ms(void)
 	gettimeofday(&tv, &tz);
     return (tv.tv_sec * 1000) + (tv.tv_usec / 1000);
 }
+
+void	swap_heap_items(t_request requests)
+{
+	
+}
+
+
+
+void	set_dongle_heap_by_fifo(t_coder *coder)
+{
+	if (coder->left_dongle->scheduler->size==0 || coder->left_dongle->scheduler->size==2)
+	{
+		coder->left_dongle->scheduler->requests[0].coder_id = coder->id;
+		coder->left_dongle->scheduler->requests[0].priority_key = get_time_ms;
+		coder->left_dongle->scheduler->size += 1;
+	}
+	else if (coder->left_dongle->scheduler->size==1)
+	{
+		coder->left_dongle->scheduler->requests[1].coder_id = coder->id;
+		coder->left_dongle->scheduler->requests[1].priority_key = get_time_ms;
+		coder->left_dongle->scheduler->size += 1;
+	}
+}
+
 
 
 void*	run_the_routine(void *args)
