@@ -70,6 +70,7 @@ t_coder		*initialize_coders(t_dongle* dongles, t_config* config, long int start_
 		coders[i].debuging = 0;
 		coders[i].refactoring = 0;
 		coders[i].is_registered = 0;
+        coders[i].completed_compile = 0;
 		coders[i].sim_start_time = start_time;
 		coders[i].print_lock = print_lock;
 		i++;

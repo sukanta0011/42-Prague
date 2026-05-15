@@ -61,6 +61,7 @@ typedef struct s_coder
 	int			debuging;
 	int			refactoring;
 	int			is_registered;
+    int         completed_compile;
 	long int	sim_start_time;
 	t_mutex		*print_lock;
 	t_dongle	*left_dongle;
@@ -74,6 +75,6 @@ t_dongle	*initialize_dongles(t_config* config);
 t_coder		*initialize_coders(t_dongle* dongles, t_config* config, long int start_time);
 
 
-void	free_memory(t_config *config, t_dongle *dongles, t_coder *coders, t_mutex print_lock);
+void	free_memory(t_config *config, t_dongle *dongles, t_coder *coders, t_mutex *print_lock);
 
 #endif

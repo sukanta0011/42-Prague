@@ -21,8 +21,8 @@ void	free_memory(t_config *config, t_dongle *dongles, t_coder *coders, t_mutex *
         i++;
     }
 	pthread_mutex_destroy(print_lock);
-    free(dongles);
-    free(coders);
-    free(config);
 	free(print_lock);
+    free(dongles);
+    free(config);
+    free(coders);
 }

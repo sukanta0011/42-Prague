@@ -40,33 +40,8 @@ void	swap_heap_items(t_request *request)
 void	set_request_for_dongles(t_dongle *dongle, int id, long int time_val)
 {
 	pthread_mutex_lock(&dongle->mutex);
-	if (dongle->scheduler->size==0)
-	{
-		dongle->scheduler->requests[0].coder_id = id;
-		dongle->scheduler->requests[0].priority_key = time_val;
-		dongle->scheduler->size += 1;
-	}
-	else if (dongle->scheduler->size==1)
-	{
-		dongle->scheduler->requests[1].coder_id = id;
-		dongle->scheduler->requests[1].priority_key = time_val;
-		dongle->scheduler->size += 1;
-		if(dongle->scheduler->requests[0].priority_key >\
-			dongle->scheduler->requests[1].priority_key)
-		{
-			swap_heap_items(dongle->scheduler->requests);
-		}
-	}
-	else if (dongle->scheduler->size==2)
-	{
-		dongle->scheduler->requests[0].coder_id = id;
-		dongle->scheduler->requests[0].priority_key = time_val;
-		if(dongle->scheduler->requests[0].priority_key >\
-			dongle->scheduler->requests[1].priority_key)
-		{
-			swap_heap_items(dongle->scheduler->requests);
-		}
-	}
+	printf("Dongle request registered by %d at %ld\n", id, time_val);
+    
 	pthread_mutex_unlock(&dongle->mutex);
 }
 
@@ -97,6 +72,7 @@ void	coder_compile(t_coder *coder)
 
 	pthread_mutex_lock(&coder->left_dongle->mutex);
 	pthread_mutex_lock(&coder->right_dongle->mutex);
+
 	now = get_time_ms();
 	wait_time = get_max_value(coder->left_dongle->available_at,\
 		coder->right_dongle->available_at);
@@ -109,16 +85,26 @@ void	coder_compile(t_coder *coder)
 	}
 	coder->left_dongle->in_use = 1;
 	coder->right_dongle->in_use = 1;
-	print_message(coder, "has taken a dongle");
-	print_message(coder, "has taken a dongle");
+	print_message(coder, "has taken a dongle\n");
+	print_message(coder, "has taken a dongle\n");
 	coder->coding = 1;
-	print_message(coder, "is compiling");
-	usleep(coder->config->time_to_compile);
+
+	print_message(coder, "is compiling\n");
+	usleep(coder->config->time_to_compile * 1000);
+
 	coder->left_dongle->available_at = get_time_ms() + coder->config->dongle_cooldown;
 	coder->right_dongle->available_at = get_time_ms() + coder->config->dongle_cooldown;
+
 	coder->left_dongle->in_use = 0;
 	coder->right_dongle->in_use = 0;
+    coder->completed_compile += 1;
 	coder->coding = 0;
+    print_message(coder, "has released a dongle\n");
+	print_message(coder, "has released a dongle\n");
+
+    // swap_heap_items(coder->left_dongle->scheduler->requests);
+    // swap_heap_items(coder->right_dongle->scheduler->requests);
+
 	pthread_mutex_unlock(&coder->right_dongle->mutex);
 	pthread_mutex_unlock(&coder->left_dongle->mutex);
 }
@@ -127,16 +113,16 @@ void	coder_compile(t_coder *coder)
 void coder_debug(t_coder *coder)
 {
 	coder->debuging = 1;
-	print_message(coder, "is debugging");
-	usleep(coder->config->time_to_debug);
+	print_message(coder, "is debugging\n");
+	usleep(coder->config->time_to_debug * 1000);
 	coder->debuging = 0;
 }
 
 void coder_refactor(t_coder *coder)
 {
 	coder->debuging = 1;
-	print_message(coder, "is refactoring");
-	usleep(coder->config->time_to_refactor);
+	print_message(coder, "is refactoring\n");
+	usleep(coder->config->time_to_refactor * 1000);
 	coder->debuging = 0;
 }
 
@@ -149,7 +135,13 @@ void*	run_the_routine(void *args)
 	coder = (t_coder *)args;
 	while(1)
 	{
-		if(!coder->coding && !coder->debuging && !coder->refactoring && !coder->is_registered)
+		if(coder->completed_compile == coder->config->number_of_compiles_required)
+        {
+		    pthread_cancel(coder->thread);
+            print_message(coder, "Completed all compiles\n");
+            // return NULL;
+        }
+        if(!coder->coding && !coder->debuging && !coder->refactoring && !coder->is_registered)
 		{
 			time_val = get_time_ms();
 			if(!strcmp(coder->config->scheduler_type, "EDF"))
@@ -159,15 +151,17 @@ void*	run_the_routine(void *args)
 			coder->is_registered = 1;
 		}
 		if((coder->left_dongle->scheduler->requests[0].coder_id == coder->id) &&\
-			(coder->right_dongle->scheduler->requests[0].coder_id == coder->id))
+			(coder->right_dongle->scheduler->requests[0].coder_id == coder->id &&\
+            !coder->coding && !coder->debuging && !coder->refactoring))
 		{
 			coder->is_registered = 0;
 			coder->left_dongle->scheduler->requests[0].coder_id = -1;
 			coder->right_dongle->scheduler->requests[1].coder_id = -1;
-			// coder_compile(coder);
-			// coder_debug(coder);
-			// coder_refactor(coder);
+			coder_compile(coder);
+			coder_debug(coder);
+			coder_refactor(coder);
 		}
+        usleep(50);
 	}
 	return NULL;
 }
@@ -178,6 +172,7 @@ int main()
 	t_config	*config;
     t_dongle	*dongles;
     t_coder		*coders;
+
 	long int	start_time;
     int i;
 
@@ -189,19 +184,21 @@ int main()
 	i = 0;
 	while (i < config->number_of_coders)
 	{
-		printf("Coder: %d starting...\n", i);
+		// printf("Coder: %d starting...\n", i);
 		pthread_create(&coders[i].thread, NULL, run_the_routine, &coders[i]);
+        usleep(1000);
 		i++;
 	}
-	sleep(1.2);
+	// sleep(2);
 	i = 0;
 	while (i < config->number_of_coders)
 	{
-		pthread_cancel(coders[i].thread);
+		// pthread_cancel(coders[i].thread);
+        pthread_join(coders[i].thread, NULL);
 		i++;
 	}
 
 	// printf("Main thread finished. Counts: %d\n", counter);
-	free_memory(config, dongles, coders, &coders[0].print_lock);
+	free_memory(config, dongles, coders, coders[0].print_lock);
 	return 0;
 }
