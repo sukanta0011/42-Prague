@@ -94,43 +94,50 @@ void   pop(t_heap *heap)
 }
 
 
-int main()
+int min_heap_tester()
 {
     t_request *arr;
     t_heap *heap;
     int i;
 
-    arr = malloc(sizeof(t_request) * 6);
+    arr = malloc(sizeof(t_request) * 2);
     heap = malloc(sizeof(t_heap));
 
     heap->requests = arr;
-    heap->capacity = 6;
+    heap->capacity = 2;
     heap->size = 0;
 
     push(1, 15, heap);
     push(2, 19, heap);
-    push(3, 5, heap);
-    push(4, 11, heap);
-    push(5, 50, heap);
-    push(6, 7, heap);
-    for(i=0; i < 6; i++)
-        printf("coder: %d, Key: %d\n", arr[i].coder_id, arr[i].priority_key);
+
+    for(i=0; i < 2; i++)
+        printf("coder: %d, Key: %ld\n", arr[i].coder_id, arr[i].priority_key);
 
     printf("Pop operations\n");
     pop(heap);
     printf("High priority: %ld\n", heap->requests[0].priority_key);
 
-    pop(heap);
-    printf("High priority: %ld\n", heap->requests[0].priority_key);
+    // pop(heap);
+    // printf("High priority: %ld\n", heap->requests[0].priority_key);
 
-    pop(heap);
-    printf("High priority: %ld\n", heap->requests[0].priority_key);
+    // pop(heap);
+    // printf("High priority: %ld\n", heap->requests[0].priority_key);
 
-    for(i=0; i < 6; i++)
-        printf("coder: %d, Key: %d\n", arr[i].coder_id, arr[i].priority_key);
+    push(1, 30, heap);
+	pop(heap);
+	push(2, 40, heap);
+
+	for(i=0; i < 2; i++)
+        printf("coder: %d, Key: %ld\n", arr[i].coder_id, arr[i].priority_key);
 
     free(arr);
     free(heap);
 
     return 0;
 }
+
+// int main()
+// {
+// 	min_heap_tester();
+// 	return 0;
+// }

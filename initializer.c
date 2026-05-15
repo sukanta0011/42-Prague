@@ -8,7 +8,7 @@ t_config	*extract_config()
     config = malloc(sizeof(t_config));
 
     config->number_of_coders = 4;
-    config->time_to_burnout = 700;
+    config->time_to_burnout = 800;
     config->time_to_compile = 200;
     config->time_to_debug = 200;
     config->time_to_refactor = 200;
@@ -33,8 +33,8 @@ t_dongle	*initialize_dongles(t_config* config)
 		dongles[i].scheduler = malloc(sizeof(t_heap));
 		dongles[i].scheduler->requests = malloc(sizeof(t_request) * 2);
 
-		dongles[i].scheduler->requests[0].coder_id = -1;
-		dongles[i].scheduler->requests[1].coder_id = -1;
+		// dongles[i].scheduler->requests[0].coder_id = -1;
+		// dongles[i].scheduler->requests[1].coder_id = -1;
 
 		dongles[i].scheduler->size = 0;
 		dongles[i].scheduler->capacity = 2;
@@ -71,6 +71,7 @@ t_coder		*initialize_coders(t_dongle* dongles, t_config* config, long int start_
 		coders[i].refactoring = 0;
 		coders[i].is_registered = 0;
         coders[i].completed_compile = 0;
+		coders[i].stop_sim = 0;
 		coders[i].sim_start_time = start_time;
 		coders[i].print_lock = print_lock;
 		i++;

@@ -40,10 +40,17 @@ void	swap_heap_items(t_request *request)
 void	set_request_for_dongles(t_dongle *dongle, int id, long int time_val)
 {
 	pthread_mutex_lock(&dongle->mutex);
-	printf("Dongle request registered by %d at %ld\n", id, time_val);
-    
+	push(id, time_val, dongle->scheduler);
 	pthread_mutex_unlock(&dongle->mutex);
 }
+
+void	remove_request_for_dongles(t_dongle *dongle)
+{
+	pthread_mutex_lock(&dongle->mutex);
+	pop(dongle->scheduler);
+	pthread_mutex_unlock(&dongle->mutex);
+}
+
 
 long	get_max_value(long a, long b)
 {
@@ -52,6 +59,7 @@ long	get_max_value(long a, long b)
 	else
 		return b;
 }
+
 
 void	print_message(t_coder* coder, char* msg)
 {
@@ -87,6 +95,10 @@ void	coder_compile(t_coder *coder)
 	coder->right_dongle->in_use = 1;
 	print_message(coder, "has taken a dongle\n");
 	print_message(coder, "has taken a dongle\n");
+
+	// coder->burnout_deadline += coder->config->time_to_compile + coder->config->time_to_debug + coder->config->time_to_refactor + coder->config->time_to_burnout;
+	// printf("Burnout deadline of %d: %d\n", coder->id, coder->burnout_deadline);
+
 	coder->coding = 1;
 
 	print_message(coder, "is compiling\n");
@@ -98,15 +110,15 @@ void	coder_compile(t_coder *coder)
 	coder->left_dongle->in_use = 0;
 	coder->right_dongle->in_use = 0;
     coder->completed_compile += 1;
-	coder->coding = 0;
-    print_message(coder, "has released a dongle\n");
-	print_message(coder, "has released a dongle\n");
 
-    // swap_heap_items(coder->left_dongle->scheduler->requests);
-    // swap_heap_items(coder->right_dongle->scheduler->requests);
+	coder->coding = 0;
+    // print_message(coder, "has released a dongle\n");
+	// print_message(coder, "has released a dongle\n");
 
 	pthread_mutex_unlock(&coder->right_dongle->mutex);
 	pthread_mutex_unlock(&coder->left_dongle->mutex);
+	remove_request_for_dongles(coder->right_dongle);
+	remove_request_for_dongles(coder->left_dongle);
 }
 
 
@@ -117,6 +129,7 @@ void coder_debug(t_coder *coder)
 	usleep(coder->config->time_to_debug * 1000);
 	coder->debuging = 0;
 }
+
 
 void coder_refactor(t_coder *coder)
 {
@@ -136,16 +149,18 @@ void*	run_the_routine(void *args)
 	while(1)
 	{
 		if(coder->completed_compile == coder->config->number_of_compiles_required)
+			coder->stop_sim = 1;
+		if(coder->stop_sim)
         {
-		    pthread_cancel(coder->thread);
             print_message(coder, "Completed all compiles\n");
-            // return NULL;
+            break;
         }
         if(!coder->coding && !coder->debuging && !coder->refactoring && !coder->is_registered)
 		{
 			time_val = get_time_ms();
 			if(!strcmp(coder->config->scheduler_type, "EDF"))
 				time_val += coder->config->time_to_burnout;
+			// printf("coder: %d, time: %ld\n", coder->id, time_val);
 			set_request_for_dongles(coder->left_dongle, coder->id, time_val);
 			set_request_for_dongles(coder->right_dongle, coder->id, time_val);
 			coder->is_registered = 1;
@@ -155,8 +170,6 @@ void*	run_the_routine(void *args)
             !coder->coding && !coder->debuging && !coder->refactoring))
 		{
 			coder->is_registered = 0;
-			coder->left_dongle->scheduler->requests[0].coder_id = -1;
-			coder->right_dongle->scheduler->requests[1].coder_id = -1;
 			coder_compile(coder);
 			coder_debug(coder);
 			coder_refactor(coder);
@@ -166,12 +179,59 @@ void*	run_the_routine(void *args)
 	return NULL;
 }
 
+void	stop_simulation(t_coder *coders)
+{
+	int	i;
+
+	i = 0;
+	while (i < coders[0].config->number_of_coders)
+	{
+		coders[i].stop_sim = 1;
+		i++;
+	}
+	
+}
+
+void*	monitor_coders(void *args)
+{
+	t_coder		*coders;
+	long		now;
+	int			i;
+	int			finished_coders;
+
+	coders = (t_coder *)args;
+	finished_coders = 0;
+	while(1)
+	{
+		i = 0;
+		now = get_time_ms() - coders[0].sim_start_time;
+		while(i < coders[0].config->number_of_coders)
+		{
+			if ((now) >= coders[i].burnout_deadline)
+			{
+				printf("now: %ld, burnout time: %d, coder: %d\n", now, coders[i].burnout_deadline, coders[i].id);
+				print_message(&coders[i], "is burned out.\n");
+				stop_simulation(coders);
+				return NULL;
+			}
+			if (coders[i].stop_sim)
+				finished_coders++;
+			if (finished_coders == coders[0].config->number_of_coders)
+				return NULL;
+			i++;
+			usleep(100);
+		}
+	}
+	
+
+}
 
 int main()
 {
 	t_config	*config;
     t_dongle	*dongles;
     t_coder		*coders;
+	pthread_t	monitor;
 
 	long int	start_time;
     int i;
@@ -184,16 +244,15 @@ int main()
 	i = 0;
 	while (i < config->number_of_coders)
 	{
-		// printf("Coder: %d starting...\n", i);
 		pthread_create(&coders[i].thread, NULL, run_the_routine, &coders[i]);
-        usleep(1000);
+		usleep(50);
 		i++;
 	}
-	// sleep(2);
+	pthread_create(&monitor, NULL, monitor_coders, coders);
+	
 	i = 0;
 	while (i < config->number_of_coders)
 	{
-		// pthread_cancel(coders[i].thread);
         pthread_join(coders[i].thread, NULL);
 		i++;
 	}

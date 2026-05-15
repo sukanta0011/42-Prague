@@ -62,6 +62,7 @@ typedef struct s_coder
 	int			refactoring;
 	int			is_registered;
     int         completed_compile;
+	int			stop_sim;
 	long int	sim_start_time;
 	t_mutex		*print_lock;
 	t_dongle	*left_dongle;
@@ -76,5 +77,11 @@ t_coder		*initialize_coders(t_dongle* dongles, t_config* config, long int start_
 
 
 void	free_memory(t_config *config, t_dongle *dongles, t_coder *coders, t_mutex *print_lock);
+
+
+void	push(int coder_id, long priority_key, t_heap *heap);
+void	pop(t_heap *heap);
+
+
 
 #endif

@@ -1,5 +1,5 @@
 all:
-	cc -Wall -Wextra -Werror main.c initializer.c cleaner.c
+	cc -Wall -Wextra -Werror main.c initializer.c cleaner.c min_heap.c
 	./a.out
 
 leak: all
