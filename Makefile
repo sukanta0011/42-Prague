@@ -1,7 +1,6 @@
 FLAGS = -Wall -Wextra -Werror -pthread
-OUTPUT = codexion
 LEAK_FLAGS = --leak-check=full --show-leak-kinds=all --track-origins=yes
-ARGS = 3 859 200 200 200 5 50 "edf"
+ARGS = 50 1000 200 200 200 5 50 "fifo"
 
 SRCS = main.c initialize_coders.c cleaner.c\
 		coder_routines.c heap_operations.c\
@@ -9,13 +8,30 @@ SRCS = main.c initialize_coders.c cleaner.c\
 		schedular.c utils.c initialize_dongles.c\
 		schedular_operations.c
 
+OBJS = $(SRCS:.c=.o)
 
-all:
-	cc $(FLAGS) $(SRCS) -o $(OUTPUT)
-	./$(OUTPUT) $(ARGS)
+NAME = codexion
 
-fclean:
-	rm -rf $(OUTPUT)
+all: $(NAME)
+
+$(NAME): $(OBJS)
+	cc $(FLAGS) $(OBJS) -o $(NAME)
+
+%.o: %.c
+	cc $(FLAGS) -c $< -o $@
+
+clean:
+	rm -f $(OBJS)
+
+fclean: clean
+	rm -f $(NAME)
+
+re: fclean all
+
+out:
+	./$(NAME) $(ARGS)
 
 leak:
 	valgrind $(LEAK_FLAGS) ./$(OUTPUT) $(ARGS)
+
+.PHONY: all clean fclean re leak
