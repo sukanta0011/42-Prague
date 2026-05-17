@@ -20,10 +20,10 @@
 # include <unistd.h>
 # include <sys/time.h>
 
-typedef	pthread_mutex_t		t_mutex;
-typedef	struct	timeval		t_val;
-typedef	struct	timezone	t_zone;
-typedef struct	timespec	t_space;
+typedef pthread_mutex_t		t_mutex;
+typedef struct timeval		t_val;
+typedef struct timezone		t_zone;
+typedef struct timespec		t_space;
 
 typedef struct s_config
 {
@@ -37,24 +37,26 @@ typedef struct s_config
 	char		*scheduler_type;
 }				t_config;
 
-typedef struct s_request {
+typedef struct s_request
+{
 	int		coder_id;
 	long	priority_key; // Either timestamp (FIFO) or deadline (EDF)
 }				t_request;
 
-typedef struct s_heap {
-    t_request	*requests;
-    int			size;
-    int			capacity;
+typedef struct s_heap
+{
+	t_request	*requests;
+	int			size;
+	int			capacity;
 }				t_heap;
 
 typedef struct s_dongle
 {
-	pthread_mutex_t mutex;
+	pthread_mutex_t	mutex;
 	pthread_cond_t	cond;
 	long int		available_at;
 	int				in_use;
-    t_heap			*scheduler;
+	t_heap			*scheduler;
 }				t_dongle;
 
 typedef struct s_coder
@@ -66,7 +68,7 @@ typedef struct s_coder
 	int			debuging;
 	int			refactoring;
 	int			is_registered;
-    int         completed_compile;
+	int			completed_compile;
 	int			completed;
 	int			*stop_sim;
 	long int	sim_start_time;
@@ -77,30 +79,33 @@ typedef struct s_coder
 }				t_coder;
 
 // parser.c
-t_config	*extract_config();
+t_config	*parse_config(int av, char **ac);
 
 // initializer.c
-t_dongle	*initialize_dongles(t_config* config);
-t_coder		*initialize_coders(t_dongle* dongles,\
-				t_config* config, long int start_time);
+t_dongle	*initialize_dongles(t_config *config);
+t_coder		*initialize_coders(t_dongle *dongles,\
+				t_config *config, long int start_time);
 
-// schedular.c
+// schedular_operations.c
 void		set_request_for_dongles(t_dongle *dongle,\
 				int id, long int time_val);
 void		remove_request_for_dongles(t_dongle *dongle);
 void		register_coder(t_coder *coder, long stored_time);
 void		register_all_coder(t_coder *coders);
+
+// schedular.c
 void		*run_the_routine(void *args);
 
 // cleaner.c
+void		clean_dongles(int num, t_dongle *dongles, int err_code);
 void		free_memory(t_config *config,\
 				t_dongle *dongles, t_coder *coders,\
 				t_mutex *print_lock);
 
 // heap_positions.c
 int			parent(int index);
-int			left_child(int  index);
-int			right_child(int  index);
+int			left_child(int index);
+int			right_child(int index);
 
 // heap_operations.c
 void		move_up(int index, t_request *list);
@@ -120,6 +125,7 @@ void		*monitor_coders(void *args);
 void		swap_items(t_request *item1, t_request *item2);
 long		get_time_ms(void);
 long		get_max_value(long a, long b);
-void		print_message(t_coder* coder, char* msg);
+void		print_message(t_coder *coder, char *msg);
+char		**get_error_msg(void);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: sudas <sudas@student.42prague.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/16 08:37:55 by sudas             #+#    #+#             */
-/*   Updated: 2026/05/16 20:10:24 by sudas            ###   ########.fr       */
+/*   Updated: 2026/05/18 00:13:39 by sudas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,47 +14,42 @@
 
 void	move_up(int index, t_request *list)
 {
-    int	parent_idx;
+	int	parent_idx;
 
 	while (index > 0)
 	{
 		parent_idx = parent(index);
-		if(list[parent_idx].priority_key > list[index].priority_key)
+		if (list[parent_idx].priority_key > list[index].priority_key)
 		{
 			swap_items(&list[parent_idx], &list[index]);
 			index = parent_idx;
 		}
 		else
-			break;
+			break ;
 	}
 }
 
-
 void	move_down(int index, int size, t_request *list)
 {
-	int min_index;
-	int l;
-	int r;
+	int	min_index;
+	int	l;
+	int	r;
 
 	min_index = index;
-	// printf("idx:%d\n", size);
 	l = left_child(index);
-	if (l < size &&\
-		list[min_index].priority_key > list[l].priority_key)
+	if (l < size
+		&& list[min_index].priority_key > list[l].priority_key)
 		min_index = l;
-
 	r = right_child(index);
-	if (r < size &&\
-		list[min_index].priority_key > list[r].priority_key)
+	if (r < size
+		&& list[min_index].priority_key > list[r].priority_key)
 		min_index = r;
-		
 	if (index != min_index)
 	{
 		swap_items(&list[index], &list[min_index]);
 		move_down(min_index, size, list);
 	}
 }
-
 
 void	push(int coder_id, long priority_key, t_heap *heap)
 {
@@ -64,18 +59,15 @@ void	push(int coder_id, long priority_key, t_heap *heap)
 	heap->size++;
 }
 
-
 void	pop(t_heap *heap)
 {
 	if (heap->size == 0)
-		return;
-	swap_items(&heap->requests[0],\
+		return ;
+	swap_items(&heap->requests[0],
 		&heap->requests[heap->size - 1]);
 	heap->size--;
-	// printf("size: %d\n", heap->size);
 	move_down(0, heap->size, heap->requests);
 }
-
 
 // int min_heap_tester()
 // {
@@ -94,7 +86,8 @@ void	pop(t_heap *heap)
 //     push(2, 19, heap);
 
 //     for(i=0; i < 2; i++)
-//         printf("coder: %d, Key: %ld\n", arr[i].coder_id, arr[i].priority_key);
+//         printf("coder: %d, Key: %ld\n",
+// 				arr[i].coder_id, arr[i].priority_key);
 
 //     printf("Pop operations\n");
 //     pop(heap);
@@ -105,7 +98,8 @@ void	pop(t_heap *heap)
 // 	push(2, 40, heap);
 
 // 	for(i=0; i < 2; i++)
-//         printf("coder: %d, Key: %ld\n", arr[i].coder_id, arr[i].priority_key);
+//         printf("coder: %d, Key: %ld\n",
+// 			arr[i].coder_id, arr[i].priority_key);
 
 //     free(arr);
 //     free(heap);

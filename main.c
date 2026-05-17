@@ -12,19 +12,11 @@
 
 #include "codexion.h"
 
-int	main(void)
+int	start_the_threads(t_coder *coders, t_config *config, t_dongle *dongles)
 {
-	t_config	*config;
-	t_dongle	*dongles;
-	t_coder		*coders;
-	pthread_t	monitor;
-	long		start_time;
 	int			i;
+	pthread_t	monitor;
 
-	start_time = get_time_ms();
-	config = extract_config();
-	dongles = initialize_dongles(config);
-	coders = initialize_coders(dongles, config, start_time);
 	i = 0;
 	register_all_coder(coders);
 	while (i < config->number_of_coders)
@@ -43,4 +35,32 @@ int	main(void)
 	pthread_join(monitor, NULL);
 	free_memory(config, dongles, coders, coders[0].print_lock);
 	return (0);
+}
+
+int	main(int av, char **ac)
+{
+	t_config	*config;
+	t_dongle	*dongles;
+	t_coder		*coders;
+	long		start_time;
+
+	start_time = get_time_ms();
+	config = parse_config(av, ac);
+	if (!config)
+		return (0);
+	dongles = initialize_dongles(config);
+	if (!dongles)
+	{
+		free(config);
+		return (0);
+	}
+	coders = initialize_coders(dongles, config, start_time);
+	if (!coders)
+	{
+		printf("Error: Memory allocation failed for coders");
+		clean_dongles(config->number_of_coders, dongles, 0);
+		free(config);
+		return (0);
+	}
+	return (start_the_threads(coders, config, dongles));
 }

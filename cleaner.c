@@ -12,15 +12,12 @@
 
 #include "codexion.h"
 
-void	free_memory(t_config *config, t_dongle *dongles,\
-			t_coder *coders, t_mutex *print_lock)
+void	clean_dongles(int num, t_dongle *dongles, int err_code)
 {
 	int	i;
 
-	if (!config || !dongles || !coders || !print_lock)
-		return ;
 	i = 0;
-	while (i < config->number_of_coders)
+	while (i < num)
 	{
 		pthread_mutex_destroy(&dongles[i].mutex);
 		pthread_cond_destroy(&dongles[i].cond);
@@ -31,6 +28,16 @@ void	free_memory(t_config *config, t_dongle *dongles,\
 		}
 		i++;
 	}
+	if (err_code == 2)
+		free(dongles[i].scheduler);
+}
+
+void	free_memory(t_config *config, t_dongle *dongles,\
+			t_coder *coders, t_mutex *print_lock)
+{
+	if (!config || !dongles || !coders || !print_lock)
+		return ;
+	clean_dongles(config->number_of_coders, dongles, 0);
 	pthread_mutex_destroy(print_lock);
 	free(print_lock);
 	free(coders[0].stop_sim);
