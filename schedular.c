@@ -6,7 +6,7 @@
 /*   By: sudas <sudas@student.42prague.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/16 08:35:23 by sudas             #+#    #+#             */
-/*   Updated: 2026/05/18 00:15:29 by sudas            ###   ########.fr       */
+/*   Updated: 2026/05/18 00:56:37 by sudas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,14 +27,14 @@ void	backoff(t_coder *coder)
 	{
 		time_val = coder->left_dongle->scheduler->requests[0].priority_key;
 		remove_request_for_dongles(coder->left_dongle);
-		usleep(1000);
+		usleep(500);
 		set_request_for_dongles(coder->left_dongle, coder->id, time_val);
 	}
 	else if (left_top != coder->id && right_top == coder->id)
 	{
 		time_val = coder->right_dongle->scheduler->requests[0].priority_key;
 		remove_request_for_dongles(coder->right_dongle);
-		usleep(1000);
+		usleep(500);
 		set_request_for_dongles(coder->right_dongle, coder->id, time_val);
 	}
 }

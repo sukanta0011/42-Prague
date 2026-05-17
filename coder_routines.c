@@ -6,7 +6,7 @@
 /*   By: sudas <sudas@student.42prague.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/16 08:41:29 by sudas             #+#    #+#             */
-/*   Updated: 2026/05/18 00:16:34 by sudas            ###   ########.fr       */
+/*   Updated: 2026/05/18 01:04:23 by sudas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,8 @@ void	compile(t_coder *coder)
 		pthread_cond_timedwait(&coder->right_dongle->cond,
 			&coder->right_dongle->mutex, &ts);
 	}
+	if (*coder->stop_sim)
+		return ;
 	finished_compile(coder);
 }
 

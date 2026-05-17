@@ -1,6 +1,6 @@
 FLAGS = -Wall -Wextra -Werror -pthread
 LEAK_FLAGS = --leak-check=full --show-leak-kinds=all --track-origins=yes
-ARGS = 50 1000 200 200 200 5 50 "fifo"
+ARGS = 4 1000 200 200 200 3 50 "fifo"
 
 SRCS = main.c initialize_coders.c cleaner.c\
 		coder_routines.c heap_operations.c\
@@ -28,7 +28,7 @@ fclean: clean
 
 re: fclean all
 
-out:
+out: all
 	./$(NAME) $(ARGS)
 
 leak:
