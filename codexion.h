@@ -1,6 +1,17 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   codexion.h                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sudas <sudas@student.42prague.com>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/05/16 19:39:21 by sudas             #+#    #+#             */
+/*   Updated: 2026/05/16 19:39:21 by sudas            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef CODEXION_H
 # define CODEXION_H
-
 
 # include <stdio.h>
 # include <string.h>
@@ -9,12 +20,10 @@
 # include <unistd.h>
 # include <sys/time.h>
 
-
 typedef	pthread_mutex_t		t_mutex;
 typedef	struct	timeval		t_val;
 typedef	struct	timezone	t_zone;
 typedef struct	timespec	t_space;
-
 
 typedef struct s_config
 {
@@ -28,19 +37,16 @@ typedef struct s_config
 	char		*scheduler_type;
 }				t_config;
 
-
 typedef struct s_request {
 	int		coder_id;
 	long	priority_key; // Either timestamp (FIFO) or deadline (EDF)
 }				t_request;
-
 
 typedef struct s_heap {
     t_request	*requests;
     int			size;
     int			capacity;
 }				t_heap;
-
 
 typedef struct s_dongle
 {
@@ -50,7 +56,6 @@ typedef struct s_dongle
 	int				in_use;
     t_heap			*scheduler;
 }				t_dongle;
-
 
 typedef struct s_coder
 {
@@ -62,7 +67,8 @@ typedef struct s_coder
 	int			refactoring;
 	int			is_registered;
     int         completed_compile;
-	int			stop_sim;
+	int			completed;
+	int			*stop_sim;
 	long int	sim_start_time;
 	t_mutex		*print_lock;
 	t_dongle	*left_dongle;
@@ -70,18 +76,50 @@ typedef struct s_coder
 	t_config	*config;
 }				t_coder;
 
-
+// parser.c
 t_config	*extract_config();
+
+// initializer.c
 t_dongle	*initialize_dongles(t_config* config);
-t_coder		*initialize_coders(t_dongle* dongles, t_config* config, long int start_time);
+t_coder		*initialize_coders(t_dongle* dongles,\
+				t_config* config, long int start_time);
 
+// schedular.c
+void		set_request_for_dongles(t_dongle *dongle,\
+				int id, long int time_val);
+void		remove_request_for_dongles(t_dongle *dongle);
+void		register_coder(t_coder *coder, long stored_time);
+void		register_all_coder(t_coder *coders);
+void		*run_the_routine(void *args);
 
-void	free_memory(t_config *config, t_dongle *dongles, t_coder *coders, t_mutex *print_lock);
+// cleaner.c
+void		free_memory(t_config *config,\
+				t_dongle *dongles, t_coder *coders,\
+				t_mutex *print_lock);
 
+// heap_positions.c
+int			parent(int index);
+int			left_child(int  index);
+int			right_child(int  index);
 
-void	push(int coder_id, long priority_key, t_heap *heap);
-void	pop(t_heap *heap);
+// heap_operations.c
+void		move_up(int index, t_request *list);
+void		move_down(int index, int size, t_request *list);
+void		push(int coder_id, long priority_key, t_heap *heap);
+void		pop(t_heap *heap);
 
+// coder_routines.c
+void		compile(t_coder *coder);
+void		debug(t_coder *coder);
+void		refactor(t_coder *coder);
 
+// monitor.c
+void		*monitor_coders(void *args);
+
+// utils.c
+void		swap_items(t_request *item1, t_request *item2);
+long		get_time_ms(void);
+long		get_max_value(long a, long b);
+void		print_message(t_coder* coder, char* msg);
 
 #endif

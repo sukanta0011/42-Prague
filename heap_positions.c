@@ -1,31 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser.c                                           :+:      :+:    :+:   */
+/*   heap_positions.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sudas <sudas@student.42prague.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/05/16 19:38:55 by sudas             #+#    #+#             */
-/*   Updated: 2026/05/17 02:27:48 by sudas            ###   ########.fr       */
+/*   Created: 2026/05/16 19:39:08 by sudas             #+#    #+#             */
+/*   Updated: 2026/05/16 20:07:58 by sudas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "codexion.h"
 
-t_config	*extract_config()
+int	parent(int index)
 {
-    t_config *config;
+	return (index - 1) / 2;
+}
 
-    config = malloc(sizeof(t_config));
 
-    config->number_of_coders = 4;
-    config->time_to_burnout = 900;
-    config->time_to_compile = 200;
-    config->time_to_debug = 200;
-    config->time_to_refactor = 200;
-    config->number_of_compiles_required = 3;
-    config->dongle_cooldown = 50;
-    config->scheduler_type = "EDF";
+int	left_child(int  index)
+{
+	return (2 * index + 1);
+}
 
-    return config;
+
+int	right_child(int  index)
+{
+	return (2 * index + 2);
 }

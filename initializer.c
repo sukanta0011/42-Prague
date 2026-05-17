@@ -1,24 +1,16 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   initializer.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sudas <sudas@student.42prague.com>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/05/16 19:38:24 by sudas             #+#    #+#             */
+/*   Updated: 2026/05/16 19:38:24 by sudas            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "codexion.h"
-
-
-t_config	*extract_config()
-{
-    t_config *config;
-
-    config = malloc(sizeof(t_config));
-
-    config->number_of_coders = 4;
-    config->time_to_burnout = 800;
-    config->time_to_compile = 200;
-    config->time_to_debug = 200;
-    config->time_to_refactor = 200;
-    config->number_of_compiles_required = 3;
-    config->dongle_cooldown = 50;
-    config->scheduler_type = "FIFO";
-
-    return config;
-}
-
 
 t_dongle	*initialize_dongles(t_config* config)
 {
@@ -32,9 +24,6 @@ t_dongle	*initialize_dongles(t_config* config)
 	{
 		dongles[i].scheduler = malloc(sizeof(t_heap));
 		dongles[i].scheduler->requests = malloc(sizeof(t_request) * 2);
-
-		// dongles[i].scheduler->requests[0].coder_id = -1;
-		// dongles[i].scheduler->requests[1].coder_id = -1;
 
 		dongles[i].scheduler->size = 0;
 		dongles[i].scheduler->capacity = 2;
@@ -53,12 +42,15 @@ t_coder		*initialize_coders(t_dongle* dongles, t_config* config, long int start_
 	int		i;
     t_coder	*coders;
 	t_mutex	*print_lock;
+	int		*stop_sim;
 
     coders = malloc(sizeof(t_coder) * config->number_of_coders);
 	print_lock = malloc(sizeof(t_mutex));
+	stop_sim = malloc(sizeof(int));
 	pthread_mutex_init(print_lock, NULL);
 
 	i = 0;
+	*stop_sim = 0;
 	while(i < config->number_of_coders)
 	{
 		coders[i].id = i;
@@ -71,7 +63,8 @@ t_coder		*initialize_coders(t_dongle* dongles, t_config* config, long int start_
 		coders[i].refactoring = 0;
 		coders[i].is_registered = 0;
         coders[i].completed_compile = 0;
-		coders[i].stop_sim = 0;
+		coders[i].completed = 0;
+		coders[i].stop_sim = stop_sim;
 		coders[i].sim_start_time = start_time;
 		coders[i].print_lock = print_lock;
 		i++;
