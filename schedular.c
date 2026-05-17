@@ -6,7 +6,7 @@
 /*   By: sudas <sudas@student.42prague.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/16 08:35:23 by sudas             #+#    #+#             */
-/*   Updated: 2026/05/17 02:08:45 by sudas            ###   ########.fr       */
+/*   Updated: 2026/05/17 03:10:06 by sudas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,14 +43,7 @@ void	register_coder(t_coder *coder, long stored_time)
 			time_val = get_time_ms() - coder->sim_start_time;
 			// printf("schedular: %s, %d\n", coder->config->scheduler_type);
 			if (!strcmp(coder->config->scheduler_type, "EDF"))
-			{
-				// if (coder->id == 1)
-				// {
-				// 	time_val += 860;
-				// }
-				// else
 				time_val += coder->config->time_to_burnout;
-			}
 		}
 		// printf("coder: %d, time: %ld\n", coder->id, time_val);
 		set_request_for_dongles(coder->left_dongle, coder->id, time_val);
@@ -124,12 +117,11 @@ void	*run_the_routine(void *args)
 		}
 		register_coder(coder, -1);
 		backoff(coder);
-
 		left_top = coder->left_dongle->scheduler->requests[0].coder_id;
 		right_top = coder->right_dongle->scheduler->requests[0].coder_id;
-
 		if (left_top == coder->id && right_top == coder->id &&\
-            !coder->coding && !coder->debuging && !coder->refactoring)
+            !coder->coding && !coder->debuging &&\
+			!coder->refactoring && coder->config->number_of_coders != 1)
 		{
 			coder->is_registered = 0;
 			compile(coder);

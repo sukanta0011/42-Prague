@@ -24,7 +24,8 @@ t_dongle	*initialize_dongles(t_config* config)
 	{
 		dongles[i].scheduler = malloc(sizeof(t_heap));
 		dongles[i].scheduler->requests = malloc(sizeof(t_request) * 2);
-
+		dongles[i].scheduler->requests[0].coder_id = -1;
+		dongles[i].scheduler->requests[1].coder_id = -1;
 		dongles[i].scheduler->size = 0;
 		dongles[i].scheduler->capacity = 2;
 		dongles[i].available_at = 0;

@@ -40,6 +40,7 @@ int	main(void)
 		pthread_join(coders[i].thread, NULL);
 		i++;
 	}
+	pthread_join(monitor, NULL);
 	free_memory(config, dongles, coders, coders[0].print_lock);
 	return (0);
 }
