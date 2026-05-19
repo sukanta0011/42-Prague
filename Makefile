@@ -1,6 +1,8 @@
 FLAGS = -Wall -Wextra -Werror -pthread
-LEAK_FLAGS = --leak-check=full --show-leak-kinds=all --track-origins=yes
-ARGS = 4000 1000 200 200 200 4 50 "edf"
+LEAK_FLAGS = --leak-check=full --show-leak-kinds=all --track-origins=yes --max-threads=1000
+# LEAK_FLAGS = --tool=helgrind --history-level=approx
+
+ARGS = 500 1000 200 200 200 5 50 "fifo"
 
 SRCS = main.c initialize_coders.c cleaner.c\
 		coder_routines.c heap_operations.c\

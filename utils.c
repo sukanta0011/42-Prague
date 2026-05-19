@@ -6,7 +6,7 @@
 /*   By: sudas <sudas@student.42prague.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/16 19:38:39 by sudas             #+#    #+#             */
-/*   Updated: 2026/05/19 10:55:16 by sudas            ###   ########.fr       */
+/*   Updated: 2026/05/19 13:43:28 by sudas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,11 @@ void	print_message(t_coder *coder, char *msg)
 	long	time_since_sim_start;
 
 	pthread_mutex_lock(coder->print_lock);
-	time_since_sim_start = get_time_ms() - coder->sim_start_time;
-	printf("%ld %d %s\n", time_since_sim_start, coder->id + 1, msg);
+	if (*coder->stop_sim == 0 || strcmp(msg, "burned out") == 0)
+	{
+		time_since_sim_start = get_time_ms() - coder->sim_start_time;
+		printf("%ld %d %s\n", time_since_sim_start, coder->id + 1, msg);
+	}
 	pthread_mutex_unlock(coder->print_lock);
 }
 

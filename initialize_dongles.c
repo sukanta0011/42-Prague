@@ -21,7 +21,7 @@ int	heap_allocation(t_dongle *dongle, int dongle_no)
 			failed. Dongle %d.\n", dongle_no);
 		return (1);
 	}
-	dongle->scheduler->requests = malloc(sizeof(t_request) * 2);
+	dongle->scheduler->requests = malloc(sizeof(t_request) * HEAP_SIZE);
 	if (!dongle->scheduler->requests)
 	{
 		printf("Error: Heap memory allocation failed. Dongle %d.\n", dongle_no);
@@ -72,7 +72,7 @@ t_dongle	*initialize_dongles(t_config *config)
 	while (i < config->number_of_coders)
 	{
 		dongles[i].scheduler->size = 0;
-		dongles[i].scheduler->capacity = 2;
+		dongles[i].scheduler->capacity = HEAP_SIZE;
 		dongles[i].available_at = 0;
 		dongles[i].in_use = 0;
 		i++;

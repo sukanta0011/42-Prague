@@ -6,7 +6,7 @@
 /*   By: sudas <sudas@student.42prague.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/16 08:41:29 by sudas             #+#    #+#             */
-/*   Updated: 2026/05/19 11:56:10 by sudas            ###   ########.fr       */
+/*   Updated: 2026/05/19 15:20:26 by sudas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,16 @@
 
 void	finished_compile(t_coder *coder)
 {
+	pthread_mutex_unlock(&coder->right_dongle->mutex);
+	pthread_mutex_unlock(&coder->left_dongle->mutex);
+	print_message(coder, "has taken a dongle");
+	print_message(coder, "has taken a dongle");
+	print_message(coder, "is compiling");
+	pthread_mutex_unlock(&coder->right_dongle->mutex);
+	pthread_mutex_unlock(&coder->left_dongle->mutex);
 	coder->left_dongle->in_use = 1;
 	coder->right_dongle->in_use = 1;
-	print_message(coder, "has taken a dongle");
-	print_message(coder, "has taken a dongle");
 	coder->coding = 1;
-	print_message(coder, "is compiling");
 	usleep(coder->config->time_to_compile * 1000);
 	coder->left_dongle->available_at = get_time_ms()
 		+ coder->config->dongle_cooldown;

@@ -20,6 +20,8 @@
 # include <unistd.h>
 # include <sys/time.h>
 
+# define HEAP_SIZE 2
+
 typedef pthread_mutex_t		t_mutex;
 typedef struct timeval		t_val;
 typedef struct timezone		t_zone;
