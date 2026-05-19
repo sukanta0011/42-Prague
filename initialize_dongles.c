@@ -6,7 +6,7 @@
 /*   By: sudas <sudas@student.42prague.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/16 19:38:24 by sudas             #+#    #+#             */
-/*   Updated: 2026/05/17 23:18:17 by sudas            ###   ########.fr       */
+/*   Updated: 2026/05/19 10:10:53 by sudas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,23 +14,21 @@
 
 int	heap_allocation(t_dongle *dongle, int dongle_no)
 {
-	int	error;
-
-	error = 0;
 	dongle->scheduler = malloc(sizeof(t_heap));
 	if (!dongle->scheduler)
 	{
 		printf("Error: Schedular memory allocation \
 			failed. Dongle %d.\n", dongle_no);
-		error = 1;
+		return (1);
 	}
 	dongle->scheduler->requests = malloc(sizeof(t_request) * 2);
 	if (!dongle->scheduler->requests)
 	{
 		printf("Error: Heap memory allocation failed. Dongle %d.\n", dongle_no);
-		error = 2;
+		free(dongle->scheduler);
+		return (1);
 	}
-	return (error);
+	return (0);
 }
 
 void	*initialize_heap(t_config *config, t_dongle *dongles)
@@ -45,7 +43,7 @@ void	*initialize_heap(t_config *config, t_dongle *dongles)
 		error = heap_allocation(&dongles[i], i);
 		if (error)
 		{
-			clean_dongles(i, dongles, error);
+			clean_dongles(i, dongles);
 			return (NULL);
 		}
 		dongles[i].scheduler->requests[0].coder_id = -1;

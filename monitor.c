@@ -6,7 +6,7 @@
 /*   By: sudas <sudas@student.42prague.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/16 08:40:57 by sudas             #+#    #+#             */
-/*   Updated: 2026/05/18 01:02:34 by sudas            ###   ########.fr       */
+/*   Updated: 2026/05/19 11:54:24 by sudas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,9 @@
 void	*stop_simulation(t_coder *coder)
 {
 	print_message(coder, "burned out");
+	pthread_mutex_lock(coder->stop_sim_lock);
 	*coder->stop_sim = 1;
+	pthread_mutex_unlock(coder->stop_sim_lock);
 	return (NULL);
 }
 

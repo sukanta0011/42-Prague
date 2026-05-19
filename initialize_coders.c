@@ -15,7 +15,7 @@
 void	assign_val_to_coders(t_coder *coders, t_dongle *dongles,\
 			t_config *config)
 {
-	int	i;
+	int		i;
 
 	i = 0;
 	while (i < config->number_of_coders)
@@ -39,16 +39,27 @@ void	assign_other_val_to_coders(t_coder *coders,\
 			int *stop_sim, long start_time,\
 			t_mutex *print_lock)
 {
-	int	i;
+	int		i;
+	t_mutex	*stop_sim_lock;
 
 	i = 0;
+	stop_sim_lock = malloc(sizeof(t_mutex));
 	pthread_mutex_init(print_lock, NULL);
+	pthread_mutex_init(stop_sim_lock, NULL);
 	*stop_sim = 0;
 	while (i < coders[0].config->number_of_coders)
 	{
 		coders[i].stop_sim = stop_sim;
 		coders[i].sim_start_time = start_time;
 		coders[i].print_lock = print_lock;
+		coders[i].stop_sim_lock = stop_sim_lock;
+		coders[i].burnout_lock = malloc(sizeof(t_mutex));
+		if (!coders[i].burnout_lock)
+		{
+			clean_coders_locks(i, coders);
+			return ;
+		}
+		pthread_mutex_init(coders[i].burnout_lock, NULL);
 		i++;
 	}
 }
@@ -64,7 +75,7 @@ t_coder	*initialize_coders(t_dongle *dongles,\
 	if (!print_lock)
 		return (NULL);
 	coders = malloc(sizeof(t_coder) * config->number_of_coders);
-	if (!print_lock)
+	if (!coders)
 	{
 		free(print_lock);
 		return (NULL);

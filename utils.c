@@ -6,7 +6,7 @@
 /*   By: sudas <sudas@student.42prague.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/16 19:38:39 by sudas             #+#    #+#             */
-/*   Updated: 2026/05/17 23:48:39 by sudas            ###   ########.fr       */
+/*   Updated: 2026/05/19 10:55:16 by sudas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 void	swap_items(t_request *item1, t_request *item2)
 {
-	int	temp_coder_id;
-	int	temp_priority_key;
+	int		temp_coder_id;
+	long	temp_priority_key;
 
 	temp_coder_id = item1->coder_id;
 	temp_priority_key = item1->priority_key;

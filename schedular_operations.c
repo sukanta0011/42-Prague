@@ -6,7 +6,7 @@
 /*   By: sudas <sudas@student.42prague.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/16 08:35:23 by sudas             #+#    #+#             */
-/*   Updated: 2026/05/18 00:55:36 by sudas            ###   ########.fr       */
+/*   Updated: 2026/05/19 10:20:31 by sudas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	register_coder(t_coder *coder, long stored_time)
 		else
 		{
 			time_val = get_time_ms() - coder->sim_start_time;
-			if (!strcmp(coder->config->scheduler_type, "EDF"))
+			if (!strcmp(coder->config->scheduler_type, "edf"))
 				time_val += coder->config->time_to_burnout;
 		}
 		set_request_for_dongles(coder->left_dongle, coder->id, time_val);

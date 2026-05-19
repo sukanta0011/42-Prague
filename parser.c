@@ -6,7 +6,7 @@
 /*   By: sudas <sudas@student.42prague.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/16 19:38:55 by sudas             #+#    #+#             */
-/*   Updated: 2026/05/18 00:06:52 by sudas            ###   ########.fr       */
+/*   Updated: 2026/05/19 09:58:28 by sudas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,18 +21,24 @@ int	print_error_msg(char *error_msg)
 int	assign_int_val(int *config_val,\
 	char *val, char *error_msg)
 {
-	if (atoi(val) == 0)
+	int	int_value;
+
+	int_value = atoi(val);
+	if (int_value <= 0)
 		return (print_error_msg(error_msg));
-	*config_val = atoi(val);
+	*config_val = int_value;
 	return (0);
 }
 
 int	assign_long_val(long int *config_val,\
 	char *val, char *error_msg)
 {
-	if (atoi(val) == 0)
+	long	int_value;
+
+	int_value = atoi(val);
+	if (int_value <= 0)
 		return (print_error_msg(error_msg));
-	*config_val = atoi(val);
+	*config_val = int_value;
 	return (0);
 }
 

@@ -6,7 +6,7 @@
 /*   By: sudas <sudas@student.42prague.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/16 08:41:29 by sudas             #+#    #+#             */
-/*   Updated: 2026/05/18 01:04:23 by sudas            ###   ########.fr       */
+/*   Updated: 2026/05/19 11:56:10 by sudas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,8 +80,10 @@ void	refactor(t_coder *coder)
 	print_message(coder, "is refactoring");
 	usleep(coder->config->time_to_refactor * 1000);
 	coder->refactoring = 0;
+	pthread_mutex_lock(coder->burnout_lock);
 	coder->burnout_deadline += coder->config->time_to_compile
 		+ coder->config->time_to_debug
 		+ coder->config->time_to_refactor
 		+ coder->config->time_to_burnout;
+	pthread_mutex_unlock(coder->burnout_lock);
 }

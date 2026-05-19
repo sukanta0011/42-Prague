@@ -64,6 +64,7 @@ typedef struct s_coder
 	pthread_t	thread;
 	int			id;
 	int			burnout_deadline;
+	t_mutex		*burnout_lock;
 	int			coding;
 	int			debuging;
 	int			refactoring;
@@ -71,6 +72,7 @@ typedef struct s_coder
 	int			completed_compile;
 	int			completed;
 	int			*stop_sim;
+	t_mutex		*stop_sim_lock;
 	long int	sim_start_time;
 	t_mutex		*print_lock;
 	t_dongle	*left_dongle;
@@ -97,7 +99,8 @@ void		register_all_coder(t_coder *coders);
 void		*run_the_routine(void *args);
 
 // cleaner.c
-void		clean_dongles(int num, t_dongle *dongles, int err_code);
+void		clean_dongles(int num, t_dongle *dongles);
+void		clean_coders_locks(int num, t_coder *coders);
 void		free_memory(t_config *config,\
 				t_dongle *dongles, t_coder *coders,\
 				t_mutex *print_lock);

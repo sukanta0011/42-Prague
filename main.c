@@ -47,20 +47,21 @@ int	main(int av, char **ac)
 	start_time = get_time_ms();
 	config = parse_config(av, ac);
 	if (!config)
-		return (0);
+		return (1);
 	dongles = initialize_dongles(config);
 	if (!dongles)
 	{
 		free(config);
-		return (0);
+		return (1);
 	}
 	coders = initialize_coders(dongles, config, start_time);
 	if (!coders)
 	{
-		printf("Error: Memory allocation failed for coders");
-		clean_dongles(config->number_of_coders, dongles, 0);
+		clean_dongles(config->number_of_coders, dongles);
+		free(dongles);
 		free(config);
-		return (0);
+		printf("Error: Memory allocation failed for coders\n");
+		return (1);
 	}
 	return (start_the_threads(coders, config, dongles));
 }
