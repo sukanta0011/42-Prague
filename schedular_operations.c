@@ -54,7 +54,15 @@ void	register_all_coder(t_coder *coders)
 	i = 0;
 	while (i < coders[0].config->number_of_coders)
 	{
-		register_coder(&coders[i], -1);
+		if (i % 2 == 0)
+			register_coder(&coders[i], -1);
+		i++;
+	}
+	i = 0;
+	while (i < coders[0].config->number_of_coders)
+	{
+		if (i % 2 == 1)
+			register_coder(&coders[i], -1);
 		i++;
 	}
 }
