@@ -21,6 +21,8 @@
 # include <sys/time.h>
 
 # define HEAP_SIZE 2
+# define VAR_FACTOR 5
+# define VAR_MULTIPLIER 100
 
 typedef pthread_mutex_t		t_mutex;
 typedef struct timeval		t_val;
@@ -126,11 +128,16 @@ void		refactor(t_coder *coder);
 // monitor.c
 void		*monitor_coders(void *args);
 
-// utils.c
+// utils1.c
 void		swap_items(t_request *item1, t_request *item2);
 long		get_time_ms(void);
 long		get_max_value(long a, long b);
 void		print_message(t_coder *coder, char *msg);
 char		**get_error_msg(void);
+
+// utils2.c
+void		lock_both_dongles(t_coder *coder);
+void		unlock_both_dongles(t_coder *coder);
+void		precise_sleep(t_coder *coder, long miliseconds);
 
 #endif

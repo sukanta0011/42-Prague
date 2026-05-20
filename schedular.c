@@ -15,14 +15,16 @@
 void	backoff_extended(t_coder *coder, int left_top, int right_top)
 {
 	long	time_val;
+	long	variance;
 
+	variance = (VAR_MULTIPLIER * coder->id) / coder->config->number_of_coders;
 	if (left_top == coder->id && right_top != coder->id)
 	{
 		pthread_mutex_lock(&coder->left_dongle->mutex);
 		time_val = coder->left_dongle->scheduler->requests[0].priority_key;
 		pthread_mutex_unlock(&coder->left_dongle->mutex);
 		remove_request_for_dongles(coder->left_dongle);
-		usleep(100);
+		usleep(200 + variance);
 		set_request_for_dongles(coder->left_dongle, coder->id, time_val);
 	}
 	else if (left_top != coder->id && right_top == coder->id)
@@ -31,7 +33,7 @@ void	backoff_extended(t_coder *coder, int left_top, int right_top)
 		time_val = coder->right_dongle->scheduler->requests[0].priority_key;
 		pthread_mutex_unlock(&coder->right_dongle->mutex);
 		remove_request_for_dongles(coder->right_dongle);
-		usleep(100);
+		usleep(200 + variance);
 		set_request_for_dongles(coder->right_dongle, coder->id, time_val);
 	}
 }

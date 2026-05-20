@@ -81,7 +81,7 @@ All log output is protected by a dedicated print mutex. Any thread (coder or mon
 ### Primitives used
 
 - **`pthread_mutex_t`** — used in three roles: protecting each dongle's state (heap + cooldown timestamp), protecting the shared `stop_simulation` flag, and serializing all log output.
-- **`pthread_cond_t`** — used per dongle to implement efficient waiting during cooldown.
+- **`pthread_cond_t`** — used per dongle to implement efficient waiting during cooldown. Used `pthread_cond_timedwait` for waiting without blocking the source, `pthread_cond_broadcast` to wake up sleeping threads.
 
 ### Coordination between coders and the monitor
 

@@ -22,7 +22,6 @@ int	start_the_threads(t_coder *coders, t_config *config, t_dongle *dongles)
 	while (i < config->number_of_coders)
 	{
 		pthread_create(&coders[i].thread, NULL, run_the_routine, &coders[i]);
-		usleep(100);
 		i++;
 	}
 	pthread_create(&monitor, NULL, monitor_coders, coders);
