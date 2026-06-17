@@ -1,0 +1,51 @@
+# Core_Rank02_python_modules
+## Module 00
+
+## Module 01
+
+## Module 02
+### Introduction
+Building on Python foundations (Module 00) and garden monitoring classes (Module 01), we are now ready to tackle the real challenges of smart agriculture. In modern
+farming, data flows like water through irrigation systems—sensor readings stream in continuously, weather APIs provide forecasts, and IoT devices monitor everything from soil
+pH to greenhouse humidity.
+
+But what happens when this data pipeline encounters turbulence? When sensors malfunction during harvest season? When network connections drop during critical monitoring
+periods? When corrupted data threatens to trigger false irrigation cycles?
+
+Professional agricultural data engineers know that robust systems aren’t built to avoid
+failures—they’re designed to gracefully handle the unexpected. Your digital greenhouse needs to be as resilient as nature itself.
+
+Python’s exception handling system is our toolkit for building bulletproof agricultural
+data pipelines. We will learn to catch sensor anomalies, create custom agricultural
+alerts, and ensure data integrity even when Mother Nature (or Murphy’s Law) strikes.
+
+### Goal
+Building on your garden monitoring foundation from previous projects, you’ll now master
+the critical skills of resilient data pipeline engineering for agricultural systems.
+- How to validate and clean agricultural data streams in real-time
+- What different failure modes exist in IoT sensor networks
+- How to create custom agricultural alerts for crop-specific monitoring
+- Essential techniques for data pipeline fault tolerance and recovery
+- How to ensure data integrity in distributed farming systems
+
+### Ex00: ft_first_exception.py
+We need to create a function check_temperature(temp_str) to prevent corrupt data to get registered into the system.
+
+### Ex01: ft_different_errors.py
+We need to handle different type of errors separately
+
+### Ex02: ft_custom_errors.py
+We need to create our own simple custom errors
+
+### Ex03: ft_finally_block.py
+We need to used the finally block with the combination of try/except.
+
+### Ex04: ft_raise_errors.py
+We need to use the rise statement to throw errors from our function.
+
+### Ex05: ft_garden_management.py
+We need to combine all our learning to GardenManager class, such that we handle errors gracefully and our class never stops under bad inputs.
+
+## Module 03: Data Quest
+### Introduction
+This module focuses on data structure mastery. Our programs should demonstrate practical data engineering scenarios while showcasing the unique strengths of each collection type. We're about to build the "PixelMetrics 3000"—the most epic game analytics platform this side of the digital universe.
