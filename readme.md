@@ -1,55 +1,80 @@
-tester used:
-https://github.com/paulo-santana/ft_printf_tester
-https://github.com/Tripouille/printfTester
+# ft_printf 
 
-• %c Prints a single character.
-• %s Prints a string (as defined by the common C convention).
-• %p The void * pointer argument has to be printed in hexadecimal format.
-• %d Prints a decimal (base 10) number.
-• %i Prints an integer in base 10.
-• %u Prints an unsigned decimal (base 10) number.
-• %x Prints a number in hexadecimal (base 16) lowercase format.
-• %X Prints a number in hexadecimal (base 16) uppercase format.
-• %% Prints a percent sign.
+A custom implementation of the C standard library `printf` function, developed as part of the 42 school curriculum. This project covers advanced string manipulation, variadic arguments (`stdarg.h`), and strict adherence to formatting flags, widths, and precisions.
 
-Flags = "-0."
-Additional Flags = "# +"
+## 📋 Features & Conversions
 
-For c allowed flags combination: '-'.
-For s allowed flags combination: '-', '.', ' ', 'w'.
-For d/i allowed flags combination: '-', '.', ' ', '+', '0', 'w'
-For u allowed flags combination: '-', '.', ' ', '0', 'w'
-For p allowed flags combination: '-', ' ', '0', 'w'
-For x/X allowed flags combination: '-', '.', '0', 'w', '#'
-[
-	w (s, d, i, u, p, x, X):
-	width is the with of the string the printf will print on the terminal, (width - len(str)) will be filled by 0 for 0 padding, ' ' if 0 is not used on left side of the len (str) and is '-' is used padding is done on the right side.
+The function mimics the standard `printf` and handles the following mandatory conversions:
 
-	- (c, s, d, i, u, p, x, X):
-	value is right padded by (width - len(str)) ' ' space character if width > len(str).
-	if - is used with 0, 0 padding is ignored.
+| Conversion | Description |
+| :--- | :--- |
+| `%c` | Prints a single character. |
+| `%s` | Prints a string (as defined by the common C convention). |
+| `%p` | Prints the `void *` pointer argument in hexadecimal format. |
+| `%d` | Prints a decimal (base 10) number. |
+| `%i` | Prints an integer in base 10. |
+| `%u` | Prints an unsigned decimal (base 10) number. |
+| `%x` | Prints a number in hexadecimal (base 16) lowercase format. |
+| `%X` | Prints a number in hexadecimal (base 16) uppercase format. |
+| `%%` | Prints a percent sign. |
 
-	. (c, s, d, i, u, p, x, X):
-	. is called precision, is usually followed by a int vale, if no integer provided, precision is 0.
-	for s, the int value tell the maximum number of character to be printed.
-	for d, i, u, x, X, the int value tell the minimum number of character to be printed. If len (int str) < precision, the int str is left padded by '0'. If int is negative, '-' is printed before 0 and it is not part of the precision.
+---
 
-	0 (d, i, u, p, x, X): 
-	value is padded with 0 time by width if width > len(int str).
-	if - is used with 0, 0 padding is ignored.
-	if . is used with 0, 0 padding is ignored, if width > precision, ' ' padding is used for (width - precision) always.
+## 🛠️ Flags & Combinations Matrix
 
-	' ' (s, d, i, u):
-	a blank is left before positive number or empty string.
-	if '+' and ' ' used, '+' overrides the ' '.
-	if ' ' and 0 is given, the left most '0' of width is replaced by ' '.
+The project implements full support for **Width**, **Precision**, and the **Bonus Flags** (`-`, `0`, `.`, `#`, `+`, ` `). 
 
-	+ (d, i):
-	sign of the int is placed before the string.
+### Allowed Matrix per Conversion
 
-	# (x, X):
-	if provided int is non-zero, 0x/0X is added before the integer string.
-]
+| Specifier | Allowed Flags / Modifiers |
+| :---: | :--- |
+| **`%c`** | `-`, `w` |
+| **`%s`** | `-`, `.`, ` `, `w` |
+| **`%d` / `%i`** | `-`, `.`, ` `, `+`, `0`, `w` |
+| **`%u`** | `-`, `.`, ` `, `0`, `w` |
+| **`%p`** | `-`, ` `, `0`, `w` |
+| **`%x` / `%X`** | `-`, `.`, `0`, `w`, `#` |
 
-%-10c : value of c is left padded by (10 - len(c)) ' ' character, if len(c) > 10, no padding will be used;
+---
 
+## 📖 Flag Behavior Rules
+
+### 1. Modifiers (`w` and `.`)
+* **`w` (Width)**: Specifies the minimum field width to print. If the output string length is less than the width, it is padded with spaces `' '` on the left.
+* **`.` (Precision)**: Followed by an integer (defaults to `0` if empty).
+  * **For `%s`**: Specifies the *maximum* number of characters to print (truncates the string).
+  * **For integers (`d, i, u, x, X`)**: Specifies the *minimum* number of digits to print. If the number is shorter, it is left-padded with zeros `'0'`. (A negative sign `-` is placed before these zeros and does not count toward precision).
+
+### 2. Formatting Flags
+* **`-` (Left Justify)**: Pads the value on the right side with spaces instead of the left side. **Overrides the `0` flag** if both are present.
+* **`0` (Zero Padding)**: Pads the number with leading zeros instead of spaces. 
+  * **Ignored** if `-` is present.
+  * **Ignored** for numbers if precision `.` is present (defaults to space padding for width).
+* **` ` (Space)**: Leaves a blank space before positive numbers or empty strings. **Ignored** if `+` is present.
+* **`+` (Plus)**: Forces a sign (`+` or `-`) to be placed before a decimal/integer string. **Overrides the space flag**.
+* **`#` (Hash)**: Prefixes non-zero hexadecimal numbers with `0x` (for `%x`) or `0X` (for `%X`). Does nothing if the value is `0`.
+
+---
+
+## 🧪 Critical Edge Cases to Remember
+
+To pass rigorous community testers, the logic must handle these unique behaviors:
+
+* **Zero Value with Zero Precision (`%.d` with `0`)**: 
+  If the value is `0` and precision is explicitly `0`, **no digits are printed**. 
+  * `ft_printf("%.d", 0)` $\rightarrow$ (Prints 0 characters)
+  * `ft_printf("%5.d", 0)` $\rightarrow$ `     ` (Prints 5 spaces)
+* **Sign/Prefix vs. Width**:
+  Signs (`+`, `-`), spaces (` `), and hex prefixes (`0x`, `0X`) **count toward the total field width**.
+  * `ft_printf("%+5d", 42)` $\rightarrow$ `  +42` (2 spaces, 1 sign, 2 digits = 5 total width)
+* **Hex Hash with Precision**:
+  The precision modifier only dictates the minimum number of mathematical digits, excluding the `0x` prefix.
+  * `ft_printf("%#8.4x", 255)` $\rightarrow$ `  0x00ff`
+
+---
+
+## 🔍 Tested With
+
+This implementation has been validated against the following standard 42 testers:
+* [printfTester (Tripouille)](https://github.com)
+* [ft_printf_tester (paulo-santana)](https://github.com)
