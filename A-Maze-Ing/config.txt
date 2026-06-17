@@ -1,0 +1,7 @@
+#defualt configuration
+WIDTH=50
+HEIGHT=50
+entry=1,1
+EXIT=49,49
+OUTPUT_FILE=maze.txt
+PERFECT=True
