@@ -30,7 +30,7 @@ mlx-2.2-py3-none-any.whl
 ```
 
 #### Installation & Execution
-Makefile is provided to handle installation and execution easy.
+Makefile is provided to make installation and execution easy.
 ```bash
 # Setup virtual environment and install dependencies (webcolors, etc.)
 make install 
@@ -41,13 +41,13 @@ make run MAP=path_of_the_map
 make fclean
 ```
 
-## Resource:
+## Resources:
 - DSA: https://www.w3schools.com/dsa/index.php
 - Graph theory: https://www.w3schools.com/python/python_dsa_graphs.asp
 - Algorithms: https://medium.com/omarelgabrys-blog/path-finding-algorithms-f65a8902eb40
 
 ## Algorithm
-1. Pathfinding StrategyThe system utilizes Depth-First Search (DFS) to map all viable routes, calculating a custom "Weighted Cost" for each:
+1. Pathfinding Strategy: The system utilizes Depth-First Search (DFS) to map all viable routes, calculating a custom "Weighted Cost" for each:
    $$\text{{Cost}} = \frac{\text{Zone Cost}}{\min(\text{Zone Capacity}, \text{Link Capacity})}$$
 
     Routes are then sorted via a Multi-Level Priority Queue:
@@ -72,22 +72,22 @@ Visualization is built on a custom Double-Buffered Rendering Pipeline using the 
     - **Agent Layer:** Drone positions are calculated using Linear Interpolation (LERP) between their last_pos and target_pos. This transforms discrete algorithmic steps into fluid, continuous motion.
 
 2. **Optimization Techniques**
-    - **Bulk Memory Manipulation:** To bypass the "Python loop bottleneck," the engine uses byte-multiplication for background clearing and row-based slicing for image blitting. This shifts the heavy lifting from the Python interpreter to optimized C-libraries.
+    - **Bulk Memory Manipulation:** To bypass the "Python loop bottleneck," the engine uses byte-multiplication for background clearing and row-based slicing for image blitting. This shifts the heavy lifting from the Python interpreter to optimized C libraries.
     - **Procedural Animation:** Drones utilize a Sine-Wave Generator to create a subtle "hovering" effect while docked at hubs. This provides immediate visual feedback that the simulation is alive, even when traffic is stalled.
     - **Sprite Blitting with Transparency:** Drones and UI elements are stored as specialized ImgData structures. The engine uses a custom "Blitter" that copies these sprites into the main frame buffer at specific $(x, y)$ offsets.
 
 3. **Real-Time HUD & Telemetry**
     The visualizer acts as a real-time debugger by projecting the internal state of the AdvanceSimulator onto the GUI:
-    - **Occupancy Monitors:** Each hub displays a live counter (Capacity : Occupancy).
+    - **Occupancy Monitors:** Each hub displays a live counter (Capacity: Occupancy).
     Path Highlighting: Links are color-coded based on their type (Priority, Restricted, or Blocked) to show the "Search Space" the drones are navigating.
     - **Drone Metadata:** Each drone is labeled with its ID and current destination, allowing for the immediate identification of bottlenecks or "starvation" issues.
 
-4. **User Interaction & ControlThe engine implements an Event-Driven Hook System:**
+4. **User Interaction & Control: The engine implements an Event-Driven Hook System:**
     - **Loop Hooks:** Used for the continuous animation of hovering and LERP movement.
-    - **Key Hooks:** Allows the user to toggle between Manual Stepping (for debugging logic) and Automated Flow (for observing throughput).
+    - **Key Hooks:** Allow the user to toggle between Manual Stepping (for debugging logic) and Automated Flow (for observing throughput).
 
 ## AI usages
-Ai is used to understand the DFS algorithm and how this kind of problem is solved in real world
-doc strings are genereated using gemini
-readme file is polished using gemini
-All the parsing, algorithem and visualization is implemented myself.
+AI is used to understand the DFS algorithm and how this kind of problem is solved in the real world.
+Docstrings are generated using Gemini.
+The README file is polished using Gemini.
+The author implemented all parsing, algorithms, and visualizations.
