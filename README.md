@@ -38,3 +38,11 @@ All the projects of 42next Core Curriculum
 | [flyin](flyin/) | Discrete-event simulation optimizing drone swarm throughput across a constraint-heavy directed graph. Uses DFS to enumerate routes, a weighted-cost multi-level priority queue for routing, and a three-phase atomic movement algorithm (look-ahead, pessimistic reservation, commit) to avoid capacity overflows. Custom double-buffered MiniLibX visualizer with LERP animations and real-time HUD | Python, MiniLibX, uv | Completed |
 | [call_me_maybe](call_me_maybe/) | Constrained decoding pipeline for the Qwen3-0.6B LLM that guarantees 100% structurally valid JSON function calls. Uses trie-based hard masking for function name selection and soft logit biasing for argument extraction. Extras: custom BPE tokenizer built from scratch, Streamlit web UI, deployed on HuggingFace Spaces | Python, Pydantic, Streamlit | Completed |
 | [codexion](codexion/) | Philosophers-variant concurrency project: N coders (POSIX threads) compete for N USB dongles, each needing two simultaneously to compile. Implements deadlock-free, starvation-free scheduling via per-dongle min-heap schedulers with FIFO and EDF policies, a backoff mechanism to break circular waits, cooldown handling with `pthread_cond_timedwait`, and a dedicated monitor thread for burnout detection within 10 ms | C, POSIX threads | Completed |
+
+---
+
+## Rank 4
+
+| Project | Description | Tech | Status |
+|:--------|:------------|:-----|:-------|
+| [pacman](pacman/) | Recreation of popular **Pac-Man** arcade game, built in Python with [pygame](https://pyga.me/) with 42 coding school touch in the maze.The game is completely build from scratch as a two person team. It has procedural generation of mazes, ghost AI, scoring, lives, levels, animations, sound, and a persistent highscore board — all wrapped in a small game engine with a clean separation between game rules (backend) and rendering (frontend). Game is also playable in browser with the help of pygbag module packeging. It is also published in [Itch.io](https://sukanta00.itch.io/pacman-web?secret=1yGtL7RUQQRceGstiIDjbQU4). | Python, Pygame, Pygbag | Completed |
