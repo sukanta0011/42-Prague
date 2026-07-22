@@ -30,7 +30,7 @@ fclean: clean
 
 re: fclean all
 
-out: all
+run: all
 	./$(NAME) $(ARGS)
 
 leak: all
